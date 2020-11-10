@@ -13,6 +13,7 @@ Data loading
 
 data("trees")
 str(trees)
+attach(trees)
 
 ```
 Look on the help option
@@ -47,7 +48,7 @@ Ha: rho es difenete de cero.
 ### Pearson Correlation Girth  and Height
 
 ```{r}
-cor.test(trees[,1],trees[,2], method = "pearson")
+cor.test(Girth,Height, method = "pearson")
 ```
 
 p puede ser 0??????
@@ -57,13 +58,13 @@ Existe una asocicion lineal positiva, no significativa, entre el Girth y Height
 ### RLS Girth  and Height
 
 ```{r}
-girthHeight.fit<-lm(trees[,1]~ trees[,2])
+girthHeight.fit<-lm(Height~ Girth)
 girthHeight.fit
 
 ```
-Podemos decir que el modelo ajustado es -6.19 + 0.26 * Girth
+Podemos decir que el modelo ajustado es 62.031 + 1.054  * Girth
 
-Con una pendiente estimada de B1 = 0.26, es decir que por cada pulgada de girth el arbol tendra 0.26 ft más de altura
+Con una pendiente estimada de B1 = 1.054 , es decir que por cada pulgada de girth el arbol tendra 1.054  ft más de altura
 
 
 
@@ -93,10 +94,13 @@ P = 0??????????????
 
 ```{r}
 
-cor.test(trees[,1],trees[,2], method = "spearman")
+cor.test(Girth, Volume, method = "spearman")
 
 ```
-Estimador: rs = 0.44, Existe una Asociacion lineal Positiva mediantamente significativa, entre las cantidades Girth y Volume
+
+
+
+Estimador: rs = 0.9547151 , Existe una Asociacion lineal Positiva mediantamente significativa, entre las cantidades Girth y Volume
 
 ### RLS Girth vs Volume
 
@@ -107,7 +111,7 @@ girthVolume.fit
 ```
 Podemos decir que el modelo ajustado es -36.943 + 5.066 * Girth
 
-Con una pendiente estimada de B1 = 0.18, es decir que por cada pulgada de girth el arbol tendra 0.18 ft^3 más de volumen
+Con una pendiente estimada de B1 = -36.943, es decir que por cada pulgada de girth el arbol tendra 5.066 ft^3 más de volumen
 
 ```{r}
 
@@ -132,7 +136,7 @@ plot(trees[,2:3], main="Height  vs Volume")
 
 
 ```{r}
-mvn(trees[,2:3])
+mvn(data.frame(Height,Volume))
 ```
 
 No se rechaza Ho existe, si hay una normal bivariada,
@@ -151,17 +155,17 @@ Ha: rho es difenete de cero. ?????????????????????????
 
 ```{r}
 
-cor.test(trees[,2],trees[,3], method = "pearson")
+cor.test(Height,Volume, method = "pearson")
 
 ```
 Estimador: Peasron, r = 0.598, Existe una asociacion lineal Positiva, no significativa, entre las cantidades Height y volume
 
 ```{r}
 
-heightVolume.fit <- lm(trees[,2] ~ trees[,3])
+heightVolume.fit <- lm(Volume ~ Height)
 heightVolume.fit
 
 ```
-Podemos decir que el modelo ajustado es 69.0034 + 0.23 * Height
+Podemos decir que el modelo ajustado es -87.124 + 1.543  * Height
 
-Con una pendiente estimada de B1 = 69.0034, es decir que por cada pie de alto el arbol tendra 0.23 ft^3 más de volumen
+Con una pendiente estimada de B1 = -87.124, es decir que por cada pie de alto el arbol tendra 1.543 ft^3 más de volumen
