@@ -1,0 +1,167 @@
+---
+title: "Proposed Exercises"
+output: html_notebook
+---
+
+Required Data
+```{r}
+library(MVN)
+```
+
+Data loading
+```{r}
+
+data("trees")
+str(trees)
+
+```
+Look on the help option
+```{r}
+help(trees)
+```
+
+### Plot Girth  vs Height
+
+```{r}
+plot(trees[,1:2], main="Girth  vs Height")
+```
+
+
+### Multivariate Normality Tests between Girth  and Height
+
+```{r}
+
+attach(trees)
+mvn(trees[,1:2])
+
+```
+Podemos decir que existe una normalidad bivariada tal como lo confirma el test de Mardia.
+
+p_value: 0.55 (Skewness) and 0.26 (Kurtosis)
+
+Por ende estimamos p de Pearson.
+
+También produce el contraste de hipótesis
+Ha: rho es difenete de cero. 
+
+### Pearson Correlation Girth  and Height
+
+```{r}
+cor.test(trees[,1],trees[,2], method = "pearson")
+```
+
+p puede ser 0??????
+
+Existe una asocicion lineal positiva, no significativa, entre el Girth y Height
+
+### RLS Girth  and Height
+
+```{r}
+girthHeight.fit<-lm(trees[,1]~ trees[,2])
+girthHeight.fit
+
+```
+Podemos decir que el modelo ajustado es -6.19 + 0.26 * Girth
+
+Con una pendiente estimada de B1 = 0.26, es decir que por cada pulgada de girth el arbol tendra 0.26 ft más de altura
+
+
+
+
+### Plot Girth  vs Volume
+
+```{r}
+plot(trees[,c(1,3)], main="Girth  vs Volume")
+
+```
+
+### Multivariate Normality Tests between Girth  and Volume
+
+```{r}
+
+mvn(trees[,c(1,3)])
+
+```
+El test de mardia nos indica que no existe una normalidad bivariada.Se rechaza Ho, por ende estimamos rs de Spearman por ende existe una asociacion, no significativa entre las 2 variables
+
+con  valor.p = 0.0118 (Skeewness) y valor p = 0.90(kurtosis)
+
+P = 0??????????????
+
+### Spearman Correlation Girth vs Volume
+
+
+```{r}
+
+cor.test(trees[,1],trees[,2], method = "spearman")
+
+```
+Estimador: rs = 0.44, Existe una Asociacion lineal Positiva mediantamente significativa, entre las cantidades Girth y Volume
+
+### RLS Girth vs Volume
+
+```{r}
+girthVolume.fit <- lm(Volume ~ Girth, data = trees );
+girthVolume.fit
+
+```
+Podemos decir que el modelo ajustado es -36.943 + 5.066 * Girth
+
+Con una pendiente estimada de B1 = 0.18, es decir que por cada pulgada de girth el arbol tendra 0.18 ft^3 más de volumen
+
+```{r}
+
+reg <- coefficients(girthVolume.fit);reg
+```
+Dibujando la regresion
+```{r}
+plot(trees[,c(1,3)], main="Girth  vs Volume")
+abline(reg, col = "blue")
+
+```
+
+
+### Plot Height  vs Volume
+
+```{r}
+plot(trees[,2:3], main="Height  vs Volume")
+
+```
+
+### Multivariate Normality Tests between Height and Volume
+
+
+```{r}
+mvn(trees[,2:3])
+```
+
+No se rechaza Ho existe, si hay una normal bivariada,
+
+valor.p = 0.05 (Skewness) y 0.55 (Kurtosis)
+
+Por ende estimamos Person
+
+P= 0???????????????
+
+También produce el contraste de hipótesis
+Ha: rho es difenete de cero. ?????????????????????????
+
+
+### Pearson Correlation Height vs Volume
+
+```{r}
+
+cor.test(trees[,2],trees[,3], method = "pearson")
+
+```
+Estimador: Peasron, r = 0.598, Existe una asociacion lineal Positiva, no significativa, entre las cantidades Height y volume
+
+```{r}
+
+heightVolume.fit <- lm(trees[,2] ~ trees[,3])
+heightVolume.fit
+
+```
+Podemos decir que el modelo ajustado es 69.0034 + 0.23 * Height
+
+Con una pendiente estimada de B1 = 69.0034, es decir que por cada pie de alto el arbol tendra 0.23 ft^3 más de volumen
