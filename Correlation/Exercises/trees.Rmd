@@ -18,13 +18,17 @@ attach(trees)
 ```
 Look on the help option
 ```{r}
+
 help(trees)
+
 ```
 
 ### Plot Girth  vs Height
 
 ```{r}
-plot(trees[,1:2], main="Girth  vs Height")
+
+plot(trees[,1:2], main="Girth vs Height")
+
 ```
 
 
@@ -43,7 +47,7 @@ p_value: 0.55 (Skewness) and 0.26 (Kurtosis)
 Por ende estimamos p de Pearson.
 
 También produce el contraste de hipótesis
-Ha: rho es difenete de cero. 
+
 
 ### Pearson Correlation Girth  and Height
 
@@ -66,6 +70,9 @@ Podemos decir que el modelo ajustado es 62.031 + 1.054  * Girth
 
 Con una pendiente estimada de B1 = 1.054 , es decir que por cada pulgada de girth el arbol tendra 1.054  ft más de altura
 
+```{r}
+lm(formula = Height~ Girth)
+```
 
 
 
@@ -97,7 +104,6 @@ P = 0??????????????
 cor.test(Girth, Volume, method = "spearman")
 
 ```
-
 
 
 Estimador: rs = 0.9547151 , Existe una Asociacion lineal Positiva mediantamente significativa, entre las cantidades Girth y Volume
