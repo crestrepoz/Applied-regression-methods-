@@ -70,14 +70,61 @@ bptest(Height ~ Girth)
 Homocedasticidad Goldfel-Quandt
 ```{r}
 
-gqtest(Height ~ Girth)
+gqtest(GvH)
 ```
 Independemcia Drubin Watson
 
 ```{r}
 
-dwtest(Height ~ Girth)
+dwtest(Height ~ resGVH)
 
+```
+#### Girth Vs Volume analisis 
+
+plot Girth Vs Volume
+
+```{r}
+
+plot(Girth,Volume, main = "Girth Vs Volume")
+
+```
+Regresion lineal Girth Vs Volume
+
+```{r}
+
+GVV <- lm(Volume ~ Girth)
+GVV
+```
+Residuales de GVV
+
+```{r}
+resGVV <- GVV$residuals
+resGVV
+```
+Test de normalidad Shapiro test
+
+```{r}
+shapiro.test(resGVV)
+
+```
+Test de normalidad lillie test
+```{r}
+
+lillie.test(resGVV)
+```
+Homocedaticidad Breusch-Pagan
+
+```{r}
+
+bptest(Volume ~ Girth)
+
+```
+Homocedaticidad
+```{r}
+gqtest(GVV)
+```
+```{r}
+dwtest(Volume ~ resGVV)
 ```
 
 
