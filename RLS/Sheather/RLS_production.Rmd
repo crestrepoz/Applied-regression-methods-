@@ -97,7 +97,7 @@ CI <- rbind(interceptCI,slopeCI);CI
 ```
 ```{r}
 
-##########Verificar
+########## VERIFICAR ESTO NO DA.
 xtest <- c(50,100,150,200,250,300,350)
 
 # (X-mean(X))^2
@@ -114,8 +114,65 @@ upr <- 149.7477 + 0.2592 * xtest - (student*S*sqrt(aux))
 
 
 
-regresionOutput <- cbind(fit,lwr,upr);regresionOutput
+regresionOutput <- cbind(fit,lwr,upr);
 ```
+
+Analisis de supuestos
+
+```{r}
+
+
+library(MASS)
+library(lmtest)
+library(nortest)
+```
+#### Normalidad de Shapiro 
+```{r}
+
+shapiro.test(TVS$residuals)
+```
+el Valor p = 0.8917, no se rechaza Ho los datos vienen de una dis. normal
+
+Normalidad de lillie 
+
+```{r}
+lillie.test(TVS$residuals)
+```
+
+el Valor p = 0.4971, no se rechaza Ho los datos vienen de una dis. normal
+
+
+#### Analisis de Var cte.
+
+Homocedasticidad Breusch-Pagan
+
+```{r}
+bptest(Run.time ~ Run.size)
+
+```
+el Valor p = 0.7503, no se rechaza Ho los datos vienen de tienen varianza cte.
+
+Homocedasticidad Goldfeld- Quandt
+```{r}
+
+gqtest(TVS)
+
+```
+
+el Valor p = 0.7727, no se rechaza Ho los datos vienen de tienen varianza cte.
+
+#### test independencia.
+
+
+```{r}
+dwtest(Run.time ~ TVS$residuals)
+
+```
+
+el Valor p = 0.8239, no se rechaza Ho los datos son independientes.
+
+
+
 ANOVA table
 
 ```{r}
