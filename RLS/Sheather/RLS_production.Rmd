@@ -1,0 +1,148 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(MASS)
+```
+
+```{r}
+production <- read.csv("C:/Users/yosef/OneDrive/Documents/Esp_Estadistica/Applied-regression-methods-/RLS/Sheather/production.csv", header=T,sep=";")
+head(production)
+
+attach(production)
+```
+
+Plot Run size vs Run time
+```{r}
+
+plot(Run.size, Run.time, main="Run size vs Run time")
+
+```
+
+```{r}
+TVS <- lm(formula = Run.time ~ Run.size, contrasts=T)
+summary(TVS)
+```
+
+```{r}
+plot(Run.size, Run.time, main="Run size vs Run time RLS")
+abline(TVS$coefficients, col="blue")
+```
+El modelo entonces esta dado por 149.7 + 0.26 * Run.size, 
+donde cada run.size incrementara 0.26 run.times
+para cualquier porduccion run el promedio sera 149.7
+
+
+
+```{r}
+
+# calculo manual de residuales
+
+RSS <- sum(TVS$residuals^2)
+
+# Caclulo de varianza y de la desviacion estandar
+
+n <- nrow(production)
+
+S2 <- RSS/(n-2);S2
+S <- sqrt(S2);S
+
+```
+Caculo de los intervalos de confianza pendiente
+
+```{r}
+
+slope <- 0.25924
+
+#slope standar error
+
+slopeSE <- 0.03714
+
+# Confidence 95% (0.025,20-2)
+student <- qt(p= 0.025,df = 18, lower.tail = F)
+student <- student * c(-1,1);student
+#slope Confidence interval
+
+slopeCI <- slope + slopeSE*student
+slopeCI
+
+```
+Caculo de los intervalos de confianza intercepto
+
+```{r}
+
+
+intercept <- 149.74770
+interceptSE <- 8.32815
+
+# intercept confidence interval 
+
+
+interceptCI <- intercept + interceptSE * student
+interceptCI
+
+```
+# Confidence intervals
+
+```{r}
+
+CI <- rbind(interceptCI,slopeCI);CI
+
+```
+```{r}
+
+##########Verificar
+xtest <- c(50,100,150,200,250,300,350)
+
+# (X-mean(X))^2
+XX <- (Run.size-mean(Run.size))^2
+
+SXX <- sum(XX)
+
+fit <- 149.7477 + 0.2592 * xtest
+
+aux <- (1/n)+(XX/SXX)
+lwr <- 149.7477 + 0.2592 * xtest + (student*S*sqrt(aux))
+
+upr <- 149.7477 + 0.2592 * xtest - (student*S*sqrt(aux))
+
+
+
+regresionOutput <- cbind(fit,lwr,upr);regresionOutput
+```
+ANOVA table
+
+```{r}
+
+ANT <- anova(TVS)
+Fvalue <- ANT$`F value`
+
+Fdistribution <- qf(.95,df1=1, df2= 18) 
+```
+
+Contraste de hipotesis
+
+```{r}
+
+if(Fvalue[1] >  Fdistribution){
+  
+  "se rechaza Ho"
+  
+}else{
+  "NO se rechaza Ho"
+}
+
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
