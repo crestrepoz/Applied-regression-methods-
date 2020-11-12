@@ -123,6 +123,8 @@ Homocedaticidad
 ```{r}
 gqtest(GVV)
 ```
+
+Independencia
 ```{r}
 dwtest(Volume ~ resGVV)
 ```
