@@ -65,6 +65,7 @@ gqtest(lm(Talla_hoy~ Torax_nacer)) ### Homocedasticidad Goldfeld-Quandt
 # Ho datos independientes, Ha: datos dependientes de alguna forma
 # en realidad autocorrelacion entre los datos mayor que 0
 dwtest(Talla_hoy ~ residuals(baby.fit11)) # Durbin Watson independencia
+# no se rechaza Ho es decir los errores son indpendientes.
 ### EN RESUMEN: No hay normalidad, no hay varianza constante, sí independencia
 ### en nuestra estrategia: detenemos el proceso y volvemos al modelo teórico 1. 
 

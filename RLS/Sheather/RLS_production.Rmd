@@ -155,7 +155,7 @@ el Valor p = 0.7503, no se rechaza Ho los datos vienen de tienen varianza cte.
 Homocedasticidad Goldfeld- Quandt
 ```{r}
 
-gqtest(TVS)
+gqtest(lm(Talla_hoy~ Peso_nacer))
 
 ```
 

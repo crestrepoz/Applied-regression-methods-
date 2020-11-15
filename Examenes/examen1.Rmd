@@ -1,0 +1,163 @@
+---
+title: "Examen 1 Metodos de Regresion"
+output: html_notebook
+---
+
+#### Datos del Autor:
+Presentado por: Yosef Shmuel Guevara Salamanca
+
+Codigo: 1014236208
+
+#### Examen 1
+
+NOTA: LOS PUNTOS 1 al 4 deben desarrollarse escogiendo variables apropiadas de una
+de dos bases de Datos: a) Tallas.babies (ver datos en este correo), o b) de la base de Datos
+mtcars del software R, usando las covariables wt, disp y hp. (Use un error tipo I de 0.10
+donde se requiera).
+
+#### Librerias
+```{r}
+
+# Cargan librerias necesarias examen
+
+
+library(MASS)
+library(MVN)
+library(MASS)
+library(lmtest)
+library(nortest)
+```
+
+#### DataFrame
+
+Se utilizaran lo datos de babies para el desarrollo del examen puntos 1 al 4
+
+
+```{r}
+
+
+data("mtcars")
+attach(mtcars)
+head(mtcars)
+```
+
+#### Punto 1
+
+1. (Valor 1.0) Con base en los conceptos del curso, ilustre con un ejemplo completo el
+coeficiente de correlaci ́on de Pearson.
+
+
+
+```{r}
+# se seleccionan las variables a analizar
+
+plot(wt, disp, main="Weight (1000 lbs) vs Displacement (cu.in.)")
+
+
+```
+ 
+ 
+```{r}
+#### Se realiza el test de mardia (mvn)
+ 
+mvn(data.frame(wt,disp))
+
+
+```
+Gracias a la prueba de mardia podemos decir que existe una normalidad bivariada tal como lo confirma el test de Mardia, pues no se rechaza Ho, por ende se procede a utilizar el estimador de pearson, es decir si hay normal multivariada
+
+p_value: 0.6993(Skewness) and 0.2390(Kurtosis)
+
+
+```{r}
+
+#### Se realiza el test de mardia (mvn)
+ 
+cor.test(wt,disp, method = "pearson")
+```
+se rechaza Ho pues p-value = 1.222e-11, El estimador de Pearson es  r= 0.88, esdecir que existe una asociacion lineal positiva  significativa entre Weight y el desplazamiento
+
+#### Punto 2
+
+2. (Valor 1.0) Con base en los conceptos del curso, ilustre con un ejemplo completo el
+coeficiente de correlacíon de Spearman.
+
+
+```{r}
+
+plot(mtcars$wt, mtcars$hpr, main="Weight (1000 lbs) vs Gross horsepower")
+
+```
+ #### Se realiza el test de mardia(mvn)
+
+```{r}
+
+mvn(data.frame(mtcars$wt,mtcars$hp))
+
+```
+
+Usando el test de Mardia podemos decir que no existe normalidad bivariada, con un valor p de 0.0025(Skweness) y un valor.p=0.22 (kutosis), por ende es necesario usar Spearman, pues se rechaza Ho
+
+
+
+```{r}
+cor.test(mtcars$wt,mtcars$hp, method = "spearman")
+```
+Se rechaza Ho,  es decir que rho es diferentes de 0, pues p-value = 1.954e-07.
+
+El estimador spearman rs = 0.77, es decir que existe una asociacion lineal, significativa, entre Weight y el Gross horsePower
+
+#### Punto 3
+
+3. (Valor 1.0) Con base en los conceptos del curso, ilustre un ejemplo completo de
+Regresi ́on Lineal Simple (RLS) en el que tenga sentido interpretar la pendiente
+estimada.
+
+
+```{r}
+plot(wt, disp, main="Weight (1000 lbs) vs Displacement (cu.in.)")
+```
+
+
+```{r}
+Fitt_WvD <- lm(disp ~ wt)
+summary(Fitt_WvD)
+
+```
+#### COMIENZO A VALIDAR SUPUESTOS.
+
+###### Validacion de normalidad
+```{r}
+
+shapiro.test(Fitt_WvD$residuals)
+```
+p-value = 0.2872 no se rechaza Ho,existe de una distribucion normal
+```{r}
+lillie.test(Fitt_WvD$residuals)
+```
+
+p-value = 0.3024 no se rechaza Ho, existe una distribucion normal
+
+#### Analisis de Varianza cte.
+
+```{r}
+bptest(disp~ wt)
+```
+p-value = 0.6034, No se rechaza Ho, exsite una varianza constante.
+```{r}
+
+gqtest(lm(disp~ wt))
+
+```
+p-value = 0.6516, No se rechaza Ho, exsite una varianza constante.
+
+#### Independencia
+
+```{r}
+dwtest(disp ~ Fitt_WvD$residuals)
+```
+
+4. (Valor 1.0) Escoja un modelo de RLS apropiado para ilustrar el c ́alculo de un inter-
+valo de predicci ́on del 90 % para la variable respuesta cuando la covariable toma el
+
+valor de su promedio, x.

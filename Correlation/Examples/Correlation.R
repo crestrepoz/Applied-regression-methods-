@@ -32,7 +32,8 @@ mvn(GRANOLAS) ### Multivariate Normality Tests
 ########## También produce el contraste de hipótesis
 ############# Ha: rho es distinto de cero. 
 cor.test(maíz, Cacahuates,method= "pearson") 
-####### rho puede ser cero (valor.p=0.4)
+####### rho puede ser cero (valor.p=0.4), por que valor P es muy alto)
+#### al no ser Ho distinta de 0 se puede decir que no hay una asociacion significativa entre las 2 variables
 ################# r = 0.35
 
 ################ EJEMPLO 2:CIGARRILLOS.

@@ -1,0 +1,168 @@
+---
+title: "RLS ejemplos babies"
+output: html_notebook
+---
+
+```{r}
+library(MASS)
+library(lmtest)
+library(nortest)
+```
+
+
+```{r}
+
+babies<-read.csv("C:/Users/yosef/OneDrive/Documents/Esp_Estadistica/Applied-regression-methods-/Correlation/Examples/babies.csv", header=T,sep=";")
+babies
+attach(babies)
+
+```
+
+```{r}
+head(babies)
+summary(babies)
+dim(babies)
+
+```
+
+##### MODELO DE RLS CON TORAX
+
+```{r}
+
+baby.fit11<-lm(Talla_hoy~Torax_nacer) # 1) AJUSTAR EL MODELO 
+baby.fit11     ### 2) COEFICIENTES ESTIMADOS bo y b1
+
+```
+
+
+
+##### GENERACION DE RESIDUALES
+
+```{r}
+
+resid.torax<-residuals(baby.fit11)  ### Residuales (errores estimados)
+resid.torax
+
+```
+
+##### COMIENZO A VALIDAR SUPUESTOS.
+
+```{r}
+# -----Ho dis normal, Ha dis no normal-----
+shapiro.test(residuals(baby.fit11)) ## normalidad 
+```
+
+p-value = 0.005126, se rechaza Ho, no vienen de una dis normal
+
+
+```{r}
+lillie.test(residuals(baby.fit11)) ### normalidad
+```
+
+p-value = 0.0109, se rechaza Ho, no vienen de una dis normal
+
+##### ----------- Encuentra varianza constante ------------------
+
+# Ho varianza cte. Ha no hay varianza cte.
+
+```{r}
+bptest(Talla_hoy~ Torax_nacer) ### Homocedasticidad Breusch-Pagan 
+```
+
+p-value = 0.3808, se favorece Ho hay varianza conte
+
+```{r}
+gqtest(lm(Talla_hoy~ Torax_nacer)) ### Homocedasticidad Goldfeld-Quandt
+```
+
+
+p-value = 0.0112, se rechaza Ho, no hay varianza cte.
+
+como bp y gqtest no arrojan que ambos tienen varianza cte. se dice que no la hay
+
+
+
+##### ------------ Independencia -------------------
+
+```{r}
+# Ho datos independientes, Ha: datos dependientes de alguna forma
+# en realidad autocorrelacion entre los datos mayor que 0
+dwtest(Talla_hoy ~ residuals(baby.fit11)) # Durbin Watson independencia
+
+
+```
+EN RESUMEN: No hay normalidad, no hay varianza constante, sí independencia
+en nuestra estrategia: detenemos el proceso y volvemos al modelo teórico```
+
+
+### Talla hoy vs peso al nacer
+
+
+```{r}
+
+plot(Peso_nacer, Talla_hoy, main="Talla hoy vs Peso al nacer")
+
+```
+```{r}
+TallahoyVsPesonacer <- lm(Talla_hoy ~ Peso_nacer)
+summary(TallahoyVsPesonacer)
+
+```
+
+#### Validacion de supuestos
+
+##### Normalidad
+
+
+```{r}
+shapiro.test(TallahoyVsPesonacer$residuals)
+```
+P = 0.8775, no se rechaza Ho, existe una distribucion Normal
+
+```{r}
+lillie.test(TallahoyVsPesonacer$residuals)
+```
+P = 0.9285, no se rechaza Ho, existe una distribucion Normal
+
+##### Varianza cte.
+
+```{r}
+
+bptest(Talla_hoy ~ Peso_nacer)
+
+```
+
+P-value 0.5008, No se rechaza Ho, existe una varianza cte del error 
+```{r}
+gqtest(lm(TallahoyVsPesonacer))
+```
+
+independecia
+
+```{r}
+
+dwtest(Talla_hoy ~ TallahoyVsPesonacer$residuals)
+
+```
+No se rechaza Ho los errores son independientes
+
+```{r}
+
+ANT <- anova(TallahoyVsPesonacer)
+F <- qf(0.99, 1, 5)
+Fcal <- ANT$`F value`[1]
+
+Fcal > F
+```
+ como se rechaza Ho, es decir B1 = 0, se puede decir que Peso al nacer si explica a talla hoy
+ 
+ 
+##### Modelo nulo 
+```{r}
+
+# y= Bo + ei
+MN <- lm(Talla_hoy ~ 1)
+MN
+```
+ 
+ 
