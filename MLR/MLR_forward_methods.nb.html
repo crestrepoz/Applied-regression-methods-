@@ -1797,21 +1797,698 @@ summary {
 
 
 <!-- rnb-text-begin -->
-<p>This is an <a href="http://rmarkdown.rstudio.com">R Markdown</a> Notebook. When you execute code within the notebook, the results appear beneath the code.</p>
-<p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Ctrl+Shift+Enter</em>.</p>
+<p>Necessary libraries</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxvdChjYXJzKVxuYGBgIn0= -->
-<pre class="r"><code>plot(cars)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5saWJyYXJ5KE1BU1MpXG5saWJyYXJ5KGxtdGVzdClcbmBgYCJ9 -->
+<pre class="r"><code>
+library(MASS)
+library(lmtest)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiB6b29cblxuQXR0YWNoaW5nIHBhY2thZ2U6IOOkvOO4sXpvb+OkvOO4slxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOOkvOO4sXBhY2thZ2U6YmFzZeOkvOO4sjpcblxuICAgIGFzLkRhdGUsIGFzLkRhdGUubnVtZXJpY1xuIn0= -->
+<pre><code>Loading required package: zoo
+
+Attaching package: 㤼㸱zoo㤼㸲
+
+The following objects are masked from 㤼㸱package:base㤼㸲:
+
+    as.Date, as.Date.numeric</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShub3J0ZXN0KVxuXG5gYGAifQ== -->
+<pre class="r"><code>library(nortest)
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the toolbar or by pressing <em>Ctrl+Alt+I</em>.</p>
-<p>When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the <em>Preview</em> button or press <em>Ctrl+Shift+K</em> to preview the HTML file).</p>
-<p>The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.</p>
+<p>DataFrame</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5iYWJpZXM8LXJlYWQuY3N2KFwiQzovVXNlcnMveW9zZWYvT25lRHJpdmUvRG9jdW1lbnRzL0VzcF9Fc3RhZGlzdGljYS9BcHBsaWVkLXJlZ3Jlc3Npb24tbWV0aG9kcy0vQ29ycmVsYXRpb24vRXhhbXBsZXMvYmFiaWVzLmNzdlwiLCBoZWFkZXI9VCxzZXA9XCI7XCIpXG5iYWJpZXNcbmBgYCJ9 -->
+<pre class="r"><code>
+babies&lt;-read.csv(&quot;C:/Users/yosef/OneDrive/Documents/Esp_Estadistica/Applied-regression-methods-/Correlation/Examples/babies.csv&quot;, header=T,sep=&quot;;&quot;)
+babies</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NywibmNvbCI6NX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJsMVN5MDdDVUJDOWxGZGFBa29rSnY2QU81b0FjU09TM0loSVF4QWJ3d0pYNUVxTE5OYVd0Q1dpYnZ3TjNXcGNzdkVIL0FCZHUvWkgwTGt2QXAza1pHWk81OXg1cEJjbmc1bzIwQkJDU1pRQ0pOTVFva3pUckZRUHFnaWxGTWdTOEVXbGZnNVZPeERRbWdJZ2k3dWZ0QnpoenBnWjdyMXpiMHBlK1BQTFo3QVgzTjFqSHFnODFRTjZnQmJnRERBQU5BRW1vTFBxWVhBTlBoVnZ0ZmQ1RCtPSjV5M2hEYlRoVi9xTTRCTTFacmo0K3FNMXBtOTR0L1R3MjE2VXNMcGdBUzYyYVdCZ2hkR1BLMzFEdkgvWS9RTDd4bGpNYzR3NVh4ZnYxais0UCtKMXNlT2xQWEpyaHhCc3N3TnlVdTBUMXlYRGlYOHZpWlpGcktIbGtGQVFPVjdoa1pFZENFb3o3ZERmWUhKOVB5QnpRVzIyVlFQL1RwZXQ2YzBWdmcyOS9lWjhJNWVFY2o1SmFoYUppRDRPUUEvWk1pYkordFBJOFQwUUtmS3ZXQmNuZ2hpeE5mUG9KRlo1TkpsNU4rVUtiY0ErYzh1TE9Mc1dwM2xMNVM5MnVJenRYVHVlTFdkM3laWHRpcVFBRzdPRjlXbmdlSkhjQk5oUWoveUl5RHB0NUx1U1lidWg1VCs5a1lzTkRRTUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Talla_hoy"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Edad_dias"],"name":[2],"type":["int"],"align":["right"]},{"label":["Talla_nacer"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Peso_nacer"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Torax_nacer"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"57.5","2":"78","3":"48.2","4":"2.75","5":"29.5"},{"1":"52.8","2":"69","3":"45.5","4":"2.15","5":"26.3"},{"1":"61.3","2":"77","3":"46.3","4":"4.41","5":"32.2"},{"1":"67.0","2":"88","3":"49.0","4":"5.52","5":"36.5"},{"1":"53.5","2":"67","3":"43.0","4":"3.21","5":"27.2"},{"1":"62.7","2":"80","3":"48.0","4":"4.32","5":"27.7"},{"1":"56.2","2":"74","3":"48.0","4":"2.31","5":"28.3"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[7]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXR0YWNoKGJhYmllcylcblxuYGBgIn0= -->
+<pre class="r"><code>attach(babies)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Dimensiones del Dataframe</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5kaW0oYmFiaWVzKVxuYGBgIn0= -->
+<pre class="r"><code>
+dim(babies)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDcgNVxuIn0= -->
+<pre><code>[1] 7 5</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Dataframe summary</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5zdW1tYXJ5KGJhYmllcylcbmBgYCJ9 -->
+<pre class="r"><code>
+summary(babies)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgVGFsbGFfaG95ICAgICAgIEVkYWRfZGlhcyAgICAgIFRhbGxhX25hY2VyICAgICAgUGVzb19uYWNlciAgIFxuIE1pbi4gICA6NTIuODAgICBNaW4uICAgOjY3LjAwICAgTWluLiAgIDo0My4wMCAgIE1pbi4gICA6Mi4xNTAgIFxuIDFzdCBRdS46NTQuODUgICAxc3QgUXUuOjcxLjUwICAgMXN0IFF1Ljo0NS45MCAgIDFzdCBRdS46Mi41MzAgIFxuIE1lZGlhbiA6NTcuNTAgICBNZWRpYW4gOjc3LjAwICAgTWVkaWFuIDo0OC4wMCAgIE1lZGlhbiA6My4yMTAgIFxuIE1lYW4gICA6NTguNzEgICBNZWFuICAgOjc2LjE0ICAgTWVhbiAgIDo0Ni44NiAgIE1lYW4gICA6My41MjQgIFxuIDNyZCBRdS46NjIuMDAgICAzcmQgUXUuOjc5LjAwICAgM3JkIFF1Ljo0OC4xMCAgIDNyZCBRdS46NC4zNjUgIFxuIE1heC4gICA6NjcuMDAgICBNYXguICAgOjg4LjAwICAgTWF4LiAgIDo0OS4wMCAgIE1heC4gICA6NS41MjAgIFxuICBUb3JheF9uYWNlciAgIFxuIE1pbi4gICA6MjYuMzAgIFxuIDFzdCBRdS46MjcuNDUgIFxuIE1lZGlhbiA6MjguMzAgIFxuIE1lYW4gICA6MjkuNjcgIFxuIDNyZCBRdS46MzAuODUgIFxuIE1heC4gICA6MzYuNTAgIFxuIn0= -->
+<pre><code>   Talla_hoy       Edad_dias      Talla_nacer      Peso_nacer   
+ Min.   :52.80   Min.   :67.00   Min.   :43.00   Min.   :2.150  
+ 1st Qu.:54.85   1st Qu.:71.50   1st Qu.:45.90   1st Qu.:2.530  
+ Median :57.50   Median :77.00   Median :48.00   Median :3.210  
+ Mean   :58.71   Mean   :76.14   Mean   :46.86   Mean   :3.524  
+ 3rd Qu.:62.00   3rd Qu.:79.00   3rd Qu.:48.10   3rd Qu.:4.365  
+ Max.   :67.00   Max.   :88.00   Max.   :49.00   Max.   :5.520  
+  Torax_nacer   
+ Min.   :26.30  
+ 1st Qu.:27.45  
+ Median :28.30  
+ Mean   :29.67  
+ 3rd Qu.:30.85  
+ Max.   :36.50  </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="paso-1.-modelo-nulo" class="section level3">
+<h3>Paso 1. Modelo Nulo</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBTTFIgZGVsIG1vZGVsbyBudWxvXG5iYWJ5LmZpdDA8LWxtKFRhbGxhX2hveX4gMSlcblxuIyBUYWJsYSBkZSBhbmFsaXNpcyBkZSB2YXJpYW56YSBkZWwgbW9kZWxvIG51bG9cbmFub3ZhKGJhYnkuZml0MClcbmBgYCJ9 -->
+<pre class="r"><code># SLR del modelo nulo
+baby.fit0&lt;-lm(Talla_hoy~ 1)
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIk1MUiBGb3J3YXJkIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2suIFdoZW4geW91IGV4ZWN1dGUgY29kZSB3aXRoaW4gdGhlIG5vdGVib29rLCB0aGUgcmVzdWx0cyBhcHBlYXIgYmVuZWF0aCB0aGUgY29kZS4gDQoNClRyeSBleGVjdXRpbmcgdGhpcyBjaHVuayBieSBjbGlja2luZyB0aGUgKlJ1biogYnV0dG9uIHdpdGhpbiB0aGUgY2h1bmsgb3IgYnkgcGxhY2luZyB5b3VyIGN1cnNvciBpbnNpZGUgaXQgYW5kIHByZXNzaW5nICpDdHJsK1NoaWZ0K0VudGVyKi4gDQoNCmBgYHtyfQ0KcGxvdChjYXJzKQ0KYGBgDQoNCkFkZCBhIG5ldyBjaHVuayBieSBjbGlja2luZyB0aGUgKkluc2VydCBDaHVuayogYnV0dG9uIG9uIHRoZSB0b29sYmFyIG9yIGJ5IHByZXNzaW5nICpDdHJsK0FsdCtJKi4NCg0KV2hlbiB5b3Ugc2F2ZSB0aGUgbm90ZWJvb2ssIGFuIEhUTUwgZmlsZSBjb250YWluaW5nIHRoZSBjb2RlIGFuZCBvdXRwdXQgd2lsbCBiZSBzYXZlZCBhbG9uZ3NpZGUgaXQgKGNsaWNrIHRoZSAqUHJldmlldyogYnV0dG9uIG9yIHByZXNzICpDdHJsK1NoaWZ0K0sqIHRvIHByZXZpZXcgdGhlIEhUTUwgZmlsZSkuDQoNClRoZSBwcmV2aWV3IHNob3dzIHlvdSBhIHJlbmRlcmVkIEhUTUwgY29weSBvZiB0aGUgY29udGVudHMgb2YgdGhlIGVkaXRvci4gQ29uc2VxdWVudGx5LCB1bmxpa2UgKktuaXQqLCAqUHJldmlldyogZG9lcyBub3QgcnVuIGFueSBSIGNvZGUgY2h1bmtzLiBJbnN0ZWFkLCB0aGUgb3V0cHV0IG9mIHRoZSBjaHVuayB3aGVuIGl0IHdhcyBsYXN0IHJ1biBpbiB0aGUgZWRpdG9yIGlzIGRpc3BsYXllZC4NCg==</div>
+# Tabla de analisis de varianza del modelo nulo
+anova(baby.fit0)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgVmFyaWFuY2UgVGFibGVcblxuUmVzcG9uc2U6IFRhbGxhX2hveVxuICAgICAgICAgIERmIFN1bSBTcSBNZWFuIFNxIEYgdmFsdWUgUHIoPkYpXG5SZXNpZHVhbHMgIDYgMTYxLjE5ICAyNi44NjUgICAgICAgICAgICAgICBcbiJ9 -->
+<pre><code>Analysis of Variance Table
+
+Response: Talla_hoy
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals  6 161.19  26.865               </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuU0NFLjA9YW5vdmEoYmFieS5maXQwKVsxLDJdXG5jYXQoXCJTdW1hIGRlIGxvcyBjdWFkcmFkb3MgZGVsIGVycm9yIE1vZGVsbyBudWxvOiBcIiwgU0NFLjApXG5gYGAifQ== -->
+<pre class="r"><code>SCE.0=anova(baby.fit0)[1,2]
+cat(&quot;Suma de los cuadrados del error Modelo nulo: &quot;, SCE.0)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiU3VtYSBkZSBsb3MgY3VhZHJhZG9zIGRlbCBlcnJvciBNb2RlbG8gbnVsbzogIDE2MS4xODg2XG4ifQ== -->
+<pre><code>Suma de los cuadrados del error Modelo nulo:  161.1886</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShiYWJ5LmZpdDApXG5gYGAifQ== -->
+<pre class="r"><code>summary(baby.fit0)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFRhbGxhX2hveSB+IDEpXG5cblJlc2lkdWFsczpcbiAgIE1pbiAgICAgMVEgTWVkaWFuICAgICAzUSAgICBNYXggXG4tNS45MTQgLTMuODY0IC0xLjIxNCAgMy4yODYgIDguMjg2IFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHQgdmFsdWUgUHIoPnx0fCkgICAgXG4oSW50ZXJjZXB0KSAgIDU4LjcxNCAgICAgIDEuOTU5ICAgMjkuOTcgOS4xNWUtMDggKioqXG4tLS1cblNpZ25pZi4gY29kZXM6ICBcbjAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogNS4xODMgb24gNiBkZWdyZWVzIG9mIGZyZWVkb21cbiJ9 -->
+<pre><code>
+Call:
+lm(formula = Talla_hoy ~ 1)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-5.914 -3.864 -1.214  3.286  8.286 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   58.714      1.959   29.97 9.15e-08 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 5.183 on 6 degrees of freedom</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueV9oYXQgPC0gbWVhbihUYWxsYV9ob3kpO1xuY2F0KFwieV9oYXQ6XCIsIHlfaGF0IClcbmBgYCJ9 -->
+<pre class="r"><code>y_hat &lt;- mean(Talla_hoy);
+cat(&quot;y_hat:&quot;, y_hat )</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoieV9oYXQ6IDU4LjcxNDI5XG4ifQ== -->
+<pre><code>y_hat: 58.71429</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="calculo-conceptual-del-ssrnulo" class="section level4">
+<h4>Calculo conceptual del SSRnulo</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIENhbGN1bG8gZGUgbGEgbWVkaWEgXG5cbm1lZGlhIDwtIHlfaGF0XG5jYXQoXCJMYSBtZWRpYSBlczogXCIsIG1lZGlhLCBcIlxcblwiKVxuYGBgIn0= -->
+<pre class="r"><code>
+# Calculo de la media 
+
+media &lt;- y_hat
+cat(&quot;La media es: &quot;, media, &quot;\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGEgbWVkaWEgZXM6ICA1OC43MTQyOSBcbiJ9 -->
+<pre><code>La media es:  58.71429 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDYWN1bG8gZGVsIGxhcyBTdW1hcyBkZSBjdWFkcmFkb3MgZGUgbGEgcmVncmVzaW9uXG5cblNDUi5udWxvPXN1bSgoVGFsbGFfaG95LW1lZGlhKV4yKVxuY2F0KFwiTGFzIHN1bWEgZGUgY3VhZHJhZG9zIGRlIGxhIHJlZ3Jlc2lvbiBlczogXCIsIFNDUi5udWxvLCBcIlxcblwiKVxuYGBgIn0= -->
+<pre class="r"><code># Caculo del las Sumas de cuadrados de la regresion
+
+SCR.nulo=sum((Talla_hoy-media)^2)
+cat(&quot;Las suma de cuadrados de la regresion es: &quot;, SCR.nulo, &quot;\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGFzIHN1bWEgZGUgY3VhZHJhZG9zIGRlIGxhIHJlZ3Jlc2lvbiBlczogIDE2MS4xODg2IFxuIn0= -->
+<pre><code>Las suma de cuadrados de la regresion es:  161.1886 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5vdmEoYmFieS5maXQwKVxuYGBgIn0= -->
+<pre class="r"><code>anova(baby.fit0)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgVmFyaWFuY2UgVGFibGVcblxuUmVzcG9uc2U6IFRhbGxhX2hveVxuICAgICAgICAgIERmIFN1bSBTcSBNZWFuIFNxIEYgdmFsdWUgUHIoPkYpXG5SZXNpZHVhbHMgIDYgMTYxLjE5ICAyNi44NjUgICAgICAgICAgICAgICBcbiJ9 -->
+<pre><code>Analysis of Variance Table
+
+Response: Talla_hoy
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals  6 161.19  26.865               </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="partial-f-test-en-sheather-2009-p.137." class="section level4">
+<h4>“Partial f Test” en Sheather (2009), p.137.</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBGIGNyaXRpY28gbW9kZWxvIG51bG8gcGFyYSBlbCAxMCVcblxuZi5jcml0aWNvMTwtcWYoMC45MCwxLDUpXG5jYXQoXCJGX0NyaXRpY28gbW9kZWxvIG51bG86IFwiLCBmLmNyaXRpY28xIClcbmBgYCJ9 -->
+<pre class="r"><code># F critico modelo nulo para el 10%
+
+f.critico1&lt;-qf(0.90,1,5)
+cat(&quot;F_Critico modelo nulo: &quot;, f.critico1 )</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRl9Dcml0aWNvIG1vZGVsbyBudWxvOiAgNC4wNjA0MlxuIn0= -->
+<pre><code>F_Critico modelo nulo:  4.06042</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="tres-regresiones-lineales-simples" class="section level4">
+<h4>TRES REGRESIONES LINEALES SIMPLES</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIFJlZ3Jlc2lvbmVzIGxpbmVhbGVzIG5lY2VzYXJpYXNcblxuYmFieS5maXQxMTwtbG0oVGFsbGFfaG95fiBUYWxsYV9uYWNlcilcbmJhYnkuZml0MTI8LWxtKFRhbGxhX2hveX4gUGVzb19uYWNlcilcbmJhYnkuZml0MTM8LWxtKFRhbGxhX2hveX4gVG9yYXhfbmFjZXIpXG5cbnByaW50KFwiVGFsbGFfaG95fiBUYWxsYV9uYWNlciBcIilcbmBgYCJ9 -->
+<pre class="r"><code>
+# Regresiones lineales necesarias
+
+baby.fit11&lt;-lm(Talla_hoy~ Talla_nacer)
+baby.fit12&lt;-lm(Talla_hoy~ Peso_nacer)
+baby.fit13&lt;-lm(Talla_hoy~ Torax_nacer)
+
+print(&quot;Talla_hoy~ Talla_nacer &quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGFsbGFfaG95fiBUYWxsYV9uYWNlciBcIlxuIn0= -->
+<pre><code>[1] &quot;Talla_hoy~ Talla_nacer &quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5vdmEoYmFieS5maXQxMSlcbmBgYCJ9 -->
+<pre class="r"><code>anova(baby.fit11)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgVmFyaWFuY2UgVGFibGVcblxuUmVzcG9uc2U6IFRhbGxhX2hveVxuICAgICAgICAgICAgRGYgU3VtIFNxIE1lYW4gU3EgRiB2YWx1ZSAgUHIoPkYpICBcblRhbGxhX25hY2VyICAxIDc2LjA2OSAgNzYuMDY5ICA0LjQ2ODQgMC4wODgxOSAuXG5SZXNpZHVhbHMgICAgNSA4NS4xMTkgIDE3LjAyNCAgICAgICAgICAgICAgICAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG4ifQ== -->
+<pre><code>Analysis of Variance Table
+
+Response: Talla_hoy
+            Df Sum Sq Mean Sq F value  Pr(&gt;F)  
+Talla_nacer  1 76.069  76.069  4.4684 0.08819 .
+Residuals    5 85.119  17.024                  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoXCJUYWxsYV9ob3l+IFBlc29fbmFjZXJcIilcbmBgYCJ9 -->
+<pre class="r"><code>print(&quot;Talla_hoy~ Peso_nacer&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGFsbGFfaG95fiBQZXNvX25hY2VyXCJcbiJ9 -->
+<pre><code>[1] &quot;Talla_hoy~ Peso_nacer&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5vdmEoYmFieS5maXQxMilcbmBgYCJ9 -->
+<pre class="r"><code>anova(baby.fit12)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgVmFyaWFuY2UgVGFibGVcblxuUmVzcG9uc2U6IFRhbGxhX2hveVxuICAgICAgICAgICBEZiAgU3VtIFNxIE1lYW4gU3EgRiB2YWx1ZSAgIFByKD5GKSAgIFxuUGVzb19uYWNlciAgMSAxMzUuMTMxIDEzNS4xMzEgIDI1LjkyOSAwLjAwMzc5NiAqKlxuUmVzaWR1YWxzICAgNSAgMjYuMDU4ICAgNS4yMTIgICAgICAgICAgICAgICAgICAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG4ifQ== -->
+<pre><code>Analysis of Variance Table
+
+Response: Talla_hoy
+           Df  Sum Sq Mean Sq F value   Pr(&gt;F)   
+Peso_nacer  1 135.131 135.131  25.929 0.003796 **
+Residuals   5  26.058   5.212                    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoXCJUYWxsYV9ob3l+IFRvcmF4X25hY2VyXCIpXG5gYGAifQ== -->
+<pre class="r"><code>print(&quot;Talla_hoy~ Torax_nacer&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiVGFsbGFfaG95fiBUb3JheF9uYWNlclwiXG4ifQ== -->
+<pre><code>[1] &quot;Talla_hoy~ Torax_nacer&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5vdmEoYmFieS5maXQxMylcbmBgYCJ9 -->
+<pre class="r"><code>anova(baby.fit13)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgVmFyaWFuY2UgVGFibGVcblxuUmVzcG9uc2U6IFRhbGxhX2hveVxuICAgICAgICAgICAgRGYgIFN1bSBTcSBNZWFuIFNxIEYgdmFsdWUgIFByKD5GKSAgXG5Ub3JheF9uYWNlciAgMSAxMTAuMzIwIDExMC4zMjAgIDEwLjg0NCAwLjAyMTY0ICpcblJlc2lkdWFscyAgICA1ICA1MC44NjkgIDEwLjE3NCAgICAgICAgICAgICAgICAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG4ifQ== -->
+<pre><code>Analysis of Variance Table
+
+Response: Talla_hoy
+            Df  Sum Sq Mean Sq F value  Pr(&gt;F)  
+Torax_nacer  1 110.320 110.320  10.844 0.02164 *
+Residuals    5  50.869  10.174                  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="fparcial-sheather" class="section level4">
+<h4>fparcial SHEATHER</h4>
+<p>fparcial.SHEATHER=(SCE(beta0)-SCE(beta(j),beta0))/CME(beta0,X(j))</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5TQ0UuMDwtYW5vdmEoYmFieS5maXQwKVsxLDJdXG5TQ0UuMTE8LWFub3ZhKGJhYnkuZml0MTEpWzIsMl1cblNDRS4xMjwtYW5vdmEoYmFieS5maXQxMilbMiwyXVxuU0NFLjEzPC1hbm92YShiYWJ5LmZpdDEzKVsyLDJdXG5DTUUuMTE8LWFub3ZhKGJhYnkuZml0MTEpWzIsM11cbkNNRS4xMjwtYW5vdmEoYmFieS5maXQxMilbMiwzXVxuQ01FLjEzPC1hbm92YShiYWJ5LmZpdDEzKVsyLDNdXG5jYmluZChTQ0UuMTEsU0NFLjEyLFNDRS4xMyxDTUUuMTEsQ01FLjEyLENNRS4xMylcbmBgYCJ9 -->
+<pre class="r"><code>
+SCE.0&lt;-anova(baby.fit0)[1,2]
+SCE.11&lt;-anova(baby.fit11)[2,2]
+SCE.12&lt;-anova(baby.fit12)[2,2]
+SCE.13&lt;-anova(baby.fit13)[2,2]
+CME.11&lt;-anova(baby.fit11)[2,3]
+CME.12&lt;-anova(baby.fit12)[2,3]
+CME.13&lt;-anova(baby.fit13)[2,3]
+cbind(SCE.11,SCE.12,SCE.13,CME.11,CME.12,CME.13)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgIFNDRS4xMSAgIFNDRS4xMiAgIFNDRS4xMyAgIENNRS4xMSAgIENNRS4xMlxuWzEsXSA4NS4xMTkxMSAyNi4wNTc3NiA1MC44NjkwMSAxNy4wMjM4MiA1LjIxMTU1MVxuICAgICAgQ01FLjEzXG5bMSxdIDEwLjE3MzhcbiJ9 -->
+<pre><code>       SCE.11   SCE.12   SCE.13   CME.11   CME.12
+[1,] 85.11911 26.05776 50.86901 17.02382 5.211551
+      CME.13
+[1,] 10.1738</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="cálculos-de-fparciales" class="section level4">
+<h4>Cálculos de fparciales</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5mcGFyY2lhbC4xMT0oU0NFLjAtU0NFLjExKS9DTUUuMTFcbmZwYXJjaWFsLjEyPShTQ0UuMC1TQ0UuMTIpL0NNRS4xMlxuZnBhcmNpYWwuMTM9KFNDRS4wLVNDRS4xMykvQ01FLjEzXG5jYmluZChmLmNyaXRpY28xLGZwYXJjaWFsLjExLCBmcGFyY2lhbC4xMiwgZnBhcmNpYWwuMTMpXG5gYGAifQ== -->
+<pre class="r"><code>
+fparcial.11=(SCE.0-SCE.11)/CME.11
+fparcial.12=(SCE.0-SCE.12)/CME.12
+fparcial.13=(SCE.0-SCE.13)/CME.13
+cbind(f.critico1,fparcial.11, fparcial.12, fparcial.13)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICBmLmNyaXRpY28xIGZwYXJjaWFsLjExIGZwYXJjaWFsLjEyIGZwYXJjaWFsLjEzXG5bMSxdICAgIDQuMDYwNDIgICAgNC40Njg0MTMgICAgIDI1LjkyOTEgICAgMTAuODQzNDlcbiJ9 -->
+<pre><code>     f.critico1 fparcial.11 fparcial.12 fparcial.13
+[1,]    4.06042    4.468413     25.9291    10.84349</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="paso-2-de-forward-con-fparcial.-guardar-sce.12" class="section level4">
+<h4>PASO 2 DE FORWARD CON fparcial. GUARDAR “SCE.12”</h4>
+<p>SE EVALÚAN DOS MODELOS CON 2 COVARIABLES, CADA UNO</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZi5jcml0aWNvMjwtIHFmKDAuOSwyLDQpIFxuZi5jcml0aWNvMlxuYGBgIn0= -->
+<pre class="r"><code>f.critico2&lt;- qf(0.9,2,4) 
+f.critico2</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQuMzI0NTU1XG4ifQ== -->
+<pre><code>[1] 4.324555</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="modelos-21-y-22" class="section level4">
+<h4>MODELOS 21 Y 22</h4>
+<p>fparcial2: (SCE(beta0,beta1)-SCE(X(j),beta0,beta1))/CME(X(j),beta0,beta1)</p>
+</div>
+<div id="con-torax_nacer" class="section level4">
+<h4>con Torax_nacer</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5iYWJ5LmZpdDIxPC1sbShUYWxsYV9ob3l+IFBlc29fbmFjZXIgKyBUb3JheF9uYWNlcilcbmFub3ZhKGJhYnkuZml0MjEpXG5gYGAifQ== -->
+<pre class="r"><code>
+baby.fit21&lt;-lm(Talla_hoy~ Peso_nacer + Torax_nacer)
+anova(baby.fit21)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgVmFyaWFuY2UgVGFibGVcblxuUmVzcG9uc2U6IFRhbGxhX2hveVxuICAgICAgICAgICAgRGYgIFN1bSBTcSBNZWFuIFNxIEYgdmFsdWUgICBQcig+RikgICBcblBlc29fbmFjZXIgICAxIDEzNS4xMzEgMTM1LjEzMSAyNC41MDE0IDAuMDA3NzYyICoqXG5Ub3JheF9uYWNlciAgMSAgIDMuOTk3ICAgMy45OTcgIDAuNzI0NyAwLjQ0MjU3NCAgIFxuUmVzaWR1YWxzICAgIDQgIDIyLjA2MSAgIDUuNTE1ICAgICAgICAgICAgICAgICAgICBcbi0tLVxuU2lnbmlmLiBjb2RlczogIFxuMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG4ifQ== -->
+<pre><code>Analysis of Variance Table
+
+Response: Talla_hoy
+            Df  Sum Sq Mean Sq F value   Pr(&gt;F)   
+Peso_nacer   1 135.131 135.131 24.5014 0.007762 **
+Torax_nacer  1   3.997   3.997  0.7247 0.442574   
+Residuals    4  22.061   5.515                    
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuU0NFLjIxPC1hbm92YShiYWJ5LmZpdDIxKVszLDJdXG5DTUUuMjE8LWFub3ZhKGJhYnkuZml0MjEpWzMsM11cblxuYGBgIn0= -->
+<pre class="r"><code>SCE.21&lt;-anova(baby.fit21)[3,2]
+CME.21&lt;-anova(baby.fit21)[3,3]
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="con-talla_nacer" class="section level4">
+<h4>con Talla_nacer</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmFieS5maXQyMjwtbG0oVGFsbGFfaG95fiBQZXNvX25hY2VyICsgVGFsbGFfbmFjZXIpXG5TQ0UuMjI8LWFub3ZhKGJhYnkuZml0MjIpWzMsMl1cbkNNRS4yMjwtYW5vdmEoYmFieS5maXQyMilbMywzXVxuYW5vdmEoYmFieS5maXQyMilcbmBgYCJ9 -->
+<pre class="r"><code>baby.fit22&lt;-lm(Talla_hoy~ Peso_nacer + Talla_nacer)
+SCE.22&lt;-anova(baby.fit22)[3,2]
+CME.22&lt;-anova(baby.fit22)[3,3]
+anova(baby.fit22)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgVmFyaWFuY2UgVGFibGVcblxuUmVzcG9uc2U6IFRhbGxhX2hveVxuICAgICAgICAgICAgRGYgIFN1bSBTcSBNZWFuIFNxIEYgdmFsdWUgICAgUHIoPkYpXG5QZXNvX25hY2VyICAgMSAxMzUuMTMxIDEzNS4xMzEgMTQ0MC45MCAyLjg3N2UtMDZcblRhbGxhX25hY2VyICAxICAyNS42ODMgIDI1LjY4MyAgMjczLjg1IDcuODA5ZS0wNVxuUmVzaWR1YWxzICAgIDQgICAwLjM3NSAgIDAuMDk0ICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICBcblBlc29fbmFjZXIgICoqKlxuVGFsbGFfbmFjZXIgKioqXG5SZXNpZHVhbHMgICAgICBcbi0tLVxuU2lnbmlmLiBjb2RlczogIFxuMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG4ifQ== -->
+<pre><code>Analysis of Variance Table
+
+Response: Talla_hoy
+            Df  Sum Sq Mean Sq F value    Pr(&gt;F)
+Peso_nacer   1 135.131 135.131 1440.90 2.877e-06
+Talla_nacer  1  25.683  25.683  273.85 7.809e-05
+Residuals    4   0.375   0.094                  
+               
+Peso_nacer  ***
+Talla_nacer ***
+Residuals      
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2JpbmQoU0NFLjIxLENNRS4yMSxTQ0UuMjIsQ01FLjIyKVxuYGBgIn0= -->
+<pre class="r"><code>cbind(SCE.21,CME.21,SCE.22,CME.22)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgIFNDRS4yMSAgIENNRS4yMSAgIFNDRS4yMiAgIENNRS4yMlxuWzEsXSAyMi4wNjA5NSA1LjUxNTIzNyAwLjM3NTEyOCAwLjA5Mzc4MlxuIn0= -->
+<pre><code>       SCE.21   CME.21   SCE.22   CME.22
+[1,] 22.06095 5.515237 0.375128 0.093782</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="fparciales-21-y-22" class="section level4">
+<h4>fparciales 21 y 22</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5mcGFyY2lhbC4yMTwtKFNDRS4xMi1TQ0UuMjEpL0NNRS4yMVxuZnBhcmNpYWwuMjI8LShTQ0UuMTItU0NFLjIyKS9DTUUuMjJcbmNiaW5kKGYuY3JpdGljbzIsIGZwYXJjaWFsLjIxLCBmcGFyY2lhbC4yMikgXG5gYGAifQ== -->
+<pre class="r"><code>
+fparcial.21&lt;-(SCE.12-SCE.21)/CME.21
+fparcial.22&lt;-(SCE.12-SCE.22)/CME.22
+cbind(f.critico2, fparcial.21, fparcial.22) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICBmLmNyaXRpY28yIGZwYXJjaWFsLjIxIGZwYXJjaWFsLjIyXG5bMSxdICAgNC4zMjQ1NTUgICAwLjcyNDY4NDUgICAgMjczLjg1NDZcbiJ9 -->
+<pre><code>     f.critico2 fparcial.21 fparcial.22
+[1,]   4.324555   0.7246845    273.8546</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>El unico modelo que cuyo r parcial es mayor al F critico es el modelo 2,2.Este modelo es mejor que el modelo que solo tiene Peso al nacer</p>
+<p>####conclusión: SÓLO EL MODELO 22 ES MEJOR QUE EL ACTUAL, EL 12.</p>
+</div>
+</div>
+<div id="paso-2-modelo-con-covariabes-peso_nacer-y-talla_nacer" class="section level2">
+<h2>PASO 2: MODELO CON Covariabes “Peso_nacer” y “Talla_nacer”</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5iYWJ5LmZpdDIyPC1sbShUYWxsYV9ob3l+IFBlc29fbmFjZXIgKyBUYWxsYV9uYWNlcilcblxuYGBgIn0= -->
+<pre class="r"><code>
+baby.fit22&lt;-lm(Talla_hoy~ Peso_nacer + Talla_nacer)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="paso-3-de-forward-guardar-sce.22" class="section level4">
+<h4>PASO 3 DE FORWARD … (GUARDAR SCE.22)</h4>
+<p>Sólo queda chequear si el modelo con las 3 covariables es mejor que el modelo sólo con estas dos PREVIAMENTE ESCOGIDAS.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5mY3LDrXRpY28zPC1xZigwLjksIDMsIDMpXG5mY3LDrXRpY28zXG5gYGAifQ== -->
+<pre class="r"><code>
+fcrítico3&lt;-qf(0.9, 3, 3)
+fcrítico3</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDUuMzkwNzczXG4ifQ== -->
+<pre><code>[1] 5.390773</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShiYWJpZXMpXG5gYGAifQ== -->
+<pre class="r"><code>summary(babies)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgVGFsbGFfaG95ICAgICAgIEVkYWRfZGlhcyAgICAgIFRhbGxhX25hY2VyICAgXG4gTWluLiAgIDo1Mi44MCAgIE1pbi4gICA6NjcuMDAgICBNaW4uICAgOjQzLjAwICBcbiAxc3QgUXUuOjU0Ljg1ICAgMXN0IFF1Ljo3MS41MCAgIDFzdCBRdS46NDUuOTAgIFxuIE1lZGlhbiA6NTcuNTAgICBNZWRpYW4gOjc3LjAwICAgTWVkaWFuIDo0OC4wMCAgXG4gTWVhbiAgIDo1OC43MSAgIE1lYW4gICA6NzYuMTQgICBNZWFuICAgOjQ2Ljg2ICBcbiAzcmQgUXUuOjYyLjAwICAgM3JkIFF1Ljo3OS4wMCAgIDNyZCBRdS46NDguMTAgIFxuIE1heC4gICA6NjcuMDAgICBNYXguICAgOjg4LjAwICAgTWF4LiAgIDo0OS4wMCAgXG4gICBQZXNvX25hY2VyICAgICBUb3JheF9uYWNlciAgIFxuIE1pbi4gICA6Mi4xNTAgICBNaW4uICAgOjI2LjMwICBcbiAxc3QgUXUuOjIuNTMwICAgMXN0IFF1LjoyNy40NSAgXG4gTWVkaWFuIDozLjIxMCAgIE1lZGlhbiA6MjguMzAgIFxuIE1lYW4gICA6My41MjQgICBNZWFuICAgOjI5LjY3ICBcbiAzcmQgUXUuOjQuMzY1ICAgM3JkIFF1LjozMC44NSAgXG4gTWF4LiAgIDo1LjUyMCAgIE1heC4gICA6MzYuNTAgIFxuIn0= -->
+<pre><code>   Talla_hoy       Edad_dias      Talla_nacer   
+ Min.   :52.80   Min.   :67.00   Min.   :43.00  
+ 1st Qu.:54.85   1st Qu.:71.50   1st Qu.:45.90  
+ Median :57.50   Median :77.00   Median :48.00  
+ Mean   :58.71   Mean   :76.14   Mean   :46.86  
+ 3rd Qu.:62.00   3rd Qu.:79.00   3rd Qu.:48.10  
+ Max.   :67.00   Max.   :88.00   Max.   :49.00  
+   Peso_nacer     Torax_nacer   
+ Min.   :2.150   Min.   :26.30  
+ 1st Qu.:2.530   1st Qu.:27.45  
+ Median :3.210   Median :28.30  
+ Mean   :3.524   Mean   :29.67  
+ 3rd Qu.:4.365   3rd Qu.:30.85  
+ Max.   :5.520   Max.   :36.50  </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="ajustar-modelo-con-las-3-covariables" class="section level4">
+<h4>ajustar modelo con las 3 covariables</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5iYWJ5LmZpdDM8LWxtKFRhbGxhX2hveX4gUGVzb19uYWNlciArIFRhbGxhX25hY2VyICsgVG9yYXhfbmFjZXIpXG5hbm92YShiYWJ5LmZpdDMpXG5gYGAifQ== -->
+<pre class="r"><code>
+baby.fit3&lt;-lm(Talla_hoy~ Peso_nacer + Talla_nacer + Torax_nacer)
+anova(baby.fit3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgVmFyaWFuY2UgVGFibGVcblxuUmVzcG9uc2U6IFRhbGxhX2hveVxuICAgICAgICAgICAgRGYgIFN1bSBTcSBNZWFuIFNxICAgRiB2YWx1ZSAgICBQcig+RilcblBlc29fbmFjZXIgICAxIDEzNS4xMzEgMTM1LjEzMSAxMzU3LjY3MTMgNC4zOTdlLTA1XG5UYWxsYV9uYWNlciAgMSAgMjUuNjgzICAyNS42ODMgIDI1OC4wMzU2IDAuMDAwNTI0N1xuVG9yYXhfbmFjZXIgIDEgICAwLjA3NyAgIDAuMDc3ICAgIDAuNzY4OSAwLjQ0NTA5NjlcblJlc2lkdWFscyAgICAzICAgMC4yOTkgICAwLjEwMCAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICBcblBlc29fbmFjZXIgICoqKlxuVGFsbGFfbmFjZXIgKioqXG5Ub3JheF9uYWNlciAgICBcblJlc2lkdWFscyAgICAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgXG4wIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcbiJ9 -->
+<pre><code>Analysis of Variance Table
+
+Response: Talla_hoy
+            Df  Sum Sq Mean Sq   F value    Pr(&gt;F)
+Peso_nacer   1 135.131 135.131 1357.6713 4.397e-05
+Talla_nacer  1  25.683  25.683  258.0356 0.0005247
+Torax_nacer  1   0.077   0.077    0.7689 0.4450969
+Residuals    3   0.299   0.100                    
+               
+Peso_nacer  ***
+Talla_nacer ***
+Torax_nacer    
+Residuals      
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="obtener-sce.3-y-cme.3" class="section level4">
+<h4>obtener SCE.3 y CME.3</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuU0NFLjM8LWFub3ZhKGJhYnkuZml0MylbNCwyXVxuQ01FLjM8LWFub3ZhKGJhYnkuZml0MylbNCwzXVxuXG5gYGAifQ== -->
+<pre class="r"><code>SCE.3&lt;-anova(baby.fit3)[4,2]
+CME.3&lt;-anova(baby.fit3)[4,3]
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="calcular-fparcial.3" class="section level4">
+<h4>CALCULAR fparcial.3</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5mcGFyY2lhbC4zPC0oU0NFLjIyLVNDRS4zKS9DTUUuM1xuY2JpbmQoZmNyw610aWNvMyxmcGFyY2lhbC4zKVxuYGBgIn0= -->
+<pre class="r"><code>
+fparcial.3&lt;-(SCE.22-SCE.3)/CME.3
+cbind(fcrítico3,fparcial.3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICBmY3LDrXRpY28zIGZwYXJjaWFsLjNcblsxLF0gIDUuMzkwNzczICAwLjc2ODk0NDNcbiJ9 -->
+<pre><code>     fcrítico3 fparcial.3
+[1,]  5.390773  0.7689443</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Como el fcritico es menor que el facial el modelo de 3 covariables no es mejor que el modelo con 2 variables que solametne tiene Peso_ncaer + Talla a nacer</p>
+</div>
+<div id="el-mejor-subconjunto-de-predictoras-usando-forward-es" class="section level4">
+<h4>el mejor subconjunto de predictoras USANDO FORWARD es</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5iYWJ5LmZpdDIyPC1sbShUYWxsYV9ob3l+IFBlc29fbmFjZXIgKyBUYWxsYV9uYWNlcilcblxuYGBgIn0= -->
+<pre class="r"><code>
+baby.fit22&lt;-lm(Talla_hoy~ Peso_nacer + Talla_nacer)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="estamos-usando-alfa.input0.10" class="section level4">
+<h4>Estamos USANDO alfa.input=0.10</h4>
+</div>
+<div id="paso-3-validar-supuestos" class="section level3">
+<h3>Paso 3 validar supuestos</h3>
+<p>VALIDAR LOS SUPUESTOS EN EL “MEJOR” MODELO DE FORWARD.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5iYWJ5LmZpdDIyXG5gYGAifQ== -->
+<pre class="r"><code>
+baby.fit22</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFRhbGxhX2hveSB+IFBlc29fbmFjZXIgKyBUYWxsYV9uYWNlcilcblxuQ29lZmZpY2llbnRzOlxuKEludGVyY2VwdCkgICBQZXNvX25hY2VyICBUYWxsYV9uYWNlciAgXG4gICAgIC0xLjk5NSAgICAgICAgMy4xODMgICAgICAgIDEuMDU2ICBcbiJ9 -->
+<pre><code>
+Call:
+lm(formula = Talla_hoy ~ Peso_nacer + Talla_nacer)
+
+Coefficients:
+(Intercept)   Peso_nacer  Talla_nacer  
+     -1.995        3.183        1.056  </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShiYWJ5LmZpdDIyKVxuYGBgIn0= -->
+<pre class="r"><code>summary(baby.fit22)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFRhbGxhX2hveSB+IFBlc29fbmFjZXIgKyBUYWxsYV9uYWNlcilcblxuUmVzaWR1YWxzOlxuICAgICAgMSAgICAgICAyICAgICAgIDMgICAgICAgNCAgICAgICA1ICAgICAgIDYgXG4tMC4xNjgzIC0wLjEwNjkgIDAuMzU1MiAtMC4zMjk1IC0wLjE0MDAgIDAuMjQ2MSBcbiAgICAgIDcgXG4gMC4xNDMzIFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHQgdmFsdWUgUHIoPnx0fClcbihJbnRlcmNlcHQpIC0xLjk5NDUzICAgIDIuODg3NDUgIC0wLjY5MSAgICAwLjUyOFxuUGVzb19uYWNlciAgIDMuMTgyNzMgICAgMC4xMDU4OCAgMzAuMDYwIDcuMjllLTA2XG5UYWxsYV9uYWNlciAgMS4wNTYyMyAgICAwLjA2MzgzICAxNi41NDkgNy44MWUtMDVcbiAgICAgICAgICAgICAgIFxuKEludGVyY2VwdCkgICAgXG5QZXNvX25hY2VyICAqKipcblRhbGxhX25hY2VyICoqKlxuLS0tXG5TaWduaWYuIGNvZGVzOiAgXG4wIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDAuMzA2MiBvbiA0IGRlZ3JlZXMgb2YgZnJlZWRvbVxuTXVsdGlwbGUgUi1zcXVhcmVkOiAgMC45OTc3LFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgMC45OTY1IFxuRi1zdGF0aXN0aWM6IDg1Ny40IG9uIDIgYW5kIDQgREYsICBwLXZhbHVlOiA1LjQxNmUtMDZcbiJ9 -->
+<pre><code>
+Call:
+lm(formula = Talla_hoy ~ Peso_nacer + Talla_nacer)
+
+Residuals:
+      1       2       3       4       5       6 
+-0.1683 -0.1069  0.3552 -0.3295 -0.1400  0.2461 
+      7 
+ 0.1433 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept) -1.99453    2.88745  -0.691    0.528
+Peso_nacer   3.18273    0.10588  30.060 7.29e-06
+Talla_nacer  1.05623    0.06383  16.549 7.81e-05
+               
+(Intercept)    
+Peso_nacer  ***
+Talla_nacer ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.3062 on 4 degrees of freedom
+Multiple R-squared:  0.9977,    Adjusted R-squared:  0.9965 
+F-statistic: 857.4 on 2 and 4 DF,  p-value: 5.416e-06</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5vdmEoYmFieS5maXQyMilcbmBgYCJ9 -->
+<pre class="r"><code>anova(baby.fit22)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQW5hbHlzaXMgb2YgVmFyaWFuY2UgVGFibGVcblxuUmVzcG9uc2U6IFRhbGxhX2hveVxuICAgICAgICAgICAgRGYgIFN1bSBTcSBNZWFuIFNxIEYgdmFsdWUgICAgUHIoPkYpXG5QZXNvX25hY2VyICAgMSAxMzUuMTMxIDEzNS4xMzEgMTQ0MC45MCAyLjg3N2UtMDZcblRhbGxhX25hY2VyICAxICAyNS42ODMgIDI1LjY4MyAgMjczLjg1IDcuODA5ZS0wNVxuUmVzaWR1YWxzICAgIDQgICAwLjM3NSAgIDAuMDk0ICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICBcblBlc29fbmFjZXIgICoqKlxuVGFsbGFfbmFjZXIgKioqXG5SZXNpZHVhbHMgICAgICBcbi0tLVxuU2lnbmlmLiBjb2RlczogIFxuMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG4ifQ== -->
+<pre><code>Analysis of Variance Table
+
+Response: Talla_hoy
+            Df  Sum Sq Mean Sq F value    Pr(&gt;F)
+Peso_nacer   1 135.131 135.131 1440.90 2.877e-06
+Talla_nacer  1  25.683  25.683  273.85 7.809e-05
+Residuals    4   0.375   0.094                  
+               
+Peso_nacer  ***
+Talla_nacer ***
+Residuals      
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVzaWR1YWxzKGJhYnkuZml0MjIpXG5gYGAifQ== -->
+<pre class="r"><code>residuals(baby.fit22)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgMSAgICAgICAgICAyICAgICAgICAgIDMgICAgICAgICAgNCBcbi0wLjE2ODMxMjQgLTAuMTA2ODUxMyAgMC4zNTUxOTgyIC0wLjMyOTQ1NDMgXG4gICAgICAgICA1ICAgICAgICAgIDYgICAgICAgICAgNyBcbi0wLjEzOTk2NTEgIDAuMjQ2MDUwNyAgMC4xNDMzMzQyIFxuIn0= -->
+<pre><code>         1          2          3          4 
+-0.1683124 -0.1068513  0.3551982 -0.3294543 
+         5          6          7 
+-0.1399651  0.2460507  0.1433342 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="a-durbin-watson-test-contrastar-independencia." class="section level4">
+<h4>A) Durbin-Watson Test (CONTRASTAR INDEPENDENCIA).</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuICMjIHAudmFsdWU9MC44N1xuZHd0ZXN0KFRhbGxhX2hveSB+IHJlc2lkdWFscyhiYWJ5LmZpdDIyKSlcbmBgYCJ9 -->
+<pre class="r"><code> ## p.value=0.87
+dwtest(Talla_hoy ~ residuals(baby.fit22))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdER1cmJpbi1XYXRzb24gdGVzdFxuXG5kYXRhOiAgVGFsbGFfaG95IH4gcmVzaWR1YWxzKGJhYnkuZml0MjIpXG5EVyA9IDIuNjk5MSwgcC12YWx1ZSA9IDAuODY4NlxuYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogdHJ1ZSBhdXRvY29ycmVsYXRpb24gaXMgZ3JlYXRlciB0aGFuIDBcbiJ9 -->
+<pre><code>
+    Durbin-Watson test
+
+data:  Talla_hoy ~ residuals(baby.fit22)
+DW = 2.6991, p-value = 0.8686
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="contrastes-de-normalidad-univariada" class="section level4">
+<h4>CONTRASTES DE NORMALIDAD UNIVARIADA</h4>
+<p>normalidad de Errores</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2hhcGlyby50ZXN0KHJlc2lkdWFscyhiYWJ5LmZpdDIyKSkgIyMgcC52YWx1ZT0wLjU5XG5gYGAifQ== -->
+<pre class="r"><code>shapiro.test(residuals(baby.fit22)) ## p.value=0.59</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdFNoYXBpcm8tV2lsayBub3JtYWxpdHkgdGVzdFxuXG5kYXRhOiAgcmVzaWR1YWxzKGJhYnkuZml0MjIpXG5XID0gMC45MzQ3NCwgcC12YWx1ZSA9IDAuNTkxOVxuIn0= -->
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  residuals(baby.fit22)
+W = 0.93474, p-value = 0.5919</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5saWxsaWUudGVzdChyZXNpZHVhbHMoYmFieS5maXQyMikpICMjIHAudmFsdWU9MC4yOFxuYGBgIn0= -->
+<pre class="r"><code>
+lillie.test(residuals(baby.fit22)) ## p.value=0.28</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdExpbGxpZWZvcnMgKEtvbG1vZ29yb3YtU21pcm5vdikgbm9ybWFsaXR5XG5cdHRlc3RcblxuZGF0YTogIHJlc2lkdWFscyhiYWJ5LmZpdDIyKVxuRCA9IDAuMjM2ODYsIHAtdmFsdWUgPSAwLjI3NTNcbiJ9 -->
+<pre><code>
+    Lilliefors (Kolmogorov-Smirnov) normality
+    test
+
+data:  residuals(baby.fit22)
+D = 0.23686, p-value = 0.2753</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="c-contrastar-varianza-constante" class="section level4">
+<h4>c) CONTRASTAR VARIANZA CONSTANTE</h4>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5icHRlc3QoVGFsbGFfaG95fiBQZXNvX25hY2VyICsgVGFsbGFfbmFjZXIpXG5gYGAifQ== -->
+<pre class="r"><code>
+bptest(Talla_hoy~ Peso_nacer + Talla_nacer)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdHN0dWRlbnRpemVkIEJyZXVzY2gtUGFnYW4gdGVzdFxuXG5kYXRhOiAgVGFsbGFfaG95IH4gUGVzb19uYWNlciArIFRhbGxhX25hY2VyXG5CUCA9IDUuNDEwNCwgZGYgPSAyLCBwLXZhbHVlID0gMC4wNjY4NlxuIn0= -->
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  Talla_hoy ~ Peso_nacer + Talla_nacer
+BP = 5.4104, df = 2, p-value = 0.06686</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+</div>
+<div id="gqtestlmtalla_hoy-peso_nacer-talla_nacer-p.value0.07" class="section level2">
+<h2>gqtest(lm(Talla_hoy~ Peso_nacer + Talla_nacer))## p.value=0.07</h2>
+<div id="goldfeld-quandt-no-aplica-por-pocos-registros." class="section level3">
+<h3>Goldfeld-Quandt no aplica por pocos registros.</h3>
+<p>REPORTAR LOS valores.p de los contrastes concluir si se puede (o no se puede) interpreta la tabla ANOVA…</p>
+<!-- rnb-text-end -->
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIk1MUiBGb3J3YXJkIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KDQpOZWNlc3NhcnkgbGlicmFyaWVzIA0KDQpgYGB7cn0NCg0KbGlicmFyeShNQVNTKQ0KbGlicmFyeShsbXRlc3QpDQpsaWJyYXJ5KG5vcnRlc3QpDQoNCmBgYA0KDQpEYXRhRnJhbWUNCg0KYGBge3J9DQoNCmJhYmllczwtcmVhZC5jc3YoIkM6L1VzZXJzL3lvc2VmL09uZURyaXZlL0RvY3VtZW50cy9Fc3BfRXN0YWRpc3RpY2EvQXBwbGllZC1yZWdyZXNzaW9uLW1ldGhvZHMtL0NvcnJlbGF0aW9uL0V4YW1wbGVzL2JhYmllcy5jc3YiLCBoZWFkZXI9VCxzZXA9IjsiKQ0KYmFiaWVzDQphdHRhY2goYmFiaWVzKQ0KDQpgYGANCg0KRGltZW5zaW9uZXMgZGVsIERhdGFmcmFtZSANCg0KYGBge3J9DQoNCmRpbShiYWJpZXMpDQoNCmBgYA0KDQpEYXRhZnJhbWUgc3VtbWFyeQ0KDQpgYGB7cn0NCg0Kc3VtbWFyeShiYWJpZXMpDQoNCmBgYA0KIyMjIFBhc28gMS4gTW9kZWxvIE51bG8NCmBgYHtyfQ0KIyBTTFIgZGVsIG1vZGVsbyBudWxvDQpiYWJ5LmZpdDA8LWxtKFRhbGxhX2hveX4gMSkNCg0KIyBUYWJsYSBkZSBhbmFsaXNpcyBkZSB2YXJpYW56YSBkZWwgbW9kZWxvIG51bG8NCmFub3ZhKGJhYnkuZml0MCkNCg0KU0NFLjA9YW5vdmEoYmFieS5maXQwKVsxLDJdDQpjYXQoIlN1bWEgZGUgbG9zIGN1YWRyYWRvcyBkZWwgZXJyb3IgTW9kZWxvIG51bG86ICIsIFNDRS4wKQ0KYGBgDQoNCmBgYHtyfQ0Kc3VtbWFyeShiYWJ5LmZpdDApDQp5X2hhdCA8LSBtZWFuKFRhbGxhX2hveSk7DQpjYXQoInlfaGF0OiIsIHlfaGF0ICkNCmBgYA0KDQojIyMjIENhbGN1bG8gY29uY2VwdHVhbCBkZWwgU1NSbnVsbw0KDQpgYGB7cn0NCg0KIyBDYWxjdWxvIGRlIGxhIG1lZGlhIA0KDQptZWRpYSA8LSB5X2hhdA0KY2F0KCJMYSBtZWRpYSBlczogIiwgbWVkaWEsICJcbiIpDQoNCiMgQ2FjdWxvIGRlbCBsYXMgU3VtYXMgZGUgY3VhZHJhZG9zIGRlIGxhIHJlZ3Jlc2lvbg0KDQpTQ1IubnVsbz1zdW0oKFRhbGxhX2hveS1tZWRpYSleMikNCmNhdCgiTGFzIHN1bWEgZGUgY3VhZHJhZG9zIGRlIGxhIHJlZ3Jlc2lvbiBlczogIiwgU0NSLm51bG8sICJcbiIpDQoNCmFub3ZhKGJhYnkuZml0MCkNCg0KYGBgDQoNCiMjIyMgIlBhcnRpYWwgZiBUZXN0IiBlbiBTaGVhdGhlciAoMjAwOSksIHAuMTM3LiANCg0KYGBge3J9DQojIEYgY3JpdGljbyBtb2RlbG8gbnVsbyBwYXJhIGVsIDEwJQ0KDQpmLmNyaXRpY28xPC1xZigwLjkwLDEsNSkNCmNhdCgiRl9Dcml0aWNvIG1vZGVsbyBudWxvOiAiLCBmLmNyaXRpY28xICkNCg0KYGBgDQoNCiMjIyMgVFJFUyBSRUdSRVNJT05FUyBMSU5FQUxFUyBTSU1QTEVTDQoNCmBgYHtyfQ0KDQojIFJlZ3Jlc2lvbmVzIGxpbmVhbGVzIG5lY2VzYXJpYXMNCg0KYmFieS5maXQxMTwtbG0oVGFsbGFfaG95fiBUYWxsYV9uYWNlcikNCmJhYnkuZml0MTI8LWxtKFRhbGxhX2hveX4gUGVzb19uYWNlcikNCmJhYnkuZml0MTM8LWxtKFRhbGxhX2hveX4gVG9yYXhfbmFjZXIpDQoNCnByaW50KCJUYWxsYV9ob3l+IFRhbGxhX25hY2VyICIpDQphbm92YShiYWJ5LmZpdDExKQ0KDQpwcmludCgiVGFsbGFfaG95fiBQZXNvX25hY2VyIikNCmFub3ZhKGJhYnkuZml0MTIpDQoNCnByaW50KCJUYWxsYV9ob3l+IFRvcmF4X25hY2VyIikNCmFub3ZhKGJhYnkuZml0MTMpDQpgYGANCiMjIyMgZnBhcmNpYWwgU0hFQVRIRVINCg0KZnBhcmNpYWwuU0hFQVRIRVI9KFNDRShiZXRhMCktU0NFKGJldGEoaiksYmV0YTApKS9DTUUoYmV0YTAsWChqKSkNCg0KYGBge3J9DQoNClNDRS4wPC1hbm92YShiYWJ5LmZpdDApWzEsMl0NClNDRS4xMTwtYW5vdmEoYmFieS5maXQxMSlbMiwyXQ0KU0NFLjEyPC1hbm92YShiYWJ5LmZpdDEyKVsyLDJdDQpTQ0UuMTM8LWFub3ZhKGJhYnkuZml0MTMpWzIsMl0NCkNNRS4xMTwtYW5vdmEoYmFieS5maXQxMSlbMiwzXQ0KQ01FLjEyPC1hbm92YShiYWJ5LmZpdDEyKVsyLDNdDQpDTUUuMTM8LWFub3ZhKGJhYnkuZml0MTMpWzIsM10NCmNiaW5kKFNDRS4xMSxTQ0UuMTIsU0NFLjEzLENNRS4xMSxDTUUuMTIsQ01FLjEzKQ0KYGBgDQojIyMjIEPDoWxjdWxvcyBkZSBmcGFyY2lhbGVzDQoNCmBgYHtyfQ0KDQpmcGFyY2lhbC4xMT0oU0NFLjAtU0NFLjExKS9DTUUuMTENCmZwYXJjaWFsLjEyPShTQ0UuMC1TQ0UuMTIpL0NNRS4xMg0KZnBhcmNpYWwuMTM9KFNDRS4wLVNDRS4xMykvQ01FLjEzDQpjYmluZChmLmNyaXRpY28xLGZwYXJjaWFsLjExLCBmcGFyY2lhbC4xMiwgZnBhcmNpYWwuMTMpDQpgYGANCiMjIyMgUEFTTyAyIERFIEZPUldBUkQgQ09OIGZwYXJjaWFsLiBHVUFSREFSICJTQ0UuMTIiDQpTRSBFVkFMw5pBTiBET1MgTU9ERUxPUyBDT04gMiBDT1ZBUklBQkxFUywgQ0FEQSBVTk8NCg0KYGBge3J9DQpmLmNyaXRpY28yPC0gcWYoMC45LDIsNCkgDQpmLmNyaXRpY28yDQpgYGANCg0KIyMjIyBNT0RFTE9TIDIxIFkgMjINCg0KZnBhcmNpYWwyOiAoU0NFKGJldGEwLGJldGExKS1TQ0UoWChqKSxiZXRhMCxiZXRhMSkpL0NNRShYKGopLGJldGEwLGJldGExKQ0KDQojIyMjIGNvbiBUb3JheF9uYWNlcg0KDQpgYGB7cn0NCg0KYmFieS5maXQyMTwtbG0oVGFsbGFfaG95fiBQZXNvX25hY2VyICsgVG9yYXhfbmFjZXIpDQphbm92YShiYWJ5LmZpdDIxKQ0KU0NFLjIxPC1hbm92YShiYWJ5LmZpdDIxKVszLDJdDQpDTUUuMjE8LWFub3ZhKGJhYnkuZml0MjEpWzMsM10NCg0KYGBgDQoNCiMjIyMgY29uIFRhbGxhX25hY2VyDQoNCmBgYHtyfQ0KDQpiYWJ5LmZpdDIyPC1sbShUYWxsYV9ob3l+IFBlc29fbmFjZXIgKyBUYWxsYV9uYWNlcikNClNDRS4yMjwtYW5vdmEoYmFieS5maXQyMilbMywyXQ0KQ01FLjIyPC1hbm92YShiYWJ5LmZpdDIyKVszLDNdDQphbm92YShiYWJ5LmZpdDIyKQ0KY2JpbmQoU0NFLjIxLENNRS4yMSxTQ0UuMjIsQ01FLjIyKQ0KDQpgYGANCg0KIyMjIyBmcGFyY2lhbGVzIDIxIHkgMjINCg0KYGBge3J9DQoNCmZwYXJjaWFsLjIxPC0oU0NFLjEyLVNDRS4yMSkvQ01FLjIxDQpmcGFyY2lhbC4yMjwtKFNDRS4xMi1TQ0UuMjIpL0NNRS4yMg0KY2JpbmQoZi5jcml0aWNvMiwgZnBhcmNpYWwuMjEsIGZwYXJjaWFsLjIyKSANCg0KYGBgDQpFbCB1bmljbyBtb2RlbG8gcXVlIGN1eW8gciBwYXJjaWFsIGVzIG1heW9yIGFsIEYgY3JpdGljbyBlcyBlbCBtb2RlbG8gMiwyLkVzdGUgbW9kZWxvIGVzIG1lam9yIHF1ZSBlbCBtb2RlbG8gcXVlIHNvbG8gdGllbmUgUGVzbyBhbCBuYWNlcg0KDQojIyMjY29uY2x1c2nDs246IFPDk0xPIEVMIE1PREVMTyAyMiBFUyBNRUpPUiBRVUUgRUwgQUNUVUFMLCBFTCAxMi4NCg0KIyMgUEFTTyAyOiBNT0RFTE8gQ09OIENvdmFyaWFiZXMgIlBlc29fbmFjZXIiIHkgIlRhbGxhX25hY2VyIg0KDQpgYGB7cn0NCg0KYmFieS5maXQyMjwtbG0oVGFsbGFfaG95fiBQZXNvX25hY2VyICsgVGFsbGFfbmFjZXIpDQoNCmBgYA0KDQojIyMjIFBBU08gMyBERSBGT1JXQVJEIC4uLiAoR1VBUkRBUiBTQ0UuMjIpDQoNClPDs2xvIHF1ZWRhIGNoZXF1ZWFyIHNpIGVsIG1vZGVsbyBjb24gbGFzIDMgY292YXJpYWJsZXMNCmVzIG1lam9yIHF1ZSBlbCBtb2RlbG8gc8OzbG8gY29uIGVzdGFzIGRvcyBQUkVWSUFNRU5URSBFU0NPR0lEQVMuDQpgYGB7cn0NCg0KZmNyw610aWNvMzwtcWYoMC45LCAzLCAzKQ0KZmNyw610aWNvMw0Kc3VtbWFyeShiYWJpZXMpDQoNCmBgYA0KIyMjIyBhanVzdGFyIG1vZGVsbyBjb24gbGFzIDMgY292YXJpYWJsZXMNCg0KYGBge3J9DQoNCmJhYnkuZml0MzwtbG0oVGFsbGFfaG95fiBQZXNvX25hY2VyICsgVGFsbGFfbmFjZXIgKyBUb3JheF9uYWNlcikNCmFub3ZhKGJhYnkuZml0MykNCg0KYGBgDQoNCiMjIyMgb2J0ZW5lciBTQ0UuMyB5IENNRS4zDQoNCmBgYHtyfQ0KU0NFLjM8LWFub3ZhKGJhYnkuZml0MylbNCwyXQ0KQ01FLjM8LWFub3ZhKGJhYnkuZml0MylbNCwzXQ0KDQpgYGANCg0KDQojIyMjIENBTENVTEFSIGZwYXJjaWFsLjMNCg0KYGBge3J9DQoNCmZwYXJjaWFsLjM8LShTQ0UuMjItU0NFLjMpL0NNRS4zDQpjYmluZChmY3LDrXRpY28zLGZwYXJjaWFsLjMpDQoNCmBgYA0KQ29tbyBlbCBmY3JpdGljbyBlcyBtZW5vciBxdWUgZWwgZmFjaWFsIGVsIG1vZGVsbyBkZSAzIGNvdmFyaWFibGVzIG5vIGVzIG1lam9yIHF1ZSBlbCBtb2RlbG8gY29uIDIgdmFyaWFibGVzIHF1ZSBzb2xhbWV0bmUgdGllbmUgUGVzb19uY2FlciArIFRhbGxhIGEgbmFjZXINCg0KIyMjIyBlbCBtZWpvciBzdWJjb25qdW50byBkZSBwcmVkaWN0b3JhcyBVU0FORE8gRk9SV0FSRCBlcw0KDQpgYGB7cn0NCg0KYmFieS5maXQyMjwtbG0oVGFsbGFfaG95fiBQZXNvX25hY2VyICsgVGFsbGFfbmFjZXIpDQoNCmBgYA0KDQoNCiMjIyMgRXN0YW1vcyBVU0FORE8gYWxmYS5pbnB1dD0wLjEwDQojIyMgUGFzbyAzIHZhbGlkYXIgc3VwdWVzdG9zDQpWQUxJREFSIExPUyBTVVBVRVNUT1MgRU4gRUwgIk1FSk9SIiBNT0RFTE8gIERFIEZPUldBUkQuDQoNCmBgYHtyfQ0KDQpiYWJ5LmZpdDIyDQpzdW1tYXJ5KGJhYnkuZml0MjIpDQphbm92YShiYWJ5LmZpdDIyKQ0KcmVzaWR1YWxzKGJhYnkuZml0MjIpDQoNCmBgYA0KDQojIyMjIEEpIER1cmJpbi1XYXRzb24gVGVzdCAoQ09OVFJBU1RBUiBJTkRFUEVOREVOQ0lBKS4NCmBgYHtyfQ0KICMjIHAudmFsdWU9MC44Nw0KZHd0ZXN0KFRhbGxhX2hveSB+IHJlc2lkdWFscyhiYWJ5LmZpdDIyKSkNCg0KYGBgDQoNCiMjIyMgQ09OVFJBU1RFUyBERSBOT1JNQUxJREFEIFVOSVZBUklBREENCg0Kbm9ybWFsaWRhZCBkZSBFcnJvcmVzDQoNCmBgYHtyfQ0Kc2hhcGlyby50ZXN0KHJlc2lkdWFscyhiYWJ5LmZpdDIyKSkgIyMgcC52YWx1ZT0wLjU5DQpgYGANCg0KDQpgYGB7cn0NCg0KbGlsbGllLnRlc3QocmVzaWR1YWxzKGJhYnkuZml0MjIpKSAjIyBwLnZhbHVlPTAuMjgNCg0KYGBgDQoNCg0KIyMjIyBjKSBDT05UUkFTVEFSIFZBUklBTlpBIENPTlNUQU5URSANCg0KYGBge3J9DQoNCmJwdGVzdChUYWxsYV9ob3l+IFBlc29fbmFjZXIgKyBUYWxsYV9uYWNlcikNCg0KYGBgDQoNCg0KIyMgZ3F0ZXN0KGxtKFRhbGxhX2hveX4gUGVzb19uYWNlciArIFRhbGxhX25hY2VyKSkjIyBwLnZhbHVlPTAuMDcNCiMjIyBHb2xkZmVsZC1RdWFuZHQgbm8gYXBsaWNhIHBvciBwb2NvcyByZWdpc3Ryb3MuIA0KDQpSRVBPUlRBUiBMT1MgdmFsb3Jlcy5wIGRlIGxvcyBjb250cmFzdGVzDQpjb25jbHVpciBzaSBzZSBwdWVkZSAobyBubyBzZSBwdWVkZSkgaW50ZXJwcmV0YSBsYSB0YWJsYSBBTk9WQS4uLg0K</div>
 
 
 

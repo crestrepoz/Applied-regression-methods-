@@ -121,6 +121,8 @@ CME.3<-anova(baby.fit3)[4,3]
 #### CALCULAR fparcial.3
 fparcial.3<-(SCE.22-SCE.3)/CME.3
 cbind(fcrítico3,fparcial.3)
+# como el fcritico es menor que el facial el modelo de 3 covariables no es mejor
+# que el modelo con 2 variables que solametne tiene Peso_ncaer + Talla a nacer
 
 ######### el mejor subconjunto de predictoras USANDO FORWARD son...
 baby.fit22<-lm(Talla_hoy~ Peso_nacer + Talla_nacer)
