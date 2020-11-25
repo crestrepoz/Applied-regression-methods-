@@ -1,0 +1,190 @@
+---
+title: "R Forward MTCARS"
+output: html_notebook
+---
+
+```{r}
+
+data("mtcars")
+attach(mtcars)
+
+```
+### Paso 1. Modelo nulo
+```{r}
+
+#SLR modelo nulo
+
+mt.fit0 <- lm(mpg ~ 1)
+anova(mt.fit0)
+SCE.0=anova(mt.fit0)[1,2]
+cat("Suma de los cuadrados del error Modelo nulo: ", SCE.0)
+
+```
+
+```{r}
+y_hat <- mean(mpg);
+cat("y_hat:", y_hat )
+```
+
+#### Calculo conceptual del SSRnulo
+
+```{r}
+
+# Calculo de la media 
+
+media <- y_hat
+cat("La media es: ", media, "\n")
+
+# Caculo del las Sumas de cuadrados de la regresion
+
+SCR.nulo=sum((mpg-media)^2)
+cat("Las suma de cuadrados de la regresion es: ", SCR.nulo, "\n")
+
+
+```
+
+#### "Partial f Test" 
+
+```{r}
+# F critico modelo nulo para el 10%
+
+f.critico1<-qf(0.90,1,5)
+cat("F_Critico modelo nulo: ", f.critico1 )
+
+```
+
+#### TRES REGRESIONES LINEALES SIMPLES
+
+```{r}
+
+# Regresiones lineales necesarias
+
+mt.fit11<-lm(mpg~ wt)
+mt.fit12<-lm(mpg~ disp)
+mt.fit13<-lm(mpg~ hp)
+
+print("mpg ~ wt ")
+anova(mt.fit11)
+
+print("mpg~ disp")
+anova(mt.fit12)
+
+print("mpg~ hp")
+anova(mt.fit13)
+```
+#### fparcial SHEATHER
+
+
+```{r}
+
+SCE.0<-anova(mt.fit0)[1,2]
+SCE.11<-anova(mt.fit11)[2,2]
+SCE.12<-anova(mt.fit12)[2,2]
+SCE.13<-anova(mt.fit13)[2,2]
+CME.11<-anova(mt.fit11)[2,3]
+CME.12<-anova(mt.fit12)[2,3]
+CME.13<-anova(mt.fit13)[2,3]
+cbind(SCE.11,SCE.12,SCE.13,CME.11,CME.12,CME.13)
+```
+#### Cálculos de fparciales
+
+```{r}
+
+fparcial.11=(SCE.0-SCE.11)/CME.11
+fparcial.12=(SCE.0-SCE.12)/CME.12
+fparcial.13=(SCE.0-SCE.13)/CME.13
+cbind(f.critico1,fparcial.11, fparcial.12, fparcial.13)
+```
+#### PASO 2 DE FORWARD CON fparcial. GUARDAR "SCE.11" "wt"
+SE EVALÚAN DOS MODELOS CON 2 COVARIABLES, CADA UNO
+
+```{r}
+f.critico2<- qf(0.9,2,4) 
+f.critico2
+```
+
+#### MODELOS 21 Y 22
+
+#### con disp
+
+```{r}
+
+mt.fit21<-lm(mpg ~ wt + disp)
+anova(mt.fit21)
+SCE.21<-anova(mt.fit21)[3,2]
+CME.21<-anova(mt.fit21)[3,3]
+
+```
+
+#### con hp
+
+```{r}
+
+mt.fit22<-lm(mpg~ wt + hp)
+SCE.22<-anova(mt.fit22)[3,2]
+CME.22<-anova(mt.fit22)[3,3]
+anova(mt.fit22)
+cbind(SCE.21,CME.21,SCE.22,CME.22)
+
+```
+
+#### fparciales 21 y 22
+
+```{r}
+
+fparcial.21<-(SCE.12-SCE.21)/CME.21
+fparcial.22<-(SCE.12-SCE.22)/CME.22
+cbind(f.critico2, fparcial.21, fparcial.22) 
+
+```
+Elmodelo que cuyo r parcial es mayor al F critico es el modelo 22.Este modelo es mejor que el modelo que solo tiene a wt
+
+conclusión: tanto el modelo con 21 como el modelo 22 son mejores que el modelo 11 pero de esos 22 es el mejor
+
+
+## PASO 2: MODELO CON Covariabes "disp" y "wt"
+
+```{r}
+
+mt.fit22<-lm(mpg ~ wt + hp)
+
+```
+
+#### PASO 3 DE FORWARD ... (GUARDAR SCE.22)
+
+Sólo queda chequear si el modelo con las 3 covariables
+es mejor que el modelo sólo con estas dos PREVIAMENTE ESCOGIDAS.
+
+```{r}
+
+fcrítico3<-qf(0.9, 3, 3)
+fcrítico3
+
+```
+#### ajustar modelo con las 3 covariables
+
+```{r}
+
+mt.fit3<-lm(mpg ~ wt + hp + disp)
+anova(mt.fit3)
+
+```
+
+#### obtener SCE.3 y CME.3
+
+```{r}
+SCE.3<-anova(mt.fit3)[4,2]
+CME.3<-anova(mt.fit3)[4,3]
+
+```
+
+
+#### CALCULAR fparcial.3
+
+```{r}
+
+fparcial.3<-(SCE.22-SCE.3)/CME.3
+cbind(fcrítico3,fparcial.3)
+
+```
+Como el fcritico es mayor que el fparcial3 el modelo de 3 covariables no es mejor que el modelo con 2 variables dado por las variables wt y hp
