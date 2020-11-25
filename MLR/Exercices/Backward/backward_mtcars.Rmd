@@ -1,0 +1,104 @@
+---
+title: "MLR backward mtcars"
+output: html_notebook
+---
+
+```{r}
+data(mtcars)
+attach(mtcars)
+```
+
+
+#### PASO 0: AJUSTAR MODELO FULL (CON LAS TRES COVARIABLES)
+
+
+```{r}
+
+mt.fit3 <- lm(mpg~ wt + disp + hp)
+summary(mt.fit3)
+```
+
+```{r}
+SCReg.full<-sum(anova(mt.fit3)[1:3,2])
+SCReg.full
+```
+
+```{r}
+CME.full<-anova(mt.fit3)[4,3]
+CME.full
+anova(mt.fit3)
+```
+
+
+#### PASO 1: Eliminar una covariable de ser posible.
+
+COLOCAR f.crítico.1;;; n-r = n-(p+1)= 7-4=3
+
+
+```{r}
+
+df1 = 1
+df2 = nrow(mtcars)-ncol(mtcars)
+
+
+f.critico.1.back<-qf(0.99,df1,df2)
+f.critico.1.back  
+
+```
+
+Se elimina la covariable con Fparcial  menor que 8.016597
+CALCULAR 3 valores de fparcial.1.back
+
+#### a) AJUSTAMOS LOS 3 MODELOS CON DOS COVARIABLES
+X1: wt;;; X2: hp;; X3: disp
+
+```{r}
+cat(red("mpg ~ wt + hp\n"))
+
+mt.fit12<-lm(mpg~ wt + hp)
+anova(mt.fit12)
+
+cat(red("mpg~ wt + disp\n"))
+
+mt.fit13<-lm(mpg~ wt + disp)
+anova(mt.fit13)
+
+cat(red("mpg~ hp + disp\n"))
+
+mt.fit23<-lm(mpg~ hp + disp)
+anova(mt.fit23)
+```
+
+
+#### b) CALCULAMOS SCReg de los 3 modelos
+
+```{r}
+
+SCReg.12<-sum(anova(mt.fit12)[1:2,2])
+
+SCReg.13<-sum(anova(mt.fit13)[1:2,2])
+
+SCReg.23<-sum(anova(mt.fit23)[1:2,2])
+
+
+```
+
+
+#### c) CALCULAMOS tres fparciales
+
+fparcial.sin.3<-(SCReg.full-SCReg.12)/(1)/(SCE.full/g.l.)
+
+```{r}
+
+fparcial.sin.3<-(SCReg.full-SCReg.12)/CME.full
+
+fparcial.sin.2<-(SCReg.full-SCReg.13)/CME.full
+
+fparcial.sin.1<-(SCReg.full-SCReg.23)/CME.full
+
+decidir.paso1.B<-cbind(f.critico.1.back, fparcial.sin.3,fparcial.sin.2,fparcial.sin.1 )
+decidir.paso1.B
+
+```
+Podemos ver que apartir de los Fparciales es posible descartar los 2 modelos  que contienen el hp y el disp
+
