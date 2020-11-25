@@ -1,0 +1,83 @@
+---
+title: "R2 atomatico"
+output: html_notebook
+---
+
+Carga de librerias
+```{r}
+
+library(MASS)
+library(lmtest)
+library(nortest)
+library(crayon)
+
+```
+
+
+Carga del DataFrame
+
+
+```{r}
+
+babies<-read.csv("C:/Users/yosef/OneDrive/Documents/Esp_Estadistica/Applied-regression-methods-/Correlation/Examples/babies.csv", header=T,sep=";")
+babies
+attach(babies)
+
+```
+
+
+
+```{r}
+
+# varRepuesta es la variables y respuesta del DF
+# DF: DataFrame solamente contiene las covariables
+
+R2Ajustado <- function(varRespuesta,DF){
+  
+  
+  nameVarRespuesta <- names(varRespuesta)
+  namesDF <- names(DF)
+  table <- assign("list", NULL, envir = .GlobalEnv)
+  
+  #SLR 
+  
+  for(val in 1:length(DF)){
+    
+  SLR <- summary(lm(as.double(unlist(varRespuesta)) ~ as.double(unlist(DF[val]))))
+  columnas <- cbind(SLR$r.squared,SLR$adj.r.squared)
+  table <- rbind(table,columnas)
+  print(names(DF[val]))
+  
+  }
+  
+  #MLR
+  
+  for (i in 1:2){
+  
+    for (j in i+1:3){
+  
+      MLR <- summary(lm(as.double(unlist(varRespuesta)) ~ as.double(unlist(DF[i])) + as.double(unlist(DF[j])) ))
+      columnas <- cbind(MLR$r.squared,MLR$adj.r.squared)
+      table <- rbind(table,columnas)
+
+    }
+
+  }
+  
+  print(table)
+  
+}
+
+```
+
+
+
+```{r}
+
+varRespuesta <- babies[1]
+DF <- babies[3:5];
+
+R2Ajustado(varRespuesta,DF)
+
+```
+

@@ -1,0 +1,24 @@
+---
+title: "R2 atomatico"
+output: html_notebook
+---
+
+Carga de librerias
+```{r}
+
+library(MASS)
+library(lmtest)
+library(nortest)
+library(crayon)
+
+```
+
+
+Carga del DataFrame
+
+
+```{r}
+
+
+```
+

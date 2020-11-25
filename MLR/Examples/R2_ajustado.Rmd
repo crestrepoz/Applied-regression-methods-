@@ -25,7 +25,6 @@ attach(babies)
 
 ```
 
-
 Dimensiones del Dataframe 
 
 ```{r}
@@ -48,15 +47,19 @@ Datos del R2 del dataframe
 
 ```{r}
 
+
+
 #SLR
 pesoNacer <- summary(lm(Talla_hoy ~ Peso_nacer))
 pesoNacer_c<- cbind(pesoNacer$r.squared, pesoNacer$adj.r.squared)
 
-tallNacer <- summary(lm(Talla_hoy ~ Talla_nacer))
-tallNacer_c <- cbind(tallNacer$r.squared, tallNacer$adj.r.squared)
+tallaNacer <- summary(lm(Talla_hoy ~ Talla_nacer))
+tallaNacer_c <- cbind(tallaNacer$r.squared, tallaNacer$adj.r.squared)
 
 toraxNacer <- summary(lm(Talla_hoy ~ Torax_nacer))
 toraxNacer_c <- cbind(toraxNacer$r.squared, toraxNacer$adj.r.squared)
+
+
 
 #MLR
 
@@ -66,8 +69,8 @@ pesoTallaNacer_c <- cbind(pesoTallaNacer$r.squared, pesoTallaNacer$adj.r.squared
 pesoToraxNacer <- summary(lm(Talla_hoy ~ Peso_nacer + Torax_nacer))
 pesoToraxNacer_c <- cbind(pesoToraxNacer$r.squared, pesoToraxNacer$adj.r.squared)
 
-tallToraxNacer <- summary(lm(Talla_hoy ~ Talla_nacer + Torax_nacer))
-tallToraxNacer_c <- cbind(tallToraxNacer$r.squared, tallToraxNacer$adj.r.squared)
+tallaToraxNacer <- summary(lm(Talla_hoy ~ Talla_nacer + Torax_nacer))
+tallaToraxNacer_c <- cbind(tallaToraxNacer$r.squared, tallaToraxNacer$adj.r.squared)
 
 pesoTallaToraxNacer <- summary(lm(Talla_hoy ~ Peso_nacer + Talla_nacer + Torax_nacer))
 pesoTallaToraxNacer_c <- cbind(pesoTallaToraxNacer$r.squared, pesoTallaToraxNacer$adj.r.squared)
@@ -79,7 +82,7 @@ pesoTallaToraxNacer_c <- cbind(pesoTallaToraxNacer$r.squared, pesoTallaToraxNace
 
 ```{r}
 
-tablaR2 <- rbind(pesoNacer_c, tallNacer_c ,toraxNacer_c, pesoTallaNacer_c, pesoToraxNacer_c, tallToraxNacer_c, pesoTallaToraxNacer_c )
+tablaR2 <- rbind(pesoNacer_c, tallaNacer_c ,toraxNacer_c, pesoTallaNacer_c, pesoToraxNacer_c, tallaToraxNacer_c, pesoTallaToraxNacer_c )
 
 colnames(tablaR2) <- c("R2   ", "R2 ajustado")
 rownames(tablaR2) <- c("pesoNacer", "tallNacer", "toraxNacer", "pesoTallaNacer", "pesoToraxNacer", "tallToraxNacer", "pesoTallaToraxNacer"  )
