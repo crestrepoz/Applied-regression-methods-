@@ -1,0 +1,78 @@
+##########################################################################
+#####################################################
+######### UNIVERSIDAD NACIOANL DE COLOMBIA, SEDE BOGOTÁ.
+######### DEPARTAMENTO DE ESTADÍSTICA.
+############PROFESOR: LUIS FERNANDO GRAJALES H. ####
+### Enviarme correcciones o inquietudes a 
+############ lfgrajalesh@unal.edu.co
+###### NOVIEMBRE del 2020. CURSO: MODELOS DE REGRESIÓN.
+####### R version 4.0.3
+#### EJEMPLOS DE regresión lineal MÚLTIPLE.
+library(MASS)
+library(lmtest)
+##############################################################
+################ OTROS DATOS PARA Cp de MALLOWS, INFORMACIÓN Y PRESS
+#### REGRESIÓN intento 2 DATOS DE de Schmidt Econometría STATEED
+library(MASS)
+library(lmtest)
+library(nortest)
+######## SCHMIDT 1 STATEED (stateaid vs 3 covariables)
+STATE.econo<-read.table("c:/Datos.clase/Schmidt_stateed.csv", header=T,sep=";")
+summary(STATE.econo)
+head(STATE.econo)
+attach(STATE.econo)
+dim(STATE.econo)
+
+############ R^2 , R^2(aj), Cp Mallows, INFORMACIÓN
+############################################################
+require(stats); require(graphics)
+## pairs(STATE.econo[,-1], panel = panel.smooth, main = "state.Schmidt data") 
+# pairs(babies[,-1],main = "state.Schmidt data")
+summary(STATE.econo)
+STATE.full.fit<-lm(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+summary(STATE.full.fit)
+library(leaps)
+elegir<-regsubsets(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+summary(elegir)
+# plot a table of models showing variables in each model.
+# models are ordered by the selection statistic.
+par(mfrow=c(2,2))
+plot(elegir,scale="r2", main="lfgrajalesh. Apoyo a diapositivas. (R^2, Datos STATE.Schmidt).")
+plot(elegir,scale="adjr2", main="lfgrajalesh. Apoyo a diapositivas. (R^2.ajust, Datos STATE.Schmidt).")
+plot(elegir, scale="Cp", main="lfgrajalesh. Apoyo a diapositivas. (Cp, Datos STATE.Schmidt).")
+plot(elegir,scale="bic", main="lfgrajalesh. Apoyo a diapositivas. (BIC, Datos STATE.Schmidt).")
+
+########### Más AIC, BIC, Cp
+rs<-summary(elegir)
+plot(2:5,rs$cp,xlab="No. de parámetros",ylab="Estadístico Cp")
+abline(0,1)
+plot(2:5,rs$adjr2,xlab="No. de parámetros",ylab="R_2 ajustado")
+abline(0,1)
+#escoger el Cp más pequeño alrededor p #
+#2. Selección de modelos con AIC y BIC #
+STATE.full.fit<-lm(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+cbind(extractAIC(STATE.full.fit) ,extractAIC(STATE.full.fit,k=log(50)))
+extractAIC(STATE.full.fit)  ### AIC de modelo full
+step(STATE.full.fit)        #### Backward con AIC
+extractAIC(STATE.full.fit,k=log(50)) ### BIC de modelo full
+step(STATE.full.fit,k=log(50))### Backward con BIC
+#### RESUMEN: COVARIABLES POR AIC y BIC (coinciden) ELDERLY y SCHOOLAGE
+######## Sigue validar supuestos con este modelo.
+########
+STATE.fit.14<-lm(STATEAID ~ ELDERLY + SCHOOLAGE, data = STATE.econo)
+summary(STATE.fit.14)
+####### USAREMOS ALPHA DE 0.10
+resid.14<-residuals(STATE.fit.14) 
+summary(resid.14)
+########## COMIENZO A VALIDAR SUPUESTOS.
+shapiro.test(resid.14) ## normalidad SW valor.p = 0.48
+lillie.test(resid.14) ### normalidad L valor.p = 0.83
+bptest(lm(STATEAID~INCOME+SCHOOLAGE)) ### Test Breusch-Pagan valor.p =0.39
+gqtest(lm(STATEAID~INCOME+SCHOOLAGE)) ### Test Goldfeld-Quandt valor.p=63
+dwtest(STATEAID ~ resid.14) # Durbin Watson independencia valor.p=0.45
+### EN RESUMEN: SE CUMPLEN LOS SUPUESTOS.
+### ¿Los betas son significativamente distintos de cero?
+summary(STATE.fit.14)## valores p: 0.01 para ELDERLY y 0.042 SCHOOLAGE.
+######### INTERPRETAR!!!
+######LEER UNIDADES DEL LIBRO DE SCHMIDT.
+# Modelo ajustado y_estim(i)= 6552.43 -150.75*ELDELY(i) -126.3*SCHOOLAGE(i)

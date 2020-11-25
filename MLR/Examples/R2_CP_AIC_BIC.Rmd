@@ -1,0 +1,213 @@
+---
+title: "R^2 , R^2(aj), Cp Mallows STATEED"
+output: html_notebook
+---
+
+
+```{r}
+
+library(MASS)
+library(lmtest)
+library(nortest)
+library(leaps)
+
+```
+
+
+#### SCHMIDT 1 STATEED (stateaid vs 3 covariables)
+
+```{r}
+STATE.econo <- read.csv("C:/Users/yosef/OneDrive/Documents/Esp_Estadistica/Applied-regression-methods-/MLR/Dataframes/stateed.csv", header=T,sep=";")
+attach(STATE.econo)
+head(STATE.econo)
+
+```
+
+```{r}
+
+require(stats)
+require(graphics)
+
+```
+
+
+pairs(STATE.econo[,-1], panel = panel.smooth, main = "state.Schmidt data") 
+pairs(babies[,-1],main = "state.Schmidt data")
+
+```{r}
+
+summary(STATE.econo)
+
+```
+
+```{r}
+STATE.full.fit<-lm(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+summary(STATE.full.fit)
+```
+
+```{r}
+elegir<-regsubsets(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+summary(elegir)
+
+```
+
+plot a table of models showing variables in each model.
+models are ordered by the selection statistic.
+
+```{r}
+par(mfrow=c(1,2))
+plot(elegir,scale="r2", main="R^2, Datos STATE.Schmidt).")
+plot(elegir,scale="adjr2", main="(R^2.ajust, Datos STATE.Schmidt).")
+```
+
+```{r}
+par(mfrow=c(1,2))
+plot(elegir, scale="Cp", main="(Cp, Datos STATE.Schmidt).")
+plot(elegir,scale="bic", main="(BIC, Datos STATE.Schmidt).")
+```
+##### Más AIC, BIC, Cp
+
+```{r}
+rs<-summary(elegir)
+plot(2:5,rs$cp,xlab="No. de parámetros",ylab="Estadístico Cp")
+abline(0,1)
+plot(2:5,rs$adjr2,xlab="No. de parámetros",ylab="R_2 ajustado")
+abline(0,1)
+```
+
+escoger el Cp más pequeño alrededor p 
+
+2. Selección de modelos con AIC y BIC 
+
+
+```{r}
+
+STATE.full.fit<-lm(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+cbind(extractAIC(STATE.full.fit) ,extractAIC(STATE.full.fit,k=log(50)))
+```
+
+```{r}
+
+extractAIC(STATE.full.fit)  ### AIC de modelo full
+```
+
+```{r}
+step(STATE.full.fit)        #### Backward con AIC
+```
+
+```{r}
+extractAIC(STATE.full.fit,k=log(50)) ### BIC de modelo full
+```
+
+```{r}
+step(STATE.full.fit,k=log(50))### Backward con BIC
+
+```
+
+
+RESUMEN: COVARIABLES POR AIC y BIC (coinciden) ELDERLY y SCHOOLAGE
+Sigue validar supuestos con este modelo.
+
+```{r}
+STATE.fit.14<-lm(STATEAID ~ ELDERLY + SCHOOLAGE, data = STATE.econo)
+summary(STATE.fit.14)
+
+```
+
+USAREMOS ALPHA DE 0.10
+```{r}
+
+
+resid.14<-residuals(STATE.fit.14) 
+summary(resid.14)
+
+```
+
+
+
+COMIENZO A VALIDAR SUPUESTOS.
+
+```{r}
+ValidarSupuestos <- function (respuesta ,modelo,confianza){
+  
+  # Test de normalidad
+  shapiro <- shapiro.test(modelo$residuals)
+  shapiro <- shapiro$p.value
+  
+  lillie <- lillie.test(modelo$residuals)
+  lillie <- lillie$p.value
+  
+  if((shapiro > confianza) & (lillie > confianza)){
+    
+    print("Existe normaliadad y blablabla")
+    
+  }else{
+    
+    print("No Existe normaliadad y blablabla")
+  }
+  
+  # Test de algo jummm
+  
+  baruch <- bptest(modelo) ### Test Breusch-Pagan valor.p =0.39
+  baruch <- baruch$p.value
+
+  golfred <- gqtest(modelo)
+  golfred <- golfred$p.value
+
+  if((baruch > confianza) & (golfred > confianza)){
+    
+    print("Existe homocet y blablabla")
+    
+  }else{
+    
+    print("No Existe homocet y blablabla")
+  }
+  
+  indepenencia <- dwtest(STATEAID ~ modelo$residuals)
+  indepenencia <- indepenencia$p.value
+  
+  if(indepenencia > confianza){
+    
+    print("hay independencia")
+    
+  }else{
+    
+    print("No hay independencia")
+  }
+  
+  tabla <- rbind(shapiro, lillie, baruch, golfred, indepenencia)
+  rownames(tabla) <- c("shapiro", "lillie", "baruch", "golfred", "independencia")
+  colnames(tabla) <- c("p.value")
+  print(tabla)
+  
+} 
+```
+
+```{r}
+
+ValidarSupuestos(STATEAID,STATE.fit.14,0.05)
+```
+
+```{r}
+
+ValidarSupuestos(STATEAID,lm(STATEAID~INCOME+SCHOOLAGE),0.05)
+
+```
+
+
+shapiro.test(resid.14) ## normalidad SW valor.p = 0.48
+lillie.test(resid.14) ### normalidad L valor.p = 0.83
+bptest(lm(STATEAID~INCOME+SCHOOLAGE)) ### Test Breusch-Pagan valor.p =0.39
+gqtest(lm(STATEAID~INCOME+SCHOOLAGE)) ### Test Goldfeld-Quandt valor.p=63
+dwtest(STATEAID ~ resid.14) # Durbin Watson independencia valor.p=0.45
+### EN RESUMEN: SE CUMPLEN LOS SUPUESTOS.
+### ¿Los betas son significativamente distintos de cero?
+summary(STATE.fit.14)## valores p: 0.01 para ELDERLY y 0.042 SCHOOLAGE.
+######### INTERPRETAR!!!
+######LEER UNIDADES DEL LIBRO DE SCHMIDT.
+# Modelo ajustado y_estim(i)= 6552.43 -150.75*ELDELY(i) -126.3*SCHOOLAGE(i)
+```
+
+
+
+
