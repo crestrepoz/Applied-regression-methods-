@@ -36,9 +36,12 @@ R2Ajustado <- function(varRespuesta,DF){
   
   
   nameVarRespuesta <- names(varRespuesta)
-  namesDF <- names(DF)
+  namesDF <- as.list(names(DF))
+  namesTable <- namesDF
+  
   table <- assign("list", NULL, envir = .GlobalEnv)
   
+
   #SLR 
   
   for(val in 1:length(DF)){
@@ -46,26 +49,47 @@ R2Ajustado <- function(varRespuesta,DF){
   SLR <- summary(lm(as.double(unlist(varRespuesta)) ~ as.double(unlist(DF[val]))))
   columnas <- cbind(SLR$r.squared,SLR$adj.r.squared)
   table <- rbind(table,columnas)
-  print(names(DF[val]))
+
   
   }
   
   #MLR
+
   
-  for (i in 1:2){
+  for ( i in 1:length(DF)){
   
-    for (j in i+1:3){
-  
+    j <- i + 1
+    
+    
+    if (j == length(DF)+1){
+      break;
+    }
+    
+    
+    for ( j in j:length(DF)){
+ 
       MLR <- summary(lm(as.double(unlist(varRespuesta)) ~ as.double(unlist(DF[i])) + as.double(unlist(DF[j])) ))
       columnas <- cbind(MLR$r.squared,MLR$adj.r.squared)
       table <- rbind(table,columnas)
-
+      
+      
+      
     }
-
+    
   }
   
-  print(table)
   
+  # Full
+
+  FULL <- summary(lm(as.double(unlist(varRespuesta)) ~ as.double(unlist(DF[1])) + as.double(unlist(DF[2])) +  as.double(unlist(DF[3])) ))
+  columnas <- cbind(FULL$r.squared,FULL$adj.r.squared)
+  table <- rbind(table,columnas)
+  
+  
+  colnames(table) <- c("R2   ", "R2 ajustado")
+  
+  print(table)
+ 
 }
 
 ```
