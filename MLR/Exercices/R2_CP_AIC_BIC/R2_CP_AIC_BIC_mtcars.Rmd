@@ -10,8 +10,11 @@ library(MASS)
 library(lmtest)
 library(nortest)
 library(leaps)
+require(stats)
+require(graphics)
 
 ```
+
 
 
 #### SCHMIDT 1 STATEED (mpg vs 3 covariables)
@@ -23,12 +26,7 @@ head(mtcars)
 
 ```
 
-```{r}
 
-require(stats)
-require(graphics)
-
-```
 
 
 ```{r}
@@ -49,20 +47,39 @@ summary(elegir)
 
 ```
 
-plot a table of models showing variables in each model.
-models are ordered by the selection statistic.
+
 
 ```{r}
 par(mfrow=c(1,2))
-plot(elegir,scale="r2", main="R^2, Datos mtcars.")
+# plot(elegir,scale="r2", main="R^2, Datos mtcars.")
 plot(elegir,scale="adjr2", main="R^2.ajust, Datos mtcars.")
 ```
+#### CP de Mallows:
+
+Para el analisis del CP debemos recordar elegir al modelo que sea mejor o igual al P del modelo.
+
+Para mt cars las covariables son 3, ( wt, hp, disp ), es decir P = 4
+
+Recordar que par el CP de Mallows el P = Covariables + 1
 
 ```{r}
-par(mfrow=c(1,2))
+
 plot(elegir, scale="Cp", main="Cp, Datos mtcars.")
+
+```
+Por ende podemos decir que el modelo propuesto que mejor explica a mpg mediante la metodologia del CP de Mallows es:
+
+mpg = B0 + B1 * wt + B2 * hp
+
+#### BIC:
+
+```{r}
 plot(elegir,scale="bic", main="BIC, Datos mtcars.")
 ```
+Por ende podemos decir que el modelo propuesto que mejor explica a mpg mediante la metodologia BIC es:
+
+mpg = B0 + B1 * wt + B2 * hp
+
 ##### Más AIC, BIC, Cp
 
 ```{r}
@@ -103,11 +120,11 @@ step(mt.fit)        #### Backward con AIC
 El modelo candidato que mejor explica mpg usando AIC en backwards, son wt y hp, ahora debemos validar supuestos
 
 ```{r}
-extractAIC(mt.fit,k=log(50)) ### BIC de modelo full
+extractAIC(mt.fit,k=log(nrow(mtcars))) ### BIC de modelo full
 ```
 
 ```{r}
-step(mt.fit,k=log(50))### Backward con BIC
+step(mt.fit,k=log(nrow(mtcars)))### Backward con BIC
 
 ```
 

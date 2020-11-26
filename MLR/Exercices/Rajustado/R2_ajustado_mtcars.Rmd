@@ -1,5 +1,5 @@
 ---
-title: "R2 ajustadi mtcars"
+title: "R2 ajustado mtcars"
 output: html_notebook
 ---
 

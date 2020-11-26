@@ -2,7 +2,7 @@
 title: "R Forward MTCARS"
 author: "Yosef Guevara Salamanca"
 date: "26/11/2020"
-output: html_document
+output: pdf_document
 ---
 
 
@@ -280,7 +280,7 @@ ValidarSupuestos <- function (respuesta ,modelo,confianza){
   lillie <- lillie.test(modelo$residuals)
   lillie <- lillie$p.value
   
-    ifelse((shapiro > confianza) & (lillie > confianza), print("Normalidad de los residuales, no se rechaza H0"), print("No existe normalidad de los residuales, se rechaza H0"))
+  ifelse((shapiro > confianza) & (lillie > confianza), print("Normalidad de los residuales, no se rechaza H0"), print("No existe normalidad de los residuales, se rechaza H0"))
   
   # Test de homocedasticidad (varianza constante de los residuales)
   

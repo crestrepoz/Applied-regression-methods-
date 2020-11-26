@@ -35,7 +35,7 @@ forward <- function(df, y, alfa = 0.1) {
     for (i in cov){
       fit <- lm(as.formula(paste(y,"~", i)), data = df)
       SSE <- sum(residuals(fit)^2)
-      CME <- SSE /(n-2)
+      CME <- SSE /(n-2) # revisar
       fparcial<-(SSE.actual-SSE)/CME
       F.parcial[i] = fparcial
     }
