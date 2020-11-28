@@ -1,0 +1,322 @@
+---
+title: "R Forward MTCARS"
+author: "Yosef Guevara Salamanca"
+date: "26/11/2020"
+output: pdf_document
+---
+
+
+```{r}
+library(lmtest)
+library(MASS)
+library(nortest)
+```
+
+
+```{r}
+
+data("mtcars");
+attach(mtcars);
+
+```
+### Paso 1. Modelo nulo
+
+Realizaremos el análisis del modelo nulo para extraer la suma de los errores cuadrados SCE para ser utilizada como medida comparativa para encontrar una covariable que explique mejor a "mpg" que el modelo nulo
+
+```{r}
+
+#SLR modelo nulo
+
+mt.fit0 <- lm(mpg ~ 1)
+anova(mt.fit0)
+SCE.0=anova(mt.fit0)[1,2]
+cat("Suma de los cuadrados del error Modelo nulo: ", SCE.0)
+
+```
+
+```{r}
+y_hat <- mean(mpg);
+cat("y_hat:", y_hat )
+```
+
+#### Calculo conceptual del SSRnulo
+
+
+```{r}
+
+# Calculo de la media 
+
+media <- y_hat
+cat("La media es: ", media, "\n")
+
+# Caculo del las Sumas de cuadrados de la regresion
+
+SCR.nulo = sum ( (mpg-media)^2 )
+cat("Las suma de cuadrados de la regresion es: ", SCR.nulo, "\n")
+
+
+```
+
+#### "Partial f Test" 
+
+
+Se realiza el cálculo del Fcritico que nos servirá como medida comparativa para identifica un mejor modelo, para ellos se definen los siguientes parametros
+
+- Alpha: un alpha input de alpha <- 0.01
+- df1: Los grados de libertad dados por la suma de cuadrados de la regresion; (1)
+- df2: Los grados de liberdad dados por la suma de cuadrados de error (n-2)
+
+
+```{r}
+# F critico modelo nulo para el 10%
+
+
+alpha <- 0.05
+
+f.critico1<-qf( 1- alpha , 1 , 50 )
+cat("F_Critico modelo nulo: ", f.critico1 )
+
+```
+
+#### TRES REGRESIONES LINEALES SIMPLES
+
+Se realiza el calculo de los modelos SLR para cada covariable 
+
+```{r}
+
+# Regresiones lineales necesarias
+
+mt.fit11<-lm(mpg~ wt)
+mt.fit12<-lm(mpg~ disp)
+mt.fit13<-lm(mpg~ hp)
+
+print("mpg ~ wt ")
+anova(mt.fit11)
+
+print("mpg~ disp")
+anova(mt.fit12)
+
+print("mpg~ hp")
+anova(mt.fit13)
+```
+#### fparcial
+
+Se extrer la suma cuadrados de los residuales, el cuadrado medio del error de todos los SLR y del modelo nulo.
+
+```{r}
+
+
+# SCE Modelo nulo
+
+SCE.0<-anova(mt.fit0)[1,2]
+
+# SCE SLR
+SCE.11<-anova(mt.fit11)[2,2]
+SCE.12<-anova(mt.fit12)[2,2]
+SCE.13<-anova(mt.fit13)[2,2]
+
+# CME SLR
+
+CME.11<-anova(mt.fit11)[2,3]
+CME.12<-anova(mt.fit12)[2,3]
+CME.13<-anova(mt.fit13)[2,3]
+
+cbind(SCE.11,SCE.12,SCE.13,CME.11,CME.12,CME.13)
+```
+#### Cálculos de fparciales
+
+Se realiza el calculo de los Fparciales
+
+```{r}
+
+fparcial.11=(SCE.0-SCE.11)/CME.11
+fparcial.12=(SCE.0-SCE.12)/CME.12
+fparcial.13=(SCE.0-SCE.13)/CME.13
+cbind(f.critico1,fparcial.11, fparcial.12, fparcial.13)
+```
+Gracias al anterior paso evidenciamos que el fparcial.11 (wt) es es mas grande para todas las covaraibles que pueden explicar a mpg, por ende el modelo dado por lm(mpg ~ wt) explica mejor a mpg que el modelo nulo.
+
+
+#### PASO 2. Evaluacion de modelos con 2 covariables
+
+Para encontrar si es posible explicar de una mejor forma la variable de salida mpg mediante un modelo con 2 covariables calcularemos un segundo f.critico, bajo la siguiente premisa.
+
+G.L SST = 50 - 1
+G.L SSR = 2 parametros 
+G.L SSE = 50 - 1 - 2   
+
+```{r}
+
+f.critico2<- qf(1- alpha , 2 ,47 ) 
+f.critico2
+```
+
+#### MODELOS 21 Y 22
+
+#### con disp
+
+Se rocede a evaluar wt y disp como covariables
+
+```{r}
+
+mt.fit21<-lm(mpg ~ wt + disp)
+anova(mt.fit21)
+SCE.21<-anova(mt.fit21)[3,2]
+CME.21<-anova(mt.fit21)[3,3]
+
+```
+
+#### con hp
+
+Se rocede a evaluar wt y hp como covariables
+
+```{r}
+
+mt.fit22<-lm(mpg~ wt + hp)
+SCE.22<-anova(mt.fit22)[3,2]
+CME.22<-anova(mt.fit22)[3,3]
+anova(mt.fit22)
+
+```
+#########################################
+
+```{r}
+
+cbind(SCE.21,CME.21,SCE.22,CME.22)
+
+```
+
+
+#### fparciales 21 y 22
+
+Para verificar cual de los 2 modelos con 2 covaraiables es mejor calculamos los fparciales  vs el fcritico de modelo con la cavarible "wt"
+
+```{r}
+
+fparcial.21<-(SCE.12-SCE.21)/CME.21
+fparcial.22<-(SCE.12-SCE.22)/CME.22
+
+cbind(f.critico2, fparcial.21, fparcial.22) 
+```
+
+
+Elmodelo que cuyo fparcial es mayor al f.critico2 es el modelo 22.Este modelo es mejor que el modelo que solo tiene a wt
+
+Conclusión: Tanto el modelo con 21 como el modelo 22 son mejores que el modelo 11 pero de estos 2 el mejor que contiene a las covariables wt y hp
+
+
+#### Posible modelo con las covariabes "wt" y "hp"
+
+```{r}
+
+mt.fit22<-lm(mpg ~ wt + hp)
+summary(mt.fit22)
+
+```
+
+#### PASO 3 DE FORWARD ... (GUARDAR SCE.22)
+
+Sólo queda chequear si el modelo con las 3 covariables
+es mejor que el modelo que solo selecciona las covaribales wt y hp. Para ello calculamos un f.critico con los siguientes parametros
+
+G.L SST = 50 - 1
+G.L SSR = 3 parametros 
+G.L SSE = G.L SST - G.L SSR  = 46
+
+```{r}
+
+
+f.critico3<- qf(1- alpha , 3 , 46 ) 
+f.critico3
+
+```
+#### Se ajusta modelo con las 3 covariables
+
+```{r}
+
+mt.fit3<-lm(mpg ~ wt + hp + disp)
+anova(mt.fit3)
+
+```
+
+#### Se obtiene SCE.3 y CME.3 del modelo con 3 covaraibles
+
+```{r}
+SCE.3<-anova(mt.fit3)[4,2]
+CME.3<-anova(mt.fit3)[4,3]
+
+```
+
+
+#### Calculo del  fparcial.3
+
+```{r}
+
+fparcial.3<-(SCE.22-SCE.3)/CME.3
+cbind(f.critico3,fparcial.3)
+
+```
+Como el fcritico 3 es mayor que el fparcial.3 el modelo propuesto con  3 covariables no es mejor que el modelo con 2 variables dado por las variables wt y hp
+
+Por ende podemos decir que el modelo propuesto que mejor explica a mpg mediante la metodologia forward es:
+
+mpg = B0 + B1 * wt + B2 * hp
+
+
+### Validacion de supuestos
+
+Para la validacion de los de supuestos, se utiliza el modelo propuesto modelo y sus residuales, para lo cual se ha creado la siguiente funcion.
+
+```{r}
+ValidarSupuestos <- function (respuesta ,modelo,confianza){
+  
+  print("En conclusión: ")
+  
+  # Test de normalidad de los residuales
+  
+  shapiro <- shapiro.test(modelo$residuals)
+  shapiro <- shapiro$p.value
+  
+  lillie <- lillie.test(modelo$residuals)
+  lillie <- lillie$p.value
+  
+  ifelse((shapiro > confianza) & (lillie > confianza), print("Normalidad de los residuales, no se rechaza H0"), print("No existe normalidad de los residuales, se rechaza H0"))
+  
+  # Test de homocedasticidad (varianza constante de los residuales)
+  
+  
+  Breusch <- bptest(modelo)
+  Breusch <- Breusch$p.value
+
+  Goldfeld <- gqtest(modelo)
+  Goldfeld <- Goldfeld$p.value
+
+  ifelse((Breusch > confianza) & (Goldfeld > confianza), print("Existe homocedasticidad, no se rechaza H0"), print("No existe homocedasticidad, se rechaza H0"))
+  
+  # Test de independencia de errores
+  
+  indepenencia <- dwtest(mpg ~ modelo$residuals)
+  indepenencia <- indepenencia$p.value
+  
+  ifelse((indepenencia > confianza), print("Hay independencia de errores, No se rechaza Ho"), print("No hay independencia de errores, se rechaza Ho"))
+  
+  # Construccion de la Tabla de respuestas
+  
+  tabla <- rbind(shapiro, lillie, Breusch, Goldfeld, indepenencia)
+  rownames(tabla) <- c("Shapiro", "Lillie", "Breusch", "Goldfeld", "independencia")
+  colnames(tabla) <- c("p.value")
+
+  print(tabla)
+}
+
+```
+
+
+```{r}
+
+modelo_propuesto <- lm(mpg ~ wt + hp)
+
+
+ValidarSupuestos(mpg,modelo_propuesto,alpha)
+```
+

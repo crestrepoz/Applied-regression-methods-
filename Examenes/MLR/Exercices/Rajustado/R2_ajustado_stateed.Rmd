@@ -1,0 +1,115 @@
+---
+title: "R2 Stateed"
+output: html_notebook
+---
+
+```{r}
+
+library(MASS)
+library(lmtest)
+library(nortest)
+library(crayon)
+
+```
+
+DataFrame
+
+```{r}
+
+stateed<-read.csv("C:/Users/yosef/OneDrive/Documents/Esp_Estadistica/Applied-regression-methods-/MLR/Dataframes/stateed.csv", header=T,sep=";")
+stateed
+attach(stateed)
+
+```
+
+Datos del R2 del dataframe
+
+```{r}
+tabla <- assign("list", NULL, envir = .GlobalEnv)
+
+# SLR
+
+ELDERLY_F <- summary(lm(STATEAID ~ ELDERLY))
+ELDERLY_c<- cbind(ELDERLY_F$r.squared, ELDERLY_F$adj.r.squared)
+tabla <- rbind(tabla, ELDERLY_c)
+
+
+INCOME_F <- summary(lm(STATEAID ~ INCOME))
+INCOME_c <- cbind(INCOME_F$r.squared, INCOME_F$adj.r.squared)
+tabla <- rbind(tabla, INCOME_c)
+
+POPULATION_F <- summary(lm(STATEAID ~ POPULATION))
+POPULATION_c <- cbind(POPULATION_F$r.squared, POPULATION_F$adj.r.squared)
+tabla <- rbind(tabla, POPULATION_c)
+
+
+SCHOOLAGE_F <- summary(lm(STATEAID ~ SCHOOLAGE))
+SCHOOLAGE_c <- cbind(SCHOOLAGE_F$r.squared, SCHOOLAGE_F$adj.r.squared)
+tabla <- rbind(tabla, SCHOOLAGE_c)
+
+# MLR 2COV ELDERLY
+
+ELDERLY_INCOME <- summary(lm(STATEAID ~ ELDERLY + INCOME))
+ELDERLY_INCOME_c <- cbind(ELDERLY_INCOME$r.squared, ELDERLY_INCOME$adj.r.squared)
+tabla <- rbind(tabla, ELDERLY_INCOME_c)
+
+ELDERLY_POPULATION <- summary(lm(STATEAID ~ ELDERLY + POPULATION))
+ELDERLY_POPULATION_c <- cbind(ELDERLY_POPULATION $r.squared, ELDERLY_POPULATION $adj.r.squared)
+tabla <- rbind(tabla, ELDERLY_POPULATION_c )
+
+ELDERLY_SCHOOLAGE  <- summary(lm(STATEAID ~ ELDERLY + SCHOOLAGE))
+ELDERLY_SCHOOLAGE_c <- cbind(ELDERLY_SCHOOLAGE$r.squared, ELDERLY_SCHOOLAGE$adj.r.squared)
+tabla <- rbind(tabla, ELDERLY_SCHOOLAGE_c)
+
+# MLR 2COV INCOME
+
+INCOME_POPULATION <- summary(lm(STATEAID ~ INCOME + POPULATION))
+INCOME_POPULATION_c <- cbind(INCOME_POPULATION$r.squared, INCOME_POPULATION$adj.r.squared)
+tabla <- rbind(tabla, INCOME_POPULATION_c)
+
+INCOME_SCHOOLAGE <- summary(lm(STATEAID ~ INCOME + SCHOOLAGE))
+INCOME_SCHOOLAGE_c <- cbind(INCOME_SCHOOLAGE$r.squared, INCOME_SCHOOLAGE$adj.r.squared)
+tabla <- rbind(tabla, INCOME_SCHOOLAGE_c)
+
+#MLR 2COV POPULATION
+
+POPULATION_SCHOOLAGE <- summary(lm(STATEAID ~ POPULATION + SCHOOLAGE))
+POPULATION_SCHOOLAGE_c <- cbind(POPULATION_SCHOOLAGE$r.squared, POPULATION_SCHOOLAGE$adj.r.squared)
+tabla <- rbind(tabla, POPULATION_SCHOOLAGE_c)
+
+# MLR 3COV ELDERLY
+
+ELDERLY_INCOME_POPULATION <- summary(lm(STATEAID ~ ELDERLY + INCOME + POPULATION))
+ELDERLY_INCOME_POPULATION_c <- cbind(ELDERLY_INCOME_POPULATION$r.squared, ELDERLY_INCOME_POPULATION$adj.r.squared)
+tabla <- rbind(tabla, ELDERLY_INCOME_POPULATION_c )
+
+ELDERLY_INCOME_SCHOOLAGE <- summary(lm(STATEAID ~ ELDERLY + INCOME + SCHOOLAGE))
+ELDERLY_INCOME_SCHOOLAGE_c <- cbind(ELDERLY_INCOME_SCHOOLAGE$r.squared, ELDERLY_INCOME_SCHOOLAGE$adj.r.squared)
+tabla <- rbind(tabla, ELDERLY_INCOME_SCHOOLAGE_c)
+
+# MLR 3COV POPULATION
+
+ELDERLY_POPULATION_SCHOOLAGE <- summary(lm(STATEAID ~ ELDERLY + POPULATION + SCHOOLAGE))
+ELDERLY_POPULATION_SCHOOLAGE_c <- cbind(ELDERLY_POPULATION_SCHOOLAGE$r.squared, ELDERLY_POPULATION_SCHOOLAGE$adj.r.squared)
+tabla <- rbind(tabla, ELDERLY_POPULATION_SCHOOLAGE_c)
+
+# MLR FULL
+
+ELDERLY_INCOME_POPULATION_SCHOOLAGE <- summary(lm(STATEAID ~ ELDERLY + INCOME + POPULATION + SCHOOLAGE))
+ELDERLY_INCOME_POPULATION_SCHOOLAGE_c <- cbind(ELDERLY_POPULATION_SCHOOLAGE$r.squared, ELDERLY_POPULATION_SCHOOLAGE$adj.r.squared)
+tabla <- rbind(tabla, ELDERLY_INCOME_POPULATION_SCHOOLAGE_c)
+
+```
+
+
+#### Tabla R2
+
+```{r}
+
+colnames(tabla) <- c("R2   ", "R2 ajustado")
+rownames(tabla) <- c("ELDERLY", "INCOME", "POPULATION", "SCHOOLAGE", "ELDERLY_INCOME", "ELDERLY_POPULATION", "ELDERLY_SCHOOLAGE","INCOME_POPULATION", "INCOME_SHCOOLAGE", "POPULATION_SCHOOLAGE", "ELDERLY_INCOME_POPULATION", "ELDERLY_INCOME_SCHOOLAGE", "ELDERLY_POPULATION_SCHOOLAGE","ELDERLY_INCOME_POPULATION_SCHOOLAGE_c" )
+
+tabla <- round(tabla,2);tabla
+
+```
+

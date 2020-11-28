@@ -1,0 +1,69 @@
+---
+title: "R2 ajustado mtcars"
+output: html_notebook
+---
+
+```{r}
+
+data("mtcars")
+attach(mtcars)
+
+```
+
+```{r}
+tabla <- assign("list", NULL, envir = .GlobalEnv)
+
+# cov wt,disp, hp
+
+#SLR
+
+
+wt_f <- summary(lm(mpg ~ wt))
+wt_f<- cbind(wt_f$r.squared, wt_f$adj.r.squared)
+tabla <- rbind(tabla, wt_f)
+
+disp_f <- summary(lm(mpg ~ disp))
+disp_f<- cbind(disp_f$r.squared, disp_f$adj.r.squared)
+tabla <- rbind(tabla, disp_f)
+
+hp_f <- summary(lm(mpg ~ hp))
+hp_f <- cbind(hp_f$r.squared, hp_f$adj.r.squared)
+tabla <- rbind(tabla, hp_f)
+
+
+#MLR
+
+wt_disp <- summary(lm(mpg ~ wt + disp))
+wt_disp<- cbind(wt_disp$r.squared, wt_disp$adj.r.squared)
+tabla <- rbind(tabla, wt_disp)
+
+
+wt_hp <- summary(lm(mpg ~ wt + hp))
+wt_hp<- cbind(wt_hp$r.squared, wt_hp$adj.r.squared)
+tabla <- rbind(tabla, wt_hp)
+
+
+disp_hp <- summary(lm(mpg ~ disp + hp))
+disp_hp<- cbind(disp_hp$r.squared, disp_hp$adj.r.squared)
+tabla <- rbind(tabla, disp_hp)
+
+
+wt_disp_hp <- summary(lm(mpg ~ wt + disp + hp ))
+wt_disp_hp<- cbind(wt_disp_hp$r.squared, wt_disp_hp$adj.r.squared)
+tabla <- rbind(tabla, wt_disp_hp)
+
+
+
+```
+
+#### tabla R2
+
+```{r}
+
+colnames(tabla) <- c("R2   ", "R2 ajustado")
+rownames(tabla) <- c("wt", "disp", "hp", "wt_disp", "wt_hp", "disp_hp", "wt_disp_hp")
+
+tabla <- round(tabla,2);tabla
+
+```
+

@@ -1,0 +1,123 @@
+---
+title: "R Forward MTCARS"
+author: "Yosef Guevara Salamanca"
+date: "26/11/2020"
+output: pdf_document
+---
+
+Librerias a usar
+
+```{r}
+library(MASS)
+library(lmtest)
+library(nortest)
+library(leaps)
+require(stats)
+require(graphics)
+```
+
+
+carga de los datos
+
+```{r}
+STATE.econo <- read.csv("C:/Users/yosef/OneDrive/Documents/Esp_Estadistica/Applied-regression-methods-/MLR/Dataframes/stateed.csv", header=T,sep=";")
+attach(STATE.econo)
+head(STATE.econo)
+
+```
+
+Se crea el modelo completo para iniciar su interpretacion
+
+```{r}
+
+STATE.full.fit<-lm(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+summary(STATE.full.fit)
+
+```
+Como analisis previo a los calculos de los modelos propuesto de regresion mediante el summary podemos ver que el modelo Full no es el mas apto para explicar a STATEAID pues el p.value de INCome, POPULATION Y SCHOOLAGE es no son signiticativamente distintos de 0
+
+#### Lo siguiente es capturar el conjunto de variables regresoras
+
+```{r}
+
+elegir<-regsubsets(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+summary(elegir)
+
+```
+Se grafican cada uno de los modelos entregados por regsubsets
+
+```{r}
+par(mfrow=c(1,2))
+plot(elegir,scale="r2", main="R^2, Datos STATE.Schmidt).")
+plot(elegir,scale="adjr2", main="(R^2.ajust, Datos STATE.Schmidt).")
+```
+
+```{r}
+par(mfrow=c(1,2))
+plot(elegir, scale="Cp", main="(Cp, Datos STATE.Schmidt).")
+plot(elegir,scale="bic", main="(BIC, Datos STATE.Schmidt).")
+```
+#### Funcion para evaluacion de supuestos
+
+```{r}
+ValidarSupuestos <- function (respuesta ,modelo,confianza){
+  
+  print("En conclusion:")
+  
+  # Test de normalidad
+  
+  shapiro <- shapiro.test(modelo$residuals)
+  shapiro <- shapiro$p.value
+  
+  lillie <- lillie.test(modelo$residuals)
+  lillie <- lillie$p.value
+  
+    ifelse((shapiro > confianza) & (lillie > confianza), print("Existe normalidad de los errores"), print("No existe normalidad de los errores"))
+  
+  # Test de homocedasticidad
+  
+  
+  baruch <- bptest(modelo)
+  baruch <- baruch$p.value
+
+  golfred <- gqtest(modelo)
+  golfred <- golfred$p.value
+
+  ifelse((baruch > confianza) & (golfred > confianza), print("Existe homocedasticidad"), print("No existe homocedasticidad"))
+  
+  # Test de independencia
+  
+  indepenencia <- dwtest(respuesta ~ modelo$residuals)
+  indepenencia <- indepenencia$p.value
+  
+  ifelse((indepenencia > confianza), print("Hay independencia"), print("No hay independencia"))
+  
+  # Construccion de la Tabla de respuestas
+  
+  tabla <- rbind(shapiro, lillie, baruch, golfred, indepenencia)
+  rownames(tabla) <- c("shapiro", "lillie", "baruch", "golfred", "independencia")
+  colnames(tabla) <- c("p.value")
+  print(tabla)
+
+  
+} 
+```
+
+#### Se toma como canidadato el modelo apartir del R2 0.11 ajustado:
+
+STATEID = Bo + B1 * ELDERLY + B2* SCHOOLAGE
+
+```{r}
+
+modelo <- lm(STATEAID ~ ELDERLY + SCHOOLAGE)
+summary(modelo)
+```
+
+```{r}
+ValidarSupuestos(STATEAID,modelo,0.01)
+```
+
+
+El modelo propuesto cumple todas las validaciones de supuestos y es:
+
+STATEID = Bo + B1 * ELDERLY + B2* SCHOOLAGE

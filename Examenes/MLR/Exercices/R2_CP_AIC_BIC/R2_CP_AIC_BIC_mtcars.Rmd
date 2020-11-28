@@ -1,0 +1,204 @@
+---
+title: "R^2 , R^2(aj), Cp Mallows Mtcars"
+output: html_notebook
+---
+
+
+```{r}
+
+library(MASS)
+library(lmtest)
+library(nortest)
+library(leaps)
+require(stats)
+require(graphics)
+
+```
+
+
+
+#### SCHMIDT 1 STATEED (mpg vs 3 covariables)
+
+```{r}
+data("mtcars")
+attach(mtcars)
+head(mtcars)
+
+```
+
+
+
+
+```{r}
+
+summary(mtcars)
+
+```
+
+```{r}
+mt.fit<-lm(mpg ~ wt + disp + hp )
+
+summary(mt.fit)
+```
+
+```{r}
+elegir<-regsubsets(mpg ~ wt + disp + hp, data = mtcars)
+summary(elegir)
+
+```
+
+
+
+```{r}
+par(mfrow=c(1,2))
+# plot(elegir,scale="r2", main="R^2, Datos mtcars.")
+plot(elegir,scale="adjr2", main="R^2.ajust, Datos mtcars.")
+```
+#### CP de Mallows:
+
+Para el analisis del CP debemos recordar elegir al modelo que sea mejor o igual al P del modelo.
+
+Para mt cars las covariables son 3, ( wt, hp, disp ), es decir P = 4
+
+Recordar que par el CP de Mallows el P = Covariables + 1
+
+```{r}
+
+plot(elegir, scale="Cp", main="Cp, Datos mtcars.")
+
+```
+Por ende podemos decir que el modelo propuesto que mejor explica a mpg mediante la metodologia del CP de Mallows es:
+
+mpg = B0 + B1 * wt + B2 * hp
+
+#### BIC:
+
+```{r}
+plot(elegir,scale="bic", main="BIC, Datos mtcars.")
+```
+Por ende podemos decir que el modelo propuesto que mejor explica a mpg mediante la metodologia BIC es:
+
+mpg = B0 + B1 * wt + B2 * hp
+
+##### Más AIC, BIC, Cp
+
+```{r}
+
+rs<-summary(elegir)
+
+```
+
+
+```{r}
+
+plot(2:4,rs$cp,xlab="No. de parámetros",ylab="Estadístico Cp")
+abline(0,1)
+plot(2:4,rs$adjr2,xlab="No. de parámetros",ylab="R_2 ajustado")
+abline(0,1)
+
+```
+
+escoger el Cp más pequeño alrededor p 
+
+2. Selección de modelos con AIC y BIC 
+
+
+```{r}
+
+mt.fit<-lm(mpg ~ wt + disp + hp, data = mtcars)
+cbind(extractAIC(mt.fit) ,extractAIC(mt.fit,k=log(50)))
+```
+
+```{r}
+
+extractAIC(mt.fit)  ### AIC de modelo full
+```
+
+```{r}
+step(mt.fit)        #### Backward con AIC
+```
+El modelo candidato que mejor explica mpg usando AIC en backwards, son wt y hp, ahora debemos validar supuestos
+
+```{r}
+extractAIC(mt.fit,k=log(nrow(mtcars))) ### BIC de modelo full
+```
+
+```{r}
+step(mt.fit,k=log(nrow(mtcars)))### Backward con BIC
+
+```
+
+
+RESUMEN: COVARIABLES POR AIC y BIC (coinciden) wt y hp
+
+Sigue validar supuestos con este modelo.
+
+```{r}
+modelo<-lm(mpg ~ wt + hp, data = mtcars)
+summary(modelo)
+
+```
+
+USAREMOS ALPHA DE 0.10
+```{r}
+
+
+residuals_modelo<-residuals(modelo); residuals_modelo
+
+```
+
+
+
+COMIENZO A VALIDAR SUPUESTOS.
+
+```{r}
+ValidarSupuestos <- function (respuesta ,modelo,confianza){
+  
+  # Test de normalidad
+  
+  shapiro <- shapiro.test(modelo$residuals)
+  shapiro <- shapiro$p.value
+  
+  lillie <- lillie.test(modelo$residuals)
+  lillie <- lillie$p.value
+  
+    ifelse((shapiro > confianza) & (lillie > confianza), print("Existe normalidad de los errores"), print("No existe normalidad de los errores"))
+  
+  # Test de homocedasticidad
+  
+  
+  baruch <- bptest(modelo)
+  baruch <- baruch$p.value
+
+  golfred <- gqtest(modelo)
+  golfred <- golfred$p.value
+
+  ifelse((baruch > confianza) & (golfred > confianza), print("Existe homocedasticidad"), print("No existe homocedasticidad"))
+  
+  # Test de independencia
+  
+  indepenencia <- dwtest(mpg ~ modelo$residuals)
+  indepenencia <- indepenencia$p.value
+  
+  ifelse((indepenencia > confianza), print("Hay independencia"), print("No hay independencia"))
+  
+  # Construccion de la Tabla de respuestas
+  
+  tabla <- rbind(shapiro, lillie, baruch, golfred, indepenencia)
+  rownames(tabla) <- c("shapiro", "lillie", "baruch", "golfred", "independencia")
+  colnames(tabla) <- c("p.value")
+  print(tabla)
+
+  
+} 
+```
+
+```{r}
+
+ValidarSupuestos(mpg,modelo,0.05)
+```
+
+
+
+
+

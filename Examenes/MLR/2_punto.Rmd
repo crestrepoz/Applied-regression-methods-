@@ -1,0 +1,71 @@
+---
+title: "Punto 2"
+output: html_document
+---
+
+```{r}
+
+library(MASS)
+library(lmtest)
+library(nortest)
+library(leaps)
+
+```
+
+
+```{r}
+STATE.econo <- read.csv("C:/Users/yosef/OneDrive/Documents/Esp_Estadistica/Applied-regression-methods-/MLR/Dataframes/stateed.csv", header=T,sep=";")
+attach(STATE.econo)
+head(STATE.econo)
+
+```
+
+
+```{r}
+
+require(stats)
+require(graphics)
+
+```
+
+
+```{r}
+
+STATE.full.fit<-lm(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+summary(STATE.full.fit)
+
+```
+
+Se crea el modelo completo para iniciar su interpretacion y se extrae el conjunto de covariantes.
+
+```{r}
+
+elegir<-regsubsets(STATEAID ~ ELDERLY + INCOME+POPULATION + SCHOOLAGE, data = STATE.econo)
+summary(elegir)
+
+```
+
+
+
+```{r}
+rs<-summary(elegir)
+rs
+```
+```{r}
+par(mfrow=c(1,2))
+plot(elegir,scale="r2", main="R^2, Swiss.")
+plot(elegir,scale="adjr2", main="R^2.ajust, Swiss.")
+
+```
+
+```{r}
+par(mfrow=c(1,2))
+plot(elegir, scale="Cp", main="Cp, Swiss")
+plot(elegir,scale="bic", main="(BIC, Swiss.")
+```
+
+Se genera el AIC
+
+```{r}
+AIC <- step(STATE.full.fit)
+```

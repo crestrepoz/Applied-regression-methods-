@@ -1,0 +1,153 @@
+---
+title: "4 Punto"
+output: pdf_document
+---
+
+Se cargan las librerias
+
+```{r}
+
+library(MASS)
+library(lmtest)
+library(nortest)
+library(leaps)
+
+```
+
+carga de data
+
+```{r}
+data("swiss")
+attach(swiss)
+```
+
+Para hacer el calculo del Press se usan las siguientes funciones como referencia
+
+https://fhernanb.github.io/libro_regresion/diag2.html#estad%C3%ADstica-press-y-r2-de-predicci%C3%B3n
+
+```{r}
+PRESS <- function(linear.model) {
+  # calculate the predictive residuals
+  pr <- residuals(linear.model) / (1-lm.influence(linear.model)$hat)
+  # calculate the PRESS
+  PRESS <- sum(pr^2)
+  return(PRESS)
+}
+
+```
+
+
+```{r}
+pred_r_squared <- function(linear.model) {
+  #' Use anova() to get the sum of squares for the linear model
+  lm.anova <- anova(linear.model)
+  #' Calculate the total sum of squares
+  tss <- sum(lm.anova$'Sum Sq')
+  # Calculate the predictive R^2
+  pred.r.squared <- 1-PRESS(linear.model)/(tss)
+  return(pred.r.squared)
+}
+```
+
+
+Se crea el modelo completo para iniciar su interpretacion y su conjunto de covariables regresoras
+
+```{r}
+elegir <- regsubsets(Fertility ~ Agriculture + Examination+Education + Catholic + Infant.Mortality, data = swiss)
+summary(elegir)
+```
+
+
+Se grafican cada uno de los modelos entregados por regsubsets
+
+```{r}
+par(mfrow=c(1,2))
+plot(elegir,scale="r2", main="R^2, Swiss.")
+plot(elegir,scale="adjr2", main="R^2.ajust, Swiss.")
+```
+
+```{r}
+par(mfrow=c(1,2))
+plot(elegir, scale="Cp", main="Cp, Swiss")
+plot(elegir,scale="bic", main="(BIC, Swiss.")
+```
+
+#### Se toma como canidadato el modelo apartir del R2 0.67 ajustado:
+
+Fertility = Bo + B1 * Education +  B2 * Catholic + B3 * Infant.Mortality
+
+```{r}
+modelo <- lm(Fertility ~ Education + Catholic + Infant.Mortality) 
+```
+
+#### Funcion para evaluacion de supuestos
+
+```{r}
+ValidarSupuestos <- function (respuesta ,modelo,confianza){
+  
+  # Test de normalidad
+  
+  shapiro <- shapiro.test(modelo$residuals)
+  shapiro <- shapiro$p.value
+  
+  lillie <- lillie.test(modelo$residuals)
+  lillie <- lillie$p.value
+  
+    ifelse((shapiro > confianza) & (lillie > confianza), print("Existe normalidad de los errores"), print("No existe normalidad de los errores"))
+  
+  # Test de homocedasticidad
+  
+  
+  baruch <- bptest(modelo)
+  baruch <- baruch$p.value
+
+  golfred <- gqtest(modelo)
+  golfred <- golfred$p.value
+
+  ifelse((baruch > confianza) & (golfred > confianza), print("Existe homocedasticidad"), print("No existe homocedasticidad"))
+  
+  # Test de independencia
+  
+  indepenencia <- dwtest(respuesta ~ modelo$residuals)
+  indepenencia <- indepenencia$p.value
+  
+  ifelse((indepenencia > confianza), print("Hay independencia"), print("No hay independencia"))
+  
+  # Construccion de la Tabla de respuestas
+  
+  tabla <- rbind(shapiro, lillie, baruch, golfred, indepenencia)
+  rownames(tabla) <- c("shapiro", "lillie", "baruch", "golfred", "independencia")
+  colnames(tabla) <- c("p.value")
+  
+  print(round(tabla,5))
+
+  
+} 
+```
+
+se validan supuestos mediante la funcion y se obtiene una conclusion
+
+```{r}
+ValidarSupuestos(Fertility, modelo, 0.1)
+```
+
+El modelo propuesto  no cumple todas las validaciones de supuestos,  por lo tanto existe riesgo al evaluar y no se recomeinda estadisticamente:
+
+Fertility = Bo + B1 * Education +  B2 * Catholic + B3 * Infant.Mortality
+
+R2 de predicción
+
+```{r}
+
+
+PRESS(modelo)
+
+```
+
+```{r}
+
+pred_r_squared(modelo)
+
+```
+
+De la salida anterior se observa que el R2 de predicción toma un valor de 0.5957686, esto indica que el modelo mod tiene una buena capacidad de predicción para nuevas observaciones.

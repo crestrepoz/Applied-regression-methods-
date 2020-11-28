@@ -1,6 +1,7 @@
 ---
-title: "MLR Forward"
-output: html_notebook
+title: "6 punto"
+output: pdf_document
+
 ---
 
 
