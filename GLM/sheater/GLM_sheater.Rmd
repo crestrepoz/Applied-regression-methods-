@@ -1,0 +1,97 @@
+---
+title: "GLM Sheather"
+output: html_notebook
+---
+
+```{r}
+michelin <- read.table("michelin.csv", header=T,sep=";")
+attach(michelin)
+
+```
+
+```{r}
+head(michelin)
+```
+
+```{r}
+plot(FoodRatingXi,YiMi)
+
+```
+
+#### 8.1.1 Logistic regresion output from R
+
+```{r}
+Michelin.food <- glm(cbind(InMichelinYi,MiYi) ~ FoodRatingXi, family = binomial)
+
+```
+
+
+```{r}
+summary(Michelin.food)
+```
+
+```{r}
+
+knitr::include_graphics("fit_model.PNG")
+
+```
+#### 8.1.2 Likelihood for Logistic Regression with a Single Predictor
+
+We next look at how likelihood can be used to estimate the parameters in logistic
+regression.
+
+```{r}
+Theta_X <- 1/(1+exp(-(-10.84154+0.50124*FoodRatingXi)))
+
+plot(FoodRatingXi,YiMi,  ylab = "Probability to be included on Michelin Guide")
+par(new=TRUE)
+plot(Theta_X, type = "l"  ,col="red", xlab = "", ylab = "", axes = F)
+
+```
+
+
+```{r}
+estimated_probability <- Theta_X
+estimated_odds <- Theta_X/(1-Theta_X)
+
+estimated_table <- cbind(FoodRatingXi, estimated_probability, estimated_odds)
+estimated_table <- round(estimated_table, 3)
+estimated_table
+```
+
+Falta mirar walt test
+
+In logistic regression the concept of the residual sum of squares is replaced by a concept known as the deviance . In the case of logistic regression the deviance is defined to be
+
+#### 8.1.3 Explanation of Deviance
+
+In logistic regression the concept of the residual sum of squares is replaced by aconcept known as the deviance . In the case of logistic regression the deviance is defined to be
+
+```{r}
+knitr::include_graphics("Deviance.PNG")
+```
+
+```{r}
+G2 <- 2*sum(YiMi * log(YiMi/Theta_X) + MiYi * log(MiYi/(Mi - Theta_X)));
+G2
+```
+```{r}
+summary(Michelin.food)
+knitr::include_graphics("G2.PNG")
+```
+#### 8.1.4 Using Differences in Deviance Values to Compare Models
+
+The difference in deviance can be used to compare nested models. For example, we can compare the null and residual deviances to test
+
+```{r}
+Deviance_null <- 61.427
+Deviance_Food <- 11.368
+
+DevianceCompared <- Deviance_null - Deviance_Food;DevianceCompared
+
+DOF <- 13 - 12
+
+pchisq(DevianceCompared, df = DOF)
+
+```
+
