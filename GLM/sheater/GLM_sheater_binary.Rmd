@@ -1,0 +1,64 @@
+---
+title: "8.2 Binary Logistic Regression Sheater"
+output: html_notebook
+---
+
+```{r}
+# Leer csv
+michelin <- read.csv("MichelinNY.csv", header=T,sep=";")
+attach(michelin)
+head(michelin)
+```
+
+```{r}
+plot(jitter(InMichelin, 0.1) ~ jitter(Food, 0.1), main = "Probability to be included on Michelin Guide", xlab = "Food", ylab = "InMichelin")
+```
+```{r}
+boxplot(Food ~ InMichelin, ylab = "Food", xlab = "InMichelin" )
+```
+
+
+#### Logistic regression output from R
+
+```{r}
+michelin.fit <- glm(formula = InMichelin ~ Food, family = binomial(), data = michelin)
+summary(michelin.fit)
+```
+#### 8.2.1 Deviance for the Case of Binary Data
+
+```{r}
+y_hat <- 1/(1+exp(-(-10.84154 + 0.50124*Food)))
+
+plot(jitter(InMichelin, 0.1) ~ jitter(Food, 0.1),  main = "Probability to be included on Michelin Guide", xlab = "Food", ylab = "InMichelin")
+par(new=TRUE)
+
+plot(y_hat, type = "l"  ,col="red", xlab = "", ylab = "", axes = F)
+
+######## kheeeeeeee
+
+```
+#### 8.2.3 Transforming Predictors in Logistic Regression
+
+
+
+
+```{r}
+par(mfrow=c(2,2))
+boxplot(Food ~ InMichelin, ylab = "Food", xlab = "InMichelin" )
+boxplot(Decor ~ InMichelin, ylab = "Decor", xlab = "InMichelin" )
+boxplot(Service ~ InMichelin, ylab = "Service", xlab = "InMichelin" )
+boxplot(Price ~ InMichelin, ylab = "Price", xlab = "InMichelin" )
+
+```
+Distribution of Price is quite skewed. Thus, we shall include both
+Price and log(Price) as potential predictors in our logistic regression model.
+
+#### 8.2.4 Marginal Model Plots for Binary Data
+
+```{r}
+michelin.fit.full <- glm(formula = InMichelin ~ Food + Decor + Service + Price + log(Price) +
+Service:Decor, family = binomial())
+
+summary(michelin.fit.full)
+```
+

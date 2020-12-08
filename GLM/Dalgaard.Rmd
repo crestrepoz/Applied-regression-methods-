@@ -1,0 +1,126 @@
+---
+title: "GLM"
+output: html_notebook
+---
+
+In this section, we analyze the example concerning hypertension from
+Altman (1991, p. 353). First, we need to enter data, which is done as
+follows
+
+```{r}
+
+no.yes <- c("No","Yes")
+smoking <- gl(2,1,8,no.yes)
+obesity <- gl(2,2,8,no.yes)
+snoring <- gl(2,4,8,no.yes)
+n.tot <- c(60,17,8,2,187,85,51,23)
+n.hyp <- c(5,2,1,0,35,13,15,8)
+data.frame(smoking,obesity,snoring,n.tot,n.hyp)
+
+
+```
+
+```{r}
+hyp.tbl <- cbind(n.hyp,n.tot-n.hyp)
+hyp.tbl
+```
+
+```{r}
+glm(hyp.tbl~smoking+obesity+snoring,family=binomial("logit"))
+
+```
+
+```{r}
+glm(hyp.tbl~smoking+obesity+snoring,binomial)
+
+```
+
+```{r}
+
+prop.hyp <- n.hyp/n.tot
+glm.hyp <- glm(prop.hyp~smoking+obesity+snoring,binomial,weights=n.tot)
+glm.hyp
+
+```
+
+```{r}
+
+summary(glm.hyp)
+
+```
+```{r}
+
+summary(glm.hyp, corr = T)
+
+```
+
+```{r}
+
+glm.hyp <- glm(hyp.tbl~obesity+snoring,binomial)
+summary(glm.hyp)
+
+```
+13.2.1 The analysis of deviance table
+
+```{r}
+glm.hyp <- glm(hyp.tbl~smoking+obesity+snoring,binomial)
+anova(glm.hyp, test="Chisq")
+
+
+```
+
+
+```{r}
+
+glm.hyp <- glm(hyp.tbl~obesity+snoring,binomial)
+anova(glm.hyp, test="Chisq")
+
+```
+```{r}
+glm.hyp <- glm(hyp.tbl~obesity+snoring,binomial)
+anova(glm.hyp, test="Chisq")
+```
+
+```{r}
+drop1(glm.hyp, test="Chisq")
+```
+
+```{r}
+confint(glm.hyp)
+```
+
+```{r}
+confint.default(glm.hyp)
+```
+
+```{r}
+library(MASS)
+plot(profile(glm.hyp))
+```
+
+```{r}
+exp(cbind(OR=coef(glm.hyp), confint(glm.hyp)))
+```
+Prediction
+```{r}
+
+predict(glm.hyp)
+
+```
+Model checking
+```{r}
+fitted(glm.hyp)
+```
+
+```{r}
+prop.hyp
+```
+
+```{r}
+fitted(glm.hyp)*n.tot
+```
+
+```{r}
+data.frame(fit=fitted(glm.hyp)*n.tot,n.hyp,n.tot)
+```
+
