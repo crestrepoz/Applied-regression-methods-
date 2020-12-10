@@ -1,0 +1,356 @@
+---
+title: "Taller GLM - Grajales"
+author: "Yosef Guevara Salamanca"
+output: pdf_document
+---
+
+#### 1
+Expresar la funcion de probabilidad Binomial  de la familia exponencial indique la canonica
+
+
+$$La\:forma\:de\:la\:familia\:Exponencial\:es:$$
+
+$$ f\left(y\right)\:=\:exp\:\left\{\:\frac{\theta y\:-\:b\theta }{a\phi }\:+\:c\left(y,\phi \right)\right\} $$
+$$La\:distribución\:binomial\:esta\:dada\:por:$$
+
+$$f\left(x,p\right)\:=\:\begin{pmatrix}n\\ x\end{pmatrix}p^x\left(1-p\right)^{n\:-\:x}$$
+
+
+$$log\left(f\left(y\right)\right)\:=\:log\left(\begin{pmatrix}n\\ \:x\end{pmatrix}p^x\left(1-p\right)^{n\:-\:x}\right)$$
+$$\:log\left(f\left(y\right)\right)=\:log\begin{pmatrix}n\\ \:x\end{pmatrix}+log\left(p^x\right)\:+\left(n\:-\:x\right)log\left(1-p\right)$$
+
+$$Se\:genera\:la\:función\:exponencial\:a\:ambos\:lados.$$
+
+$$exp\left\{log\begin{pmatrix}n\\ x\end{pmatrix}\:+\:xlog\left(p\right)+nlog\left(1-p\right)-xlog\left(1-p\right)\right\}$$
+$$exp\left\{\:x\left[log\left(p\right)-log\left(1-p\right)\right]+nlog\left(1-p\right)+log\begin{pmatrix}n\\ \:\:x\end{pmatrix}\:\right\}$$
+
+$$exp\left\{\:xlog\left(\frac{p}{1-p}\right)+nlog\left(1-p\right)+log\begin{pmatrix}n\\ \:\:x\end{pmatrix}\:\right\}$$
+
+$$Finalmente\:se\:obtiene\:que:\:\theta \:=\:log\left(\frac{p}{1\:-\:p}\right)$$
+$$\theta =\:log\left(\frac{p}{1\:-\:p}\right)$$
+$$p\:=\:\frac{e^{\theta }}{1+e^{\theta \:}}$$
+$$1-p\:\:=\frac{1+e^{\theta \:\:}-e^{\theta \:\:}}{1\:+e^{\theta \:\:}}\:=\:\frac{1}{1\:+\:e^{\theta \:\:}}\:=\:\left(1\:+\:e^{\theta \:\:}\right)^{-1}$$
+
+$$nlog\left(1-p\right)\:=\:nlog\left[\left(1+e^{\theta \:}\right)^{-1}\right]=-nlog\left(1+e^{\theta \:}\right)$$
+$$f\left(y\right)=\:exp\left\{x\theta \:-\:nlog\left(1+e^{\theta }\right)+log\begin{pmatrix}n\\ x\end{pmatrix}\right\}$$
+$$Donde\:\theta =\:log\left(\frac{p}{1-p}\right)\:entonces\:p\:=\:\frac{e^{\theta }}{1\:+\:e^{\theta }}$$
+$$b\left(\theta \right)\:=\:nlog\left(1+e^{\theta }\right);\:\:a\left(\phi \right)=1;\:c\left(y,\phi \right)=log\begin{pmatrix}n\\ x\end{pmatrix}$$
+
+#### 2
+
+Expresar la funcion de probabilidad Poisson  de la familia exponencial indique la canonica
+
+
+$$Distribución\:Poisson:\:F\left(y,\lambda \right)\:=\:\frac{\lambda \:^xe^{-\lambda \:}}{y!};\:\:\lambda \:>0\:;\:y\:=\:0,1,2....$$
+
+
+
+$$Sabiendo\:que\:la\:familia\:exponencial\:esta\:definida\:por:$$
+$$ f\left(y\right)\:=\:exp\:\left\{\:\frac{\theta y\:-\:b\theta }{a\phi }\:+\:c\left(y,\phi \right)\right\} $$
+$$log\:\left(f\left(y\right)\right)=\:ylog\lambda \:-\lambda -\:log\left(y!\right)$$
+$$log\:\left(f\left(y\right)\right)=\:exp\left\{ylog\lambda \:\:-\lambda \:-\:log\left(y!\right)\right\}$$
+$$\theta \:\:=\:log\:\lambda \:;\:b\left(\theta \:\right)\:=\:\lambda \:;\:\phi \:=\:1;\:\:c\left(y,\phi \:\right)\:=\:-log\left(y!\right)$$
+
+$$Link\:\:Canónico\:\:Poisson:\:\:$$
+$$g\left(\mu \right)\:=\:\theta ;\:\lambda =e^{\theta }$$
+$$log\left(\lambda \right)=\theta ,\:log\:es\:canonico$$
+
+
+
+#### 3 Respuesta binomial mismo grafico para comparar funciones Logit, probit, cuchy y clog
+
+```{r}
+michelin <- read.csv("MichelinNY.csv", header=T,sep=";")
+head(michelin)
+attach(michelin)
+```
+
+```{r}
+plot(jitter(InMichelin, 0.1) ~ jitter(Food, 0.1), 
+  main = "Probability to be included on Michelin Guide",
+  xlab = "Food", ylab = "InMichelin")
+```
+
+```{r}
+
+# logit
+logit <- glm(InMichelin ~ Food, data = michelin, family = binomial("logit"))
+
+# Probit
+probit <-glm(InMichelin ~ Food, family = binomial("probit"))
+
+# Cacchy
+cauchit <- glm(InMichelin ~ Food, family = binomial("cauchit"))
+
+# Cloglog
+cloglog <-glm(InMichelin ~ Food, family = binomial("cloglog"))
+
+
+```
+
+```{r}
+
+plot(jitter(InMichelin,0.1) ~ jitter(Food,0.1), col="red4", 
+     main="Michelin", ylab="In Michelin", xlab="Food")
+newdat  <- data.frame(Food=seq(min(Food), max(Food),len =164))
+newdat$logit = predict(logit , newdata=newdat , type="response")
+newdat$probit = predict(probit , newdata=newdat , type="response")
+newdat$cauchit = predict(cauchit , newdata=newdat , type="response")
+newdat$cloglog = predict(cloglog , newdata=newdat , type="response")
+lines(logit ~ Food , newdat , col="green", lwd =2)
+lines(probit ~ Food, newdat , col="blue", lwd =2)
+lines(cauchit ~ Food, newdat , col="orange", lwd=2)
+lines(cloglog ~ Food, newdat , col="red", lwd=2)
+legend (25, 0.76,  legend=c("Logit", "Probit", "Cauchit","Cloglog"),
+        col=c("green", "blue", "orange", "purple"), lty=1, cex =0.8)
+```
+
+Semejanza entre **logit** y **probit**
+ambas graficas se parecen mucho pues su objetivo general es re escalar cualquier numero de tal manera  que se genere un intervalo de predicción que caiga entre 0 y 1 basado en una distribución de probabilidad.
+
+La gran diferencia entre **logit** y **probit** es que en el modelo **logit** los errores siguen una distribución logistica acumulativa, mientras que el **probit** se asume que los errores siguen una distribución normal acumulativa
+
+
+#### 4
+
+Dar un ejemplo aplicado de regresión logística simple. Interpretar el odds ratio.
+
+Para este ejercicio vamos a hacer uso de la base de datos MichelinNY,la cual contiene una lista de 164 restaurante en Nueva York que fueron o no añadidos a la lista de restaurantes con estrellas michelin, la variable respuesta del DB es en InMichelin, donde 0 significa que el restaurante no se encuentra en la gula y 1 que si se encuentra en la guia. La covariable a utilizar es Price (Precio del restaurante)  
+
+```{r}
+michelin.price <- glm(InMichelin ~ Price, data = michelin, family = binomial("logit"))
+summary(michelin.price)
+```
+El modelo ajustado esta dado por:
+
+$$\hat{\theta }\left(x\right)=\:\frac{1}{1+exp\left(-\left(-6.00082+0.12174\cdot \:\:\:\:Price\right)\right)}$$
+Al graficarlo tenemos que:
+```{r}
+plot(jitter(InMichelin,0.1) ~ jitter(Price,0.1), col="red4",
+     main="Michelin", ylab="In Michelin", xlab="Price")
+newdat  <- data.frame(Price=seq(min(Price), max(Price),len =164))
+newdat$michelin.price = predict(michelin.price , newdata=newdat , type="response")
+lines(michelin.price ~ Price , newdat , col="green", lwd =2)
+legend (150, 0.76,  legend=c("michelin.price"),col=c("green"), lty=1, cex =0.8)
+```
+
+La funcion linear de x **logit** de los odds estimados esta dada por:
+
+$$\left(\frac{\theta \left(x\right)}{1-\theta \left(x\right)}\right)=\:exp\left(B_0+B_1x\right)\:=\:exp\left(-6.00082\:+0.12174\:\cdot Price\right)$$
+
+Como el predictor lineal solo  tiene una variable regresora B1 = 0.12174, se puede calcular el odds ratio de tal manera que por cada unidad de precio adicional la posibilidad de ser incluido en la lista michelin se incrementa en exp(0.12174) = 1.13, es decir un 13%
+
+A su vez si analizamos 2 valores cualquiera dentro del rango de precio de los restaurante  tenemos que:
+
+
+```{r}
+b.0 <- -6.00082
+b.1 <- 0.12174
+
+odds.ratio.1 <- exp(b.0 + b.1)
+odds.ratio.5 <- exp(b.0 + b.1 * 5)
+
+odds.ratio.1/odds.ratio.5
+```
+El cociente de probabilidad nos dice que es 0.64 veces menos probable ingresar en la guia michelin  si el Precio es 1 en lugar de 5
+
+#### 5
+
+Dar un buen ejemplo de regresión logística multiple para razón de verosimilitud. Comparar modelos anidados.
+
+```{r}
+modelo.full <- glm(InMichelin ~ Food + Decor + Service + Price, family = binomial)
+summary(modelo.full)
+
+```
+Vemos que la covariable Decor y Service no son significativa para el modelo por lo que son descartadas para el modelo reducido
+
+```{r}
+modelo.food.price <- glm(InMichelin ~ Food + Price , family = binomial)
+modelo.food <- glm(InMichelin ~ Food, family = binomial)
+
+```
+
+Podemos usar la desviacion del modelo para probar hipótesis sobre subconjuntos de los paramteros del modelo mediante el cociente de verosimilitud dado por:
+
+Donde Ho: El modelo reducido no es mejor pues no aporta más información
+
+$$G=\:\:-2ln\left(L\left(\frac{Modelo\:reducido}{Modelo\:saturado}\right)\right)\: = \:\chi ^2$$
+con alpha = 0.05
+```{r}
+G <- -2*(logLik(modelo.food)-logLik(modelo.food.price))
+chisq.critico <-qchisq (0.95 ,1)
+chisq.critico
+G
+```
+
+```{r}
+pchisq(G,1, lower.tail = FALSE) 
+
+```
+
+como G > chisq.critico, se rechaza la hipotesis nula es decir el modelo que solo contiene la covariable Food no es mejor que el que contiene a las covariable Food y Price
+
+```{r}
+library(lmtest)
+
+lrtest(modelo.food , modelo.food.price)
+```
+
+
+Se verifica esto una ves más con el comando Lrtest, como Pr(>Chisq) = 1.474e-06< 0.05 se rechaza la hipotesis nula
+
+#### 6 
+
+Dar un buen ejemplo de regresión probit simple y calcular el ED50 e interpretar
+
+```{r}
+library(GLMsData)
+data("turbines")
+attach(turbines)
+
+# Ejemplo  del  libro  Generalized  Linear  Models  with  examples  in R
+
+mod.hours  <- glm(Fissures/Turbines ~   Hours , data=turbines , family = binomial(link = "probit")) 
+summary(mod.hours)
+
+
+```
+
+De  acuerdo a la  ecuacion  de la  seccion  9.6  Median  Effective  Dose , ED50 el libro  mencionado , pagina  344
+
+```{r}
+b0 =  -2.285492034
+b1 = 0.0005897
+```
+
+
+```{r}
+p = 0.5 # para  buscar  el x que  haga  que la  proporcion  sea  50%
+g.p = qnorm(p) # esta es la  funcion  enlace  para  probit
+
+ed50 =   (g.p-b0)/b1 # 3875.686
+```
+
+# Tambien  se  puede  hacer  con  una  ecuacion  de la base
+
+```{r}
+library(MASS)
+dose.p(mod.hours)
+
+```
+
+El ED50 nos informa el tiempo de funcionamiento en el cual se esperara que el 50% de las turbinas comenzara a fallar, en este caso cuando se cumplan 3875 horas el 50% de las turbinas presentaran fisuras
+
+#### 7 
+
+Para una respuesta Binomial podemos chequear los datos usando la siguientes igualdad:
+
+$$\sum _{i=1}^n=\:y_i\:=\:\sum \:_{i=1}^n\:=\:\theta _i$$
+
+
+```{r}
+
+m.logit <- glm(InMichelin ~ Food, family = binomial)
+m.probit <- glm(InMichelin ~ Food, family = binomial(link = "probit"))
+m.cauchit <- glm(InMichelin ~ Food, family = binomial(link = "cauchit"))
+m.cloglog <- glm(InMichelin ~ Food, family = binomial(link = "cloglog"))
+
+sum.yi <- sum(InMichelin);
+sum.pi.logit <- sum(predict(m.logit, type = "response"))
+sum.pi.probit <- sum(predict(m.probit, type = "response"))
+sum.pi.cauchit <- sum(predict(m.cauchit, type = "response"))
+sum.pi.cloglog <- sum(predict(m.cloglog, type = "response"))
+
+tabla <- rbind(sum.yi, sum.pi.logit, sum.pi.probit, sum.pi.cauchit, sum.pi.cloglog)
+diferencia <- c(0,abs(sum.pi.logit -sum.yi), abs(sum.pi.probit -sum.yi), abs(sum.pi.cauchit -sum.yi), abs(sum.pi.cloglog -sum.yi))
+tabla <- round(cbind(tabla, diferencia),3)
+colnames(tabla) <- c("Sumatoria", "Diferencia")
+tabla
+```
+
+Podemos ver que para este caso el mejor modelo a  escoger es generado por el link **Probit**, pues es el más similiar a la sumatoria de los yi.
+
+
+
+#### 8 
+
+Dar un buen ejemplo de regresión poisson simple e interpretar el parametro de interes
+
+```{r}
+
+awards <- read.csv("Awards.csv", header = T, sep=";")
+attach(awards)
+hist(Awards)
+
+```
+Gracias al histograma podemos ver que Awards sigue una distribución **Poisson**, es decir que esta positivamente sesgada.
+
+```{r}
+m.awards.score <- glm(Awards ~ Score.Math, family = "poisson")
+summary(m.awards.score)
+```
+El modelo de probabilidad esta dado por:
+
+$$log\left(\theta \right)=B_0+B_1\cdot Score.Math$$
+$$log\left(\theta \right)=-5.3338+0.0862\cdot Score.Math$$
+
+Entonces es posible de decir que por cada unidad que incremente el Score.Math los Awards aunmentaran en exp(0.0862)=1.0899, un 8%
+
+#### 9
+
+Dar un buen ejemplo de regresión poisson multiple e interpretar al menos dos parametros de interés.
+
+
+
+```{r}
+m.awards.score.program <- glm(Awards ~ Score.Math + Program, family="poisson")
+
+summary(m.awards.score.program)
+```
+El modelo lineal esta dado por:
+
+$$log\left(\theta \right)\:=\:B_0\:_{\:}+B_1Score.Math\:+B_2\:_{\:}Program\left(General\right)+B_3\:Program\left(Vocational\right)$$
+
+$$log\left(\theta \right)\:=\:-4.163_{\:}+0.070Score.Math\:+-1.083\:_{\:}Program\left(General\right)+-0.714\:Program\left(Vocational\right)$$
+Para este modelo cada vez que se incremente en una unidad **Score.Math** el logaritmo de premios incrementa levente un (0.07), cuando el programa es **General** el logaritmo de premios disminuye en un (-1.083) y cada vez que el programa es **Vocacional** el logaritmo disminuye (-0.714)
+
+#### 10
+
+Dar un buen ejemplo de regresión Poisson simple termino **Offset** e interpretar el parametro de interes.
+
+Se incluye un ejemplo del ajuste para modelos Poisson haciendo uso del **Offset**, es decir que este modelo esta escrito en el predictor lineal tal que:
+
+$$log\:\lambda \:=\:B_0\:+B_1x_1+B_2x_2\:+\:....\:+\:B_kx_k+\:log\:T$$
+
+Siendo en este caso el termino offset **log T**, se usara el ejemplo del libro de dalgaad como referencia
+
+**Descripción del DataSet**
+
+This data set contains counts of incident lung cancer cases and population size in four neighbouring Danish cities by age group.
+
+
+```{r}
+library(ISwR)
+data(eba1977)
+attach(eba1977)
+```
+
+Para ajustar el modelo necesitamos incorporara un **offset** para que se contabilice tanto para los **age**estructuras
+
+```{r}
+m.city.age<-glm(cases~ age , offset = log(pop),family=poisson)
+summary(m.city.age)
+```
+tenemos entonces que el modelo esta dado por, donde se contrasta con age40:54
+
+$$log\:\lambda =\:-5.86\:+\:\:\left(1.08\right)age55:59\:+\:\left(1.5\:\right)age60:64\:+\:\left(1.75\right)age65:69\:+\:\left(1.8472\:\:\right)age70:74\:+\:\left(1.4083\right)age75\:$$
+
+Si realizamos la comparacion con el rango age60:64 (B2), lo cual nos quiere decir que el log-rate de indicentes de cancer es 1.5 veces más alto para este grupo
+
+```{r}
+# Para B2 en RR esta daddo por 
+exp(1.5)
+```
+
+Podemos decir que el grupo entre age60:64 es 4.5 veces mas propenso a incidentes de cancer de pulmón 

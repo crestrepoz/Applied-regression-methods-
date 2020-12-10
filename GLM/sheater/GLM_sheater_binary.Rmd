@@ -27,14 +27,15 @@ summary(michelin.fit)
 #### 8.2.1 Deviance for the Case of Binary Data
 
 ```{r}
-y_hat <- 1/(1+exp(-(-10.84154 + 0.50124*Food)))
+y_hat <- 1/(1+exp(-(-10.84154 + 0.50124*seq(min(Food),max(Food),len = 164))))
+
+#y_hat <- 1/(1+exp(-(-10.84154 + 0.50124*seq(min(Food),max(Food),len = 164))))
 
 plot(jitter(InMichelin, 0.1) ~ jitter(Food, 0.1),  main = "Probability to be included on Michelin Guide", xlab = "Food", ylab = "InMichelin")
 par(new=TRUE)
 
 plot(y_hat, type = "l"  ,col="red", xlab = "", ylab = "", axes = F)
 
-######## kheeeeeeee
 
 ```
 #### 8.2.3 Transforming Predictors in Logistic Regression
