@@ -1,5 +1,5 @@
 ---
-title: "Taller GLM - Grajales"
+title: "Examen GLM - Grajales"
 author: "Yosef Guevara Salamanca"
 output: pdf_document
 ---
@@ -354,65 +354,3 @@ exp(1.5)
 ```
 
 Podemos decir que el grupo entre age60:64 es 4.5 veces mas propenso a incidentes de cancer de pulmón 
-
-
-```{r}
-library(ISwR)
-data(malaria)
-attach(malaria)
-
-malaria.ab <- glm(mal~ab, data=malaria , family = "binomial")
-
-n1 <- sum(mal)
-n0 <- sum(1-mal)
-
-B0 <- log(n1/n0) # -0.9946226
-n <- nrow(malaria)# 100
-
-pi_null <- n1/n
-
-a <- (n1/n)^n1 # 4.434265e-16
-b <- (n0/n)^n0 # 1.053341e-10
-
-ll_null <- log(a*b) # -58.32588
-
-table <- rbind(Bo,pi_null,ll_null)
-colnames(table) <- c("Datos")
-table
-```
-
-
-```{r}
-library(VGAM)
-library(ggplot2)
-library(reshape)
-
-y <- seq(0,1, by = 0.01)
-logit <- logitlink(y)
-probit <- logitlink(y)
-cauchit <- cauchitlink(y)
-
-
-graph <- data.frame(y,logit,probit,cauchit)
-graph <- melt(graph, id="y")
-ggplot(data = graph,aes(x=x,y=value,colour=variable))+geom_line(size=1)+ylim(c(-5,5))+ylab("Predictor Lineal")
-
-```
-```{r}
-library(VGAM)
-library(ggplot2)
-library(reshape)
-
-x<-seq(0.01, 0.99, by = 0.01)
-logit<-logitlink(x)
-probit<-probitlink(x)
-cauchit<-cauchitlink(x)
-
-
-graficos<-data.frame(x,logit,probit,cauchit)
-
-graficos<-melt(graficos,id="x")
-
-ggplot(data = graficos,aes(x=x,y=value,colour=variable))+geom_line(size=1)+ylim(c(-5,5))+ylab("Predictor Lineal")
-```
-
