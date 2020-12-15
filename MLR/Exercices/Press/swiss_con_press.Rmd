@@ -11,9 +11,9 @@ library(nortest)
 ```
 
 ```{r}
-stateed <- read.csv("stateed.csv", header = T, sep=";")
-head(stateed)
-attach(stateed)
+data(swiss)
+head(swiss)
+attach(swiss)
 ```
 
 ```{r}
@@ -59,55 +59,31 @@ ValidarSupuestos <- function (respuesta ,modelo,alpha){
 } 
 ```
 
-
 ```{r}
 
-modelo <- lm(STATEAID ~ ELDERLY)
+modelo <- lm(Fertility ~ Agriculture + Examination + Education + Catholic + Infant.Mortality)
 
-ValidarSupuestos(STATEAID, modelo, 0.05)
-```
-
-```{r}
-# Intervalio de alpha al 90% con x = mean(x)
-
-w_new = 3549.25 -100.84 * mean(ELDERLY)
-w_new
-```
-```{r}
-CME = anova(modelo)[2,3]
-CME
-```
-```{r}
-
-# Intervalo de predicción del 90% para w
-n <- nrow(stateed)
-Inferior.w<- w_new - qt(0.95,n-2) *sqrt(CME*(1+(1/n)))
-Superior.w<- w_new + qt(0.95,n-2) *sqrt(CME*(1+(1/n)))
-Intervalo.para.w <- cbind(Inferior.w, Superior.w)
-Intervalo.para.w
+AIC <- step(modelo)
 
 ```
 
+
 ```{r}
-summary(STATEAID)
+modelo <- lm(Fertility ~ Agriculture + Education)
+
+ValidarSupuestos(Fertility, modelo , 0.05)
 ```
 
-
-
+Press ultimo resudual
 ```{r}
+y_sin <- swiss[-47,]
+y_i <- swiss[47,]
 
-# Residual Press
+modelo_sin <- lm(Fertility ~ Agriculture + Education, data= y_sin)
 
-y_sin <- stateed[-50,]
-y_i <- stateed[50,]
-
-modelo_sin <- lm(STATEAID ~ ELDERLY+ SCHOOLAGE, data= y_sin)
 y_i_hat <- predict(modelo_sin, y_i)
 
-residual_press <- y_i$STATEAID - y_i_hat
+residual_press <- y_i$Fertility - y_i_hat
 residual_press
-
-#El ultimo residual PRESS ES 656.8209
-
 ```
 
