@@ -101,4 +101,42 @@ bptest(C_O)### Homocedasticidad Breusch-Pagan
 gqtest(C_O)### Homocedasticidad Goldfeld-Quandt
 dwtest(C_O)
 ```
+```{r}
 
+log.volume <- log(Volume)
+log.Girth <- log(Girth)
+
+log.volume.girth<- lm(log.volume ~ log.Girth)
+ValidarSupuestos(log.volume,log.volume.girth, 0.1)
+
+```
+
+```{r}
+
+log.volume <- log10(Volume)
+log.Girth <- log10(Girth)
+
+log.volume.girth<- lm(log.volume ~ log.Girth)
+ValidarSupuestos(log.volume,log.volume.girth, 0.1)
+
+```
+
+```{r}
+
+log.volume <- sqrt(Volume)
+log.Girth <- sqrt(Girth)
+
+log.volume.girth<- lm(log.volume ~ log.Girth)
+ValidarSupuestos(log.volume,log.volume.girth, 0.1)
+
+```
+
+```{r}
+
+log.volume <- 1/(Volume)
+log.Girth <- 1/(Girth)
+
+log.volume.girth<- lm(log.volume ~ log.Girth)
+ValidarSupuestos(log.volume,log.volume.girth, 0.1)
+
+```

@@ -1,0 +1,77 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(MASS)
+require(zoo)
+library(lmtest)
+library(nortest)
+```
+
+```{r}
+stateed <- read.csv("stateed.csv", header= T, sep=";" )
+head(stateed)
+attach(stateed)
+```
+```{r}
+full.model <- lm(STATEAID ~ ELDERLY + INCOME + POPULATION + SCHOOLAGE)
+AIC <- step(full.model)
+```
+
+```{r}
+### Funcion de validacion de supuestos
+ValidarSupuestos <- function (respuesta ,modelo,confianza){
+  
+  # Test de normalidad
+  
+  shapiro <- shapiro.test(modelo$residuals)
+  shapiro <- shapiro$p.value
+  
+  lillie <- lillie.test(modelo$residuals)
+  lillie <- lillie$p.value
+  
+    ifelse((shapiro > confianza) & (lillie > confianza), print("Existe normalidad de los errores"), print("No existe normalidad de los errores"))
+  
+  # Test de homocedasticidad
+  
+  
+  baruch <- bptest(modelo)
+  baruch <- baruch$p.value
+
+  golfred <- gqtest(modelo)
+  golfred <- golfred$p.value
+
+  ifelse((baruch > confianza) & (golfred > confianza), print("Existe homocedasticidad"), print("No existe homocedasticidad"))
+  
+  # Test de independencia
+  
+  indepenencia <- dwtest(respuesta ~ modelo$residuals)
+  indepenencia <- indepenencia$p.value
+  
+  ifelse((indepenencia > confianza), print("Hay independencia"), print("No hay independencia"))
+  
+  # Construccion de la Tabla de respuestas
+  
+  tabla <- rbind(shapiro, lillie, baruch, golfred, indepenencia)
+  rownames(tabla) <- c("shapiro", "lillie", "baruch", "golfred", "independencia")
+  colnames(tabla) <- c("p.value")
+  
+  print(round(tabla,5))
+
+  
+} 
+```
+
+
+```{r}
+ID.elder.sch <- lm(STATEAID ~ ELDERLY + SCHOOLAGE)
+
+# ValidarSupuestos(Respuesta, modelo, confianza)
+
+ValidarSupuestos(STATEAID,ID.elder.sch,0.05)
+
+# Usar caso de minimos cuadrados ajustados
+```
+
