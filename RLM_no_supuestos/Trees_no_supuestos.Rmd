@@ -1,0 +1,104 @@
+---
+title: "RLM no supuestos"
+output: html_notebook
+---
+
+
+```{r}
+library(MASS)
+require(zoo)
+library(lmtest)
+library(nortest)
+```
+
+
+```{r}
+data("trees")
+attach(trees)
+head(trees)
+```
+```{r}
+### Funcion de validacion de supuestos
+ValidarSupuestos <- function (respuesta ,modelo,confianza){
+  
+  # Test de normalidad
+  
+  shapiro <- shapiro.test(modelo$residuals)
+  shapiro <- shapiro$p.value
+  
+  lillie <- lillie.test(modelo$residuals)
+  lillie <- lillie$p.value
+  
+    ifelse((shapiro > confianza) & (lillie > confianza), print("Existe normalidad de los errores"), print("No existe normalidad de los errores"))
+  
+  # Test de homocedasticidad
+  
+  
+  baruch <- bptest(modelo)
+  baruch <- baruch$p.value
+
+  golfred <- gqtest(modelo)
+  golfred <- golfred$p.value
+
+  ifelse((baruch > confianza) & (golfred > confianza), print("Existe homocedasticidad"), print("No existe homocedasticidad"))
+  
+  # Test de independencia
+  
+  indepenencia <- dwtest(respuesta ~ modelo$residuals)
+  indepenencia <- indepenencia$p.value
+  
+  ifelse((indepenencia > confianza), print("Hay independencia"), print("No hay independencia"))
+  
+  # Construccion de la Tabla de respuestas
+  
+  tabla <- rbind(shapiro, lillie, baruch, golfred, indepenencia)
+  rownames(tabla) <- c("shapiro", "lillie", "baruch", "golfred", "independencia")
+  colnames(tabla) <- c("p.value")
+  
+  print(round(tabla,5))
+
+  
+} 
+```
+
+Analisis del modelo usando la covariable **Girth**
+
+```{r}
+# La variable respuesta es el Volumen
+
+volume.girth <- lm(Volume ~ Girth)
+summary(volume.girth)
+
+ValidarSupuestos(Volume,volume.girth,0.1)
+```
+```{r}
+
+log.volume <- log(Volume)
+
+log.volume.girth<- lm(log.volume ~ Girth)
+ValidarSupuestos(log.volume,log.volume.girth, 0.1)
+
+```
+
+```{r}
+
+log.10.volume <- log10(Volume)
+
+log.10.volume.girth<- lm(log.10.volume ~ Girth)
+
+# ValidarSupuestos(respuesta,modelo, confianza)
+ValidarSupuestos(log.10.volume,log.10.volume.girth, 0.1)
+
+```
+Usando Cochrane-orcutt
+
+```{r}
+
+C_O <- (log.10.volume.girth)
+shapiro.test(C_O$residuals) ## normalidad 
+lillie.test(C_O$residuals) ### normalidad
+bptest(C_O)### Homocedasticidad Breusch-Pagan 
+gqtest(C_O)### Homocedasticidad Goldfeld-Quandt
+dwtest(C_O)
+```
+
