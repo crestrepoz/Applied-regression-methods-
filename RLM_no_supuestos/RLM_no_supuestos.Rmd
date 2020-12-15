@@ -1,0 +1,141 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(MASS)
+require(zoo)
+library(lmtest)
+library(nortest)
+```
+
+
+Salario anual de 7 empresas (en millones de dólares)
+Predictor único, Proyectos: 
+Número de proyectos ejecutados en el año.
+Modelo de RLSimple, alfa=0.1
+
+```{r}
+Salario<-c(0.8,2.4, 3.7, 9.8, 10.2, 0.9, 12.6)
+Proyectos<-c(3, 5, 6, 11, 5, 0, 7) 
+plot(Proyectos, Salario)
+fit1<-lm(Salario~Proyectos)
+fit1
+anova(fit1)
+resid.1<-residuals(fit1) ### Residuales (errores estimados)
+
+```
+
+```{r}
+
+########## COMIENZO A VALIDAR SUPUESTOS.
+shapiro.test(residuals(fit1)) ## normalidad 
+lillie.test(residuals(fit1)) ### normalidad
+bptest(Salario~Proyectos)### Homocedasticidad Breusch-Pagan 
+gqtest(lm(Salario~Proyectos))### Homocedasticidad Goldfeld-Quandt
+dwtest(Salario~ residuals(fit1))# Durbin Watson independencia
+```
+
+Resumen de valores.p: No normalidad ni varianza constante.
+
+
+```{r}
+##### Intentaremos mejorar con transformación de la respuesta solamente
+###### Pero validaremos supuestos con la transformación
+### La forma técnica es a través de la Transformación Box-Cox (1964)
+########## Les dejo una ayuda gráfica de BoxPlot en varias transformaciones.
+
+require(carData)
+library(car) 
+symbox(~ Salario)
+###### Usaremos la transformación w =1/y porque se cumplen los supuestos con ella
+##Verificar que los supuestos no se cumplen con otras transformaciones
+########### usuales: log(y), log10(y), raíz cuadrada de (y), ...
+Salario2=(Salario^-1)
+### modelo teórico: w_i = bo + b1*Proyectos_i + error_i
+########## con w_i = Salario2_i
+fit2<-lm(Salario2~Proyectos)
+fit2
+anova(fit2)
+resid.2<-residuals(fit2) ### Residuales (errores estimados)
+
+```
+```{r}
+########## COMIENZO A VALIDAR SUPUESTOS.
+shapiro.test(residuals(fit2)) ## normalidad 
+lillie.test(residuals(fit2)) ### normalidad
+bptest(Salario2~Proyectos)### Homocedasticidad Breusch-Pagan 
+gqtest(lm(Salario2~Proyectos))### Homocedasticidad Goldfeld-Quandt
+dwtest(Salario2~ residuals(fit2))# Durbin Watson independencia
+
+
+#### Resumen: en los cinco tests, valor.p mayor a 0.1
+########## SÍ SE CUMPLEN LOS SUPUESTOS
+```
+** SE PIDE CALCULAR UN INTERVALO DE PREDICCIÓN del 90% para Salario ** 
+
+```{r}
+
+################### cuando X=promedio de Proyectos.
+############ Estrategia de trabajo: 1) calculamos el intervalo para Salario2
+############ 2) y, al final, hacemos transformación inversa sobre el intervalo 
+##### modelo ajustado: w_estimado=bo_est + b1_est*Proyectos
+
+summary(fit2)
+
+
+
+```
+```{r}
+##### w_estimado =  1.08 - 0.115*Proyectos 
+w_new= 1.08 - 0.115*mean(Proyectos) ## valor de w cuando x=mean(Proyectos)
+w_new
+```
+```{r}
+anova(fit2)
+```
+
+```{r}
+CME=anova(fit2)[2,3]  
+CME    ### 0.115
+```
+
+```{r}
+qt(0.95,5) ### 2.015
+anova(fit2)
+```
+
+```{r}
+##### Intervalo de predicción del 90% para w
+Inferior.w<- w_new - qt(0.95,5) *sqrt(CME*(1+(1/7)))
+Superior.w<- w_new + qt(0.95,5) *sqrt(CME*(1+(1/7)))
+Intervalo.para.w <- cbind(Inferior.w, Superior.w)
+Intervalo.para.w
+```
+
+
+```{r}
+######## Ahora aplicamos transformación inversa: y=1/w
+Inferior.y<- (Inferior.w)^-1
+Superior.y<- (Superior.w)^-1
+Intervalo.para.y <- cbind(Inferior.y, Superior.y)
+Intervalo.para.y
+
+```
+
+```{r}
+summary(Salario)
+```
+
+
+```{r}
+##### ESTE EJEMPLO ES UNA MUESTRA DEL PELIGRO DEL 
+######## MÉTODO DE TRANSFORMACIÓN DE LA RESPUESTA
+###### EN ALGUNOS CASOS, AL VOLVER A LA ESCALA ORIGINAL
+####### LOS RESULTADOS ESTÁN FUERA DE RANGO Y 
+############# NO TIENEN SENTIDO.
+####### LO MÁS DELICADO DE ESTE TEMA ES QUE ALGUNOS AUTORES APLICAN 
+####### TRANSFORMACIÓN DE LA RESPUESTA Y NO VALIDAN SUPUESTOS.
+```
+
