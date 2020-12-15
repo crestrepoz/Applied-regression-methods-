@@ -1,0 +1,130 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(MASS)
+require(zoo)
+library(lmtest)
+library(nortest)
+```
+
+```{r}
+data(mtcars)
+head(mtcars)
+attach(mtcars)
+```
+
+
+```{r}
+### Funcion de validacion de supuestos
+ValidarSupuestos <- function (respuesta ,modelo,confianza){
+  
+  # Test de normalidad
+  
+  shapiro <- shapiro.test(modelo$residuals)
+  shapiro <- shapiro$p.value
+  
+  lillie <- lillie.test(modelo$residuals)
+  lillie <- lillie$p.value
+  
+    ifelse((shapiro > confianza) & (lillie > confianza), print("Existe normalidad de los errores"), print("No existe normalidad de los errores"))
+  
+  # Test de homocedasticidad
+  
+  
+  baruch <- bptest(modelo)
+  baruch <- baruch$p.value
+
+  golfred <- gqtest(modelo)
+  golfred <- golfred$p.value
+
+  ifelse((baruch > confianza) & (golfred > confianza), print("Existe homocedasticidad"), print("No existe homocedasticidad"))
+  
+  # Test de independencia
+  
+  indepenencia <- dwtest(respuesta ~ modelo$residuals)
+  indepenencia <- indepenencia$p.value
+  
+  ifelse((indepenencia > confianza), print("Hay independencia"), print("No hay independencia"))
+  
+  # Construccion de la Tabla de respuestas
+  
+  tabla <- rbind(shapiro, lillie, baruch, golfred, indepenencia)
+  rownames(tabla) <- c("shapiro", "lillie", "baruch", "golfred", "independencia")
+  colnames(tabla) <- c("p.value")
+  
+  print(round(tabla,5))
+  
+  
+} 
+```
+
+
+
+```{r}
+# Validacion supuestos modelo inicial
+
+mpg.hp <- lm(mpg ~ hp)
+
+ValidarSupuestos(mpg, mpg.hp, 0.05)
+
+```
+
+Se cumplen los supuestos com p.value > 0.05
+
+```{r}
+
+# log (mpg)
+
+t.mpg <- log(mpg)
+modelo <- lm(t.mpg ~ hp)
+
+ValidarSupuestos(t.mpg, modelo, 0.05)
+
+```
+
+
+```{r}
+
+#  CI 90% cuando x = mean(x)
+
+w_new = 3.46 - 0.0034 *  mean(hp)
+w_new
+
+```
+```{r}
+
+CME=anova(modelo)[2,3]  
+CME    ### 0.03452
+
+```
+
+```{r}
+# Intervalo de predicción del 90% para w
+n <- nrow(mtcars)
+Inferior.w<- w_new - qt(0.90,n-2) *sqrt(CME*(1+(1/n)))
+Superior.w<- w_new + qt(0.90,n-2) *sqrt(CME*(1+(1/n)))
+Intervalo.para.w <- cbind(Inferior.w, Superior.w)
+Intervalo.para.w
+```
+
+
+```{r}
+
+# Ahora aplicamos transformación inversa: y=1/w
+
+Inferior.y<- exp(Inferior.w)
+Superior.y<- exp(Superior.w)
+Intervalo.para.y <- cbind(Inferior.y, Superior.y)
+Intervalo.para.y
+```
+
+```{r}
+
+summary(mpg)
+
+```
+
+Aunque le modelo transformado cumple los supuestos y están dentro del rango por lo tanto tienen sentido
