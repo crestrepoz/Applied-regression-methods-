@@ -1809,32 +1809,24 @@ library(nortest)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YShtdGNhcnMpXG5oZWFkKG10Y2FycylcbmBgYCJ9 -->
-<pre class="r"><code>data(mtcars)
-head(mtcars)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RhdGVlZCA8LSByZWFkLmNzdihcInN0YXRlZWQuY3N2XCIsIGhlYWRlciA9IFQsIHNlcD1cIjtcIilcbmhlYWQoc3RhdGVlZClcbmBgYCJ9 -->
+<pre class="r"><code>stateed &lt;- read.csv(&quot;stateed.csv&quot;, header = T, sep=&quot;;&quot;)
+head(stateed)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTF9LCJyZGYiOiJINHNJQUFBQUFBQUFCblZUTVd6VFFCUzlPcmJUMkdwYVJBZFlrRWVXUm8yVHRDeUlrNGdFQ3hJVWlVYTB5OFYyVXd2bmZEM2JLWFJpWVdZR3NjSGNoYVV6TTh5c01MT3d3Rmk0cys5YjlWRytkSG52di92djd2OUxzak9lREp5Smd4QnFJVk9zbGlVb3N1OCs3UHNqSHlIVEVObVMyT2xJZkM2cXJncmlpdFdWWlhpRXlxaHg2N09NTDNoMFVBYjJQdzVrWVAvNkd4RnZhOTgxVlErNHB1VmVNNjk5b2RJQjl4U3l5b0FYTHl0TXZLWnZUK21BdTdpWlI5OHFmSXFidnRWQjFUOWdWODIzL1A2cmM1dDl3QjJsMitzbjMrK2RydGMrODllbjEvczNmK08yNnM4UW1aQnc1K3pSajFjM3pyQXJQZ1REN21scHJIMmJSZVhyVzlXKy8wN2E5dkdBeVF1UGFuMTRxendIZkVpTE96K2JxT3ZnMCt2MCtrdWk2bk5OemFYajh1WDRQNTkrTC82bno4WVAwS0prSG1XQ1NMdXJ4TmFjellBR0x4SkZ6VERPbU9MR0lhdFZUbkpRajRHWlIxa1VnTHJJZ0pFNTdNOGl3b0VIaEUrMXRqbzhQZTVkYk0yR2pRZmtKQ1Rlem1Tb2hKVmE4SFlKZE8yTVNaNFYxTnZ1YnlxbGV6L2xOTXE5b1RmbThTSlM2aFdsUG1ZcHo4azBMYUQvOWhPU3hJVG0rbXNGQ2NtZ0pSQ2RrT1NrZDhCRnR5STcxeXp0bE9WeFNvWEprUDl6U3pNdmNVMVlMYWljTzl3SURndjZiR05MWGxCdVYydEZvWDJCdTlXVnhoOTFsS1dPc2lNNml5bk1haVZrR3NGMzJSWHZXejV2ai9HWXd0U09VTE5lbnVZRTZwd2dUVUFwWjBQbmZ3SG1TOXNsM3dRQUFBPT0ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUJsMVN6VXJEUUJDZVJGTnQ4S2ZvU1VRRTBZTkNDNmFJNENraHJWcW9wbWdGUGE3OTBkQjBWNUw0Z3lkZndvTStnRjY4K1FvZTllNGJpT2pOa3g3VTJjMXV4UXdzTTk5OE96dmZUTEpWMmkyYXV5WUE5RUUvbmo0RFE4aTR0VVZyeVFMbzF4RnB5R1M1UDhOYjQ1ekdreE0rSVFhY2dPeVRMcEV3Z3pEcWtCNFordWVNS2pqb2hCMUNJeEpKYkxvazhOc3NwSDd2aHNzQ0ZwSW13M2lFUDJmUFAzSjdzblBTTDdTRjJYbUo1MENZUFZzVWh1R3dVS2ZkemdEc04wRjdmUU40WDRYYzF3ZG9EOU05SGtZL0FmUVZiSE1Ea0MwQm5Od2h0ZmpIRDA0Q2pGMWkrSUx4Rk1EUU04NHozdE5WbEgyWExoSnYzWXYrZGlLamFGc1RWMmpYdHBYd3FYVWFsSFJiVVdxVnhuYmRxWmZWNnNyVlVubXJ1cWYyV3RsMHZRMUZtald2dGxOMTZoVnZVeTFPMURxVmtzVFpiWGZkODZyT1dqblZPUnV5MDRMcXprZlZwY0JNV21JRHY2U1NxSkptazhTazBBNnhIdEYzcW1TQUhjVStvMWlrODBVWnFXSXRUQ1Z5eDVRcmFlWWJoOGUwazdlV2VRZkJKMmRZK3N6L21QZlVmK1JiaGxwUWl4NzR0S1hFNDAvWkNpUVl3WkhGeElXajBLZXhHZ1d6VVNGbU1WSDN6QVlMVkVZTUI5Ky9ZMlpteWlNREFBQT0ifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["mpg"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["cyl"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["disp"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["hp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["drat"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["wt"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["qsec"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["vs"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["am"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["gear"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["carb"],"name":[11],"type":["dbl"],"align":["right"]}],"data":[{"1":"21.0","2":"6","3":"160","4":"110","5":"3.90","6":"2.620","7":"16.46","8":"0","9":"1","10":"4","11":"4","_rn_":"Mazda RX4"},{"1":"21.0","2":"6","3":"160","4":"110","5":"3.90","6":"2.875","7":"17.02","8":"0","9":"1","10":"4","11":"4","_rn_":"Mazda RX4 Wag"},{"1":"22.8","2":"4","3":"108","4":"93","5":"3.85","6":"2.320","7":"18.61","8":"1","9":"1","10":"4","11":"1","_rn_":"Datsun 710"},{"1":"21.4","2":"6","3":"258","4":"110","5":"3.08","6":"3.215","7":"19.44","8":"1","9":"0","10":"3","11":"1","_rn_":"Hornet 4 Drive"},{"1":"18.7","2":"8","3":"360","4":"175","5":"3.15","6":"3.440","7":"17.02","8":"0","9":"0","10":"3","11":"2","_rn_":"Hornet Sportabout"},{"1":"18.1","2":"6","3":"225","4":"105","5":"2.76","6":"3.460","7":"20.22","8":"1","9":"0","10":"3","11":"1","_rn_":"Valiant"}],"options":{"columns":{"min":{},"max":[10],"total":[11]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["STATE"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ELDERLY"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["INCOME"],"name":[3],"type":["int"],"align":["right"]},{"label":["POPULATION"],"name":[4],"type":["int"],"align":["right"]},{"label":["STATEAID"],"name":[5],"type":["int"],"align":["right"]},{"label":["SCHOOLAGE"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"Alabama","2":"12.9","3":"108322","4":"4089","5":"2075","6":"19.0","_rn_":"1"},{"1":"Alaska","2":"4.2","3":"25188","4":"570","5":"4757","6":"21.5","_rn_":"2"},{"1":"Arizona","2":"13.2","3":"125419","4":"3750","5":"1767","6":"18.7","_rn_":"3"},{"1":"Arkansas","2":"14.9","3":"60486","4":"2372","5":"2077","6":"19.2","_rn_":"4"},{"1":"California","2":"10.5","3":"1112819","4":"30380","5":"3288","6":"18.1","_rn_":"5"},{"1":"Colorado","2":"10.1","3":"115743","4":"3377","5":"1811","6":"18.5","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10],"total":[6]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXR0YWNoKG10Y2FycylcbmBgYCJ9 -->
-<pre class="r"><code>attach(mtcars)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXR0YWNoKHN0YXRlZWQpXG5gYGAifQ== -->
+<pre class="r"><code>attach(stateed)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSBtdGNhcnMgKHBvcyA9IDQpOlxuXG4gICAgYW0sIGNhcmIsIGN5bCwgZGlzcCwgZHJhdCwgZ2VhciwgaHAsIG1wZywgcXNlYywgdnMsIHd0XG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0cyBhcmUgbWFza2VkIGZyb20gbXRjYXJzIChwb3MgPSA1KTpcblxuICAgIGFtLCBjYXJiLCBjeWwsIGRpc3AsIGRyYXQsIGdlYXIsIGhwLCBtcGcsIHFzZWMsIHZzLCB3dFxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIG10Y2FycyAocG9zID0gNik6XG5cbiAgICBhbSwgY2FyYiwgY3lsLCBkaXNwLCBkcmF0LCBnZWFyLCBocCwgbXBnLCBxc2VjLCB2cywgd3RcbiJ9 -->
-<pre><code>The following objects are masked from mtcars (pos = 4):
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSBzdGF0ZWVkIChwb3MgPSA0KTpcblxuICAgIEVMREVSTFksIElOQ09NRSwgUE9QVUxBVElPTiwgU0NIT09MQUdFLCBTVEFURSwgU1RBVEVBSURcbiJ9 -->
+<pre><code>The following objects are masked from stateed (pos = 4):
 
-    am, carb, cyl, disp, drat, gear, hp, mpg, qsec, vs, wt
-
-The following objects are masked from mtcars (pos = 5):
-
-    am, carb, cyl, disp, drat, gear, hp, mpg, qsec, vs, wt
-
-The following objects are masked from mtcars (pos = 6):
-
-    am, carb, cyl, disp, drat, gear, hp, mpg, qsec, vs, wt</code></pre>
+    ELDERLY, INCOME, POPULATION, SCHOOLAGE, STATE, STATEAID</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1887,146 +1879,76 @@ ValidarSupuestos &lt;- function (respuesta ,modelo,confianza){
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBWYWxpZGFjaW9uIHN1cHVlc3RvcyBtb2RlbG8gaW5pY2lhbFxuXG5tcGcuaHAgPC0gbG0obXBnIH4gaHApXG5cblZhbGlkYXJTdXB1ZXN0b3MobXBnLCBtcGcuaHAsIDAuMDUpXG5gYGAifQ== -->
-<pre class="r"><code># Validacion supuestos modelo inicial
-
-mpg.hp &lt;- lm(mpg ~ hp)
-
-ValidarSupuestos(mpg, mpg.hp, 0.05)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiTm8gZXhpc3RlIG5vcm1hbGlkYWQgZGUgbG9zIGVycm9yZXNcIlxuWzFdIFwiTm8gZXhpc3RlIGhvbW9jZWRhc3RpY2lkYWRcIlxuWzFdIFwiSGF5IGluZGVwZW5kZW5jaWFcIlxuICAgICAgICAgICAgICBwLnZhbHVlXG5zaGFwaXJvICAgICAgIDAuMDI1NjhcbmxpbGxpZSAgICAgICAgMC4zMjU2NlxuYmFydWNoICAgICAgICAwLjgyNDI5XG5nb2xmcmVkICAgICAgIDAuMDAzNzZcbmluZGVwZW5kZW5jaWEgMC4xMTE0M1xuIn0= -->
-<pre><code>[1] &quot;No existe normalidad de los errores&quot;
-[1] &quot;No existe homocedasticidad&quot;
-[1] &quot;Hay independencia&quot;
-              p.value
-shapiro       0.02568
-lillie        0.32566
-baruch        0.82429
-golfred       0.00376
-independencia 0.11143</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Se cumplen los supuestos com p.value &gt; 0.05</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIGxvZyAobXBnKVxuXG50Lm1wZyA8LSBsb2cobXBnKVxubW9kZWxvIDwtIGxtKHQubXBnIH4gaHApXG5cblZhbGlkYXJTdXB1ZXN0b3ModC5tcGcsIG1vZGVsbywgMC4wNSlcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5tb2RlbG8gPC0gbG0oU1RBVEVBSUQgfiBFTERFUkxZKVxuXG5WYWxpZGFyU3VwdWVzdG9zKFNUQVRFQUlELCBtb2RlbG8sIDAuMDUpXG5gYGAifQ== -->
 <pre class="r"><code>
-# log (mpg)
+modelo &lt;- lm(STATEAID ~ ELDERLY)
 
-t.mpg &lt;- log(mpg)
-modelo &lt;- lm(t.mpg ~ hp)
-
-ValidarSupuestos(t.mpg, modelo, 0.05)</code></pre>
+ValidarSupuestos(STATEAID, modelo, 0.05)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRXhpc3RlIG5vcm1hbGlkYWQgZGUgbG9zIGVycm9yZXNcIlxuWzFdIFwiRXhpc3RlIGhvbW9jZWRhc3RpY2lkYWRcIlxuWzFdIFwiSGF5IGluZGVwZW5kZW5jaWFcIlxuICAgICAgICAgICAgICBwLnZhbHVlXG5zaGFwaXJvICAgICAgIDAuNTc0MzlcbmxpbGxpZSAgICAgICAgMC4yNjUyMlxuYmFydWNoICAgICAgICAwLjA1Nzc3XG5nb2xmcmVkICAgICAgIDAuMTQ3MThcbmluZGVwZW5kZW5jaWEgMC4xMTAyMVxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRXhpc3RlIG5vcm1hbGlkYWQgZGUgbG9zIGVycm9yZXNcIlxuWzFdIFwiRXhpc3RlIGhvbW9jZWRhc3RpY2lkYWRcIlxuWzFdIFwiSGF5IGluZGVwZW5kZW5jaWFcIlxuICAgICAgICAgICAgICBwLnZhbHVlXG5zaGFwaXJvICAgICAgIDAuNjg1NjRcbmxpbGxpZSAgICAgICAgMC40NDc4OVxuYmFydWNoICAgICAgICAwLjA3Mjg2XG5nb2xmcmVkICAgICAgIDAuMzM4MDJcbmluZGVwZW5kZW5jaWEgMC41Mzk2MVxuIn0= -->
 <pre><code>[1] &quot;Existe normalidad de los errores&quot;
 [1] &quot;Existe homocedasticidad&quot;
 [1] &quot;Hay independencia&quot;
               p.value
-shapiro       0.57439
-lillie        0.26522
-baruch        0.05777
-golfred       0.14718
-independencia 0.11021</code></pre>
+shapiro       0.68564
+lillie        0.44789
+baruch        0.07286
+golfred       0.33802
+independencia 0.53961</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jICBDSSA5MCUgY3VhbmRvIHggPSBtZWFuKHgpXG5cbndfbmV3ID0gMy40NiAtIDAuMDAzNCAqICBtZWFuKGhwKVxud19uZXdcbmBgYCJ9 -->
-<pre class="r"><code>
-#  CI 90% cuando x = mean(x)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBJbnRlcnZhbGlvIGRlIGNvbmZpYW56YSBhbCA5MCUgY29uIHggPSBtZWFuKHgpXG5cbndfbmV3ID0gMzU0OS4yNSAtMTAwLjg0ICogbWVhbihFTERFUkxZKVxud19uZXdcbmBgYCJ9 -->
+<pre class="r"><code># Intervalio de confianza al 90% con x = mean(x)
 
-w_new = 3.46 - 0.0034 *  mean(hp)
+w_new = 3549.25 -100.84 * mean(ELDERLY)
 w_new</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDIuOTYxMjYzXG4ifQ== -->
-<pre><code>[1] 2.961263</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDIyODQuMzEzXG4ifQ== -->
+<pre><code>[1] 2284.313</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5DTUU9YW5vdmEobW9kZWxvKVsyLDNdICBcbkNNRSAgICAjIyMgMC4wMzQ1MlxuYGBgIn0= -->
-<pre class="r"><code>
-CME=anova(modelo)[2,3]  
-CME    ### 0.03452</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ01FID0gYW5vdmEobW9kZWxvKVsyLDNdXG5DTUVcbmBgYCJ9 -->
+<pre class="r"><code>CME = anova(modelo)[2,3]
+CME</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDM0NTE3OTdcbiJ9 -->
-<pre><code>[1] 0.03451797</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDYwNzc2OS40XG4ifQ== -->
+<pre><code>[1] 607769.4</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBJbnRlcnZhbG8gZGUgcHJlZGljY2nDs24gZGVsIDkwJSBwYXJhIHdcbm4gPC0gbnJvdyhtdGNhcnMpXG5JbmZlcmlvci53PC0gd19uZXcgLSBxdCgwLjkwLG4tMikgKnNxcnQoQ01FKigxKygxL24pKSlcblN1cGVyaW9yLnc8LSB3X25ldyArIHF0KDAuOTAsbi0yKSAqc3FydChDTUUqKDErKDEvbikpKVxuSW50ZXJ2YWxvLnBhcmEudyA8LSBjYmluZChJbmZlcmlvci53LCBTdXBlcmlvci53KVxuSW50ZXJ2YWxvLnBhcmEud1xuYGBgIn0= -->
-<pre class="r"><code># Intervalo de predicción del 90% para w
-n &lt;- nrow(mtcars)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIEludGVydmFsbyBkZSBwcmVkaWNjacOzbiBkZWwgOTAlIHBhcmEgd1xubiA8LSBucm93KHN0YXRlZWQpXG5JbmZlcmlvci53PC0gd19uZXcgLSBxdCgwLjkwLG4tMikgKnNxcnQoQ01FKigxKygxL24pKSlcblN1cGVyaW9yLnc8LSB3X25ldyArIHF0KDAuOTAsbi0yKSAqc3FydChDTUUqKDErKDEvbikpKVxuSW50ZXJ2YWxvLnBhcmEudyA8LSBjYmluZChJbmZlcmlvci53LCBTdXBlcmlvci53KVxuSW50ZXJ2YWxvLnBhcmEud1xuYGBgIn0= -->
+<pre class="r"><code>
+# Intervalo de predicción del 90% para w
+n &lt;- nrow(stateed)
 Inferior.w&lt;- w_new - qt(0.90,n-2) *sqrt(CME*(1+(1/n)))
 Superior.w&lt;- w_new + qt(0.90,n-2) *sqrt(CME*(1+(1/n)))
 Intervalo.para.w &lt;- cbind(Inferior.w, Superior.w)
 Intervalo.para.w</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICBJbmZlcmlvci53IFN1cGVyaW9yLndcblsxLF0gICAyLjcxNDAyNiAgIDMuMjA4NDk5XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICBJbmZlcmlvci53IFN1cGVyaW9yLndcblsxLF0gICAxMjYxLjE5NiAgICAzMzA3LjQzXG4ifQ== -->
 <pre><code>     Inferior.w Superior.w
-[1,]   2.714026   3.208499</code></pre>
+[1,]   1261.196    3307.43</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIEFob3JhIGFwbGljYW1vcyB0cmFuc2Zvcm1hY2nDs24gaW52ZXJzYTogeT0xL3dcblxuSW5mZXJpb3IueTwtIGV4cChJbmZlcmlvci53KVxuU3VwZXJpb3IueTwtIGV4cChTdXBlcmlvci53KVxuSW50ZXJ2YWxvLnBhcmEueSA8LSBjYmluZChJbmZlcmlvci55LCBTdXBlcmlvci55KVxuSW50ZXJ2YWxvLnBhcmEueVxuYGBgIn0= -->
-<pre class="r"><code>
-# Ahora aplicamos transformación inversa: y=1/w
-
-Inferior.y&lt;- exp(Inferior.w)
-Superior.y&lt;- exp(Superior.w)
-Intervalo.para.y &lt;- cbind(Inferior.y, Superior.y)
-Intervalo.para.y</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShTVEFURUFJRClcbmBgYCJ9 -->
+<pre class="r"><code>summary(STATEAID)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICBJbmZlcmlvci55IFN1cGVyaW9yLnlcblsxLF0gICAgMTUuMDg5OSAgIDI0Ljc0MTkzXG4ifQ== -->
-<pre><code>     Inferior.y Superior.y
-[1,]    15.0899   24.74193</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5zdW1tYXJ5KG1wZylcbmBgYCJ9 -->
-<pre class="r"><code>
-summary(mpg)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgTWluLiAxc3QgUXUuICBNZWRpYW4gICAgTWVhbiAzcmQgUXUuICAgIE1heC4gXG4gIDEwLjQwICAgMTUuNDMgICAxOS4yMCAgIDIwLjA5ICAgMjIuODAgICAzMy45MCBcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgTWluLiAxc3QgUXUuICBNZWRpYW4gICAgTWVhbiAzcmQgUXUuICAgIE1heC4gXG4gICAgMzkyICAgIDE3NzggICAgMjA4NyAgICAyMjg0ICAgIDI3NjggICAgNDc1NyBcbiJ9 -->
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  10.40   15.43   19.20   20.09   22.80   33.90 </code></pre>
+    392    1778    2087    2284    2768    4757 </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Aunque le modelo transformado cumple los supuestos y están dentro del rango por lo tanto tienen sentido</p>
 <!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIGxvZyAobXBnKVxuXG50Lm1wZyA8LSBzcXJ0KG1wZylcbm1vZGVsbyA8LSBsbSh0Lm1wZyB+IHd0KVxuXG5WYWxpZGFyU3VwdWVzdG9zKHQubXBnLCBtb2RlbG8sIDAuMSlcbmBgYCJ9 -->
-<pre class="r"><code>
-# log (mpg)
 
-t.mpg &lt;- sqrt(mpg)
-modelo &lt;- lm(t.mpg ~ wt)
-
-ValidarSupuestos(t.mpg, modelo, 0.1)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRXhpc3RlIG5vcm1hbGlkYWQgZGUgbG9zIGVycm9yZXNcIlxuWzFdIFwiTm8gZXhpc3RlIGhvbW9jZWRhc3RpY2lkYWRcIlxuWzFdIFwiTm8gaGF5IGluZGVwZW5kZW5jaWFcIlxuICAgICAgICAgICAgICBwLnZhbHVlXG5zaGFwaXJvICAgICAgIDAuMTY2NTJcbmxpbGxpZSAgICAgICAgMC4yMjI0OFxuYmFydWNoICAgICAgICAwLjY0MjYwXG5nb2xmcmVkICAgICAgIDAuMDIwNzdcbmluZGVwZW5kZW5jaWEgMC4wMDAwN1xuIn0= -->
-<pre><code>[1] &quot;Existe normalidad de los errores&quot;
-[1] &quot;No existe homocedasticidad&quot;
-[1] &quot;No hay independencia&quot;
-              p.value
-shapiro       0.16652
-lillie        0.22248
-baruch        0.64260
-golfred       0.02077
-independencia 0.00007</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkoTUFTUykNCnJlcXVpcmUoem9vKQ0KbGlicmFyeShsbXRlc3QpDQpsaWJyYXJ5KG5vcnRlc3QpDQpgYGANCg0KYGBge3J9DQpkYXRhKG10Y2FycykNCmhlYWQobXRjYXJzKQ0KYXR0YWNoKG10Y2FycykNCmBgYA0KDQoNCmBgYHtyfQ0KIyMjIEZ1bmNpb24gZGUgdmFsaWRhY2lvbiBkZSBzdXB1ZXN0b3MNClZhbGlkYXJTdXB1ZXN0b3MgPC0gZnVuY3Rpb24gKHJlc3B1ZXN0YSAsbW9kZWxvLGNvbmZpYW56YSl7DQogIA0KICAjIFRlc3QgZGUgbm9ybWFsaWRhZA0KICANCiAgc2hhcGlybyA8LSBzaGFwaXJvLnRlc3QobW9kZWxvJHJlc2lkdWFscykNCiAgc2hhcGlybyA8LSBzaGFwaXJvJHAudmFsdWUNCiAgDQogIGxpbGxpZSA8LSBsaWxsaWUudGVzdChtb2RlbG8kcmVzaWR1YWxzKQ0KICBsaWxsaWUgPC0gbGlsbGllJHAudmFsdWUNCiAgDQogICAgaWZlbHNlKChzaGFwaXJvID4gY29uZmlhbnphKSAmIChsaWxsaWUgPiBjb25maWFuemEpLCBwcmludCgiRXhpc3RlIG5vcm1hbGlkYWQgZGUgbG9zIGVycm9yZXMiKSwgcHJpbnQoIk5vIGV4aXN0ZSBub3JtYWxpZGFkIGRlIGxvcyBlcnJvcmVzIikpDQogIA0KICAjIFRlc3QgZGUgaG9tb2NlZGFzdGljaWRhZA0KICANCiAgDQogIGJhcnVjaCA8LSBicHRlc3QobW9kZWxvKQ0KICBiYXJ1Y2ggPC0gYmFydWNoJHAudmFsdWUNCg0KICBnb2xmcmVkIDwtIGdxdGVzdChtb2RlbG8pDQogIGdvbGZyZWQgPC0gZ29sZnJlZCRwLnZhbHVlDQoNCiAgaWZlbHNlKChiYXJ1Y2ggPiBjb25maWFuemEpICYgKGdvbGZyZWQgPiBjb25maWFuemEpLCBwcmludCgiRXhpc3RlIGhvbW9jZWRhc3RpY2lkYWQiKSwgcHJpbnQoIk5vIGV4aXN0ZSBob21vY2VkYXN0aWNpZGFkIikpDQogIA0KICAjIFRlc3QgZGUgaW5kZXBlbmRlbmNpYQ0KICANCiAgaW5kZXBlbmVuY2lhIDwtIGR3dGVzdChyZXNwdWVzdGEgfiBtb2RlbG8kcmVzaWR1YWxzKQ0KICBpbmRlcGVuZW5jaWEgPC0gaW5kZXBlbmVuY2lhJHAudmFsdWUNCiAgDQogIGlmZWxzZSgoaW5kZXBlbmVuY2lhID4gY29uZmlhbnphKSwgcHJpbnQoIkhheSBpbmRlcGVuZGVuY2lhIiksIHByaW50KCJObyBoYXkgaW5kZXBlbmRlbmNpYSIpKQ0KICANCiAgIyBDb25zdHJ1Y2Npb24gZGUgbGEgVGFibGEgZGUgcmVzcHVlc3Rhcw0KICANCiAgdGFibGEgPC0gcmJpbmQoc2hhcGlybywgbGlsbGllLCBiYXJ1Y2gsIGdvbGZyZWQsIGluZGVwZW5lbmNpYSkNCiAgcm93bmFtZXModGFibGEpIDwtIGMoInNoYXBpcm8iLCAibGlsbGllIiwgImJhcnVjaCIsICJnb2xmcmVkIiwgImluZGVwZW5kZW5jaWEiKQ0KICBjb2xuYW1lcyh0YWJsYSkgPC0gYygicC52YWx1ZSIpDQogIA0KICBwcmludChyb3VuZCh0YWJsYSw1KSkNCiAgDQogIA0KfSANCmBgYA0KDQoNCg0KYGBge3J9DQojIFZhbGlkYWNpb24gc3VwdWVzdG9zIG1vZGVsbyBpbmljaWFsDQoNCm1wZy5ocCA8LSBsbShtcGcgfiBocCkNCg0KVmFsaWRhclN1cHVlc3RvcyhtcGcsIG1wZy5ocCwgMC4wNSkNCg0KYGBgDQoNClNlIGN1bXBsZW4gbG9zIHN1cHVlc3RvcyBjb20gcC52YWx1ZSA+IDAuMDUNCg0KYGBge3J9DQoNCiMgbG9nIChtcGcpDQoNCnQubXBnIDwtIGxvZyhtcGcpDQptb2RlbG8gPC0gbG0odC5tcGcgfiBocCkNCg0KVmFsaWRhclN1cHVlc3Rvcyh0Lm1wZywgbW9kZWxvLCAwLjA1KQ0KDQpgYGANCg0KDQpgYGB7cn0NCg0KIyAgQ0kgOTAlIGN1YW5kbyB4ID0gbWVhbih4KQ0KDQp3X25ldyA9IDMuNDYgLSAwLjAwMzQgKiAgbWVhbihocCkNCndfbmV3DQoNCmBgYA0KYGBge3J9DQoNCkNNRT1hbm92YShtb2RlbG8pWzIsM10gIA0KQ01FICAgICMjIyAwLjAzNDUyDQoNCmBgYA0KDQpgYGB7cn0NCiMgSW50ZXJ2YWxvIGRlIHByZWRpY2Npw7NuIGRlbCA5MCUgcGFyYSB3DQpuIDwtIG5yb3cobXRjYXJzKQ0KSW5mZXJpb3IudzwtIHdfbmV3IC0gcXQoMC45MCxuLTIpICpzcXJ0KENNRSooMSsoMS9uKSkpDQpTdXBlcmlvci53PC0gd19uZXcgKyBxdCgwLjkwLG4tMikgKnNxcnQoQ01FKigxKygxL24pKSkNCkludGVydmFsby5wYXJhLncgPC0gY2JpbmQoSW5mZXJpb3IudywgU3VwZXJpb3IudykNCkludGVydmFsby5wYXJhLncNCmBgYA0KDQoNCmBgYHtyfQ0KDQojIEFob3JhIGFwbGljYW1vcyB0cmFuc2Zvcm1hY2nDs24gaW52ZXJzYTogeT0xL3cNCg0KSW5mZXJpb3IueTwtIGV4cChJbmZlcmlvci53KQ0KU3VwZXJpb3IueTwtIGV4cChTdXBlcmlvci53KQ0KSW50ZXJ2YWxvLnBhcmEueSA8LSBjYmluZChJbmZlcmlvci55LCBTdXBlcmlvci55KQ0KSW50ZXJ2YWxvLnBhcmEueQ0KYGBgDQoNCmBgYHtyfQ0KDQpzdW1tYXJ5KG1wZykNCg0KYGBgDQoNCkF1bnF1ZSBsZSBtb2RlbG8gdHJhbnNmb3JtYWRvIGN1bXBsZSBsb3Mgc3VwdWVzdG9zIHkgZXN0w6FuIGRlbnRybyBkZWwgcmFuZ28gcG9yIGxvIHRhbnRvIHRpZW5lbiBzZW50aWRvDQoNCg0KDQpgYGB7cn0NCg0KIyBsb2cgKG1wZykNCg0KdC5tcGcgPC0gc3FydChtcGcpDQptb2RlbG8gPC0gbG0odC5tcGcgfiB3dCkNCg0KVmFsaWRhclN1cHVlc3Rvcyh0Lm1wZywgbW9kZWxvLCAwLjEpDQoNCmBgYA0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkoTUFTUykNCnJlcXVpcmUoem9vKQ0KbGlicmFyeShsbXRlc3QpDQpsaWJyYXJ5KG5vcnRlc3QpDQpgYGANCg0KYGBge3J9DQpzdGF0ZWVkIDwtIHJlYWQuY3N2KCJzdGF0ZWVkLmNzdiIsIGhlYWRlciA9IFQsIHNlcD0iOyIpDQpoZWFkKHN0YXRlZWQpDQphdHRhY2goc3RhdGVlZCkNCmBgYA0KDQpgYGB7cn0NCiMjIyBGdW5jaW9uIGRlIHZhbGlkYWNpb24gZGUgc3VwdWVzdG9zDQpWYWxpZGFyU3VwdWVzdG9zIDwtIGZ1bmN0aW9uIChyZXNwdWVzdGEgLG1vZGVsbyxjb25maWFuemEpew0KICANCiAgIyBUZXN0IGRlIG5vcm1hbGlkYWQNCiAgDQogIHNoYXBpcm8gPC0gc2hhcGlyby50ZXN0KG1vZGVsbyRyZXNpZHVhbHMpDQogIHNoYXBpcm8gPC0gc2hhcGlybyRwLnZhbHVlDQogIA0KICBsaWxsaWUgPC0gbGlsbGllLnRlc3QobW9kZWxvJHJlc2lkdWFscykNCiAgbGlsbGllIDwtIGxpbGxpZSRwLnZhbHVlDQogIA0KICAgIGlmZWxzZSgoc2hhcGlybyA+IGNvbmZpYW56YSkgJiAobGlsbGllID4gY29uZmlhbnphKSwgcHJpbnQoIkV4aXN0ZSBub3JtYWxpZGFkIGRlIGxvcyBlcnJvcmVzIiksIHByaW50KCJObyBleGlzdGUgbm9ybWFsaWRhZCBkZSBsb3MgZXJyb3JlcyIpKQ0KICANCiAgIyBUZXN0IGRlIGhvbW9jZWRhc3RpY2lkYWQNCiAgDQogIA0KICBiYXJ1Y2ggPC0gYnB0ZXN0KG1vZGVsbykNCiAgYmFydWNoIDwtIGJhcnVjaCRwLnZhbHVlDQoNCiAgZ29sZnJlZCA8LSBncXRlc3QobW9kZWxvKQ0KICBnb2xmcmVkIDwtIGdvbGZyZWQkcC52YWx1ZQ0KDQogIGlmZWxzZSgoYmFydWNoID4gY29uZmlhbnphKSAmIChnb2xmcmVkID4gY29uZmlhbnphKSwgcHJpbnQoIkV4aXN0ZSBob21vY2VkYXN0aWNpZGFkIiksIHByaW50KCJObyBleGlzdGUgaG9tb2NlZGFzdGljaWRhZCIpKQ0KICANCiAgIyBUZXN0IGRlIGluZGVwZW5kZW5jaWENCiAgDQogIGluZGVwZW5lbmNpYSA8LSBkd3Rlc3QocmVzcHVlc3RhIH4gbW9kZWxvJHJlc2lkdWFscykNCiAgaW5kZXBlbmVuY2lhIDwtIGluZGVwZW5lbmNpYSRwLnZhbHVlDQogIA0KICBpZmVsc2UoKGluZGVwZW5lbmNpYSA+IGNvbmZpYW56YSksIHByaW50KCJIYXkgaW5kZXBlbmRlbmNpYSIpLCBwcmludCgiTm8gaGF5IGluZGVwZW5kZW5jaWEiKSkNCiAgDQogICMgQ29uc3RydWNjaW9uIGRlIGxhIFRhYmxhIGRlIHJlc3B1ZXN0YXMNCiAgDQogIHRhYmxhIDwtIHJiaW5kKHNoYXBpcm8sIGxpbGxpZSwgYmFydWNoLCBnb2xmcmVkLCBpbmRlcGVuZW5jaWEpDQogIHJvd25hbWVzKHRhYmxhKSA8LSBjKCJzaGFwaXJvIiwgImxpbGxpZSIsICJiYXJ1Y2giLCAiZ29sZnJlZCIsICJpbmRlcGVuZGVuY2lhIikNCiAgY29sbmFtZXModGFibGEpIDwtIGMoInAudmFsdWUiKQ0KICANCiAgcHJpbnQocm91bmQodGFibGEsNSkpDQogIA0KICANCn0gDQpgYGANCg0KDQpgYGB7cn0NCg0KbW9kZWxvIDwtIGxtKFNUQVRFQUlEIH4gRUxERVJMWSkNCg0KVmFsaWRhclN1cHVlc3RvcyhTVEFURUFJRCwgbW9kZWxvLCAwLjA1KQ0KYGBgDQoNCmBgYHtyfQ0KIyBJbnRlcnZhbGlvIGRlIGNvbmZpYW56YSBhbCA5MCUgY29uIHggPSBtZWFuKHgpDQoNCndfbmV3ID0gMzU0OS4yNSAtMTAwLjg0ICogbWVhbihFTERFUkxZKQ0Kd19uZXcNCmBgYA0KYGBge3J9DQpDTUUgPSBhbm92YShtb2RlbG8pWzIsM10NCkNNRQ0KYGBgDQpgYGB7cn0NCg0KIyBJbnRlcnZhbG8gZGUgcHJlZGljY2nDs24gZGVsIDkwJSBwYXJhIHcNCm4gPC0gbnJvdyhzdGF0ZWVkKQ0KSW5mZXJpb3IudzwtIHdfbmV3IC0gcXQoMC45MCxuLTIpICpzcXJ0KENNRSooMSsoMS9uKSkpDQpTdXBlcmlvci53PC0gd19uZXcgKyBxdCgwLjkwLG4tMikgKnNxcnQoQ01FKigxKygxL24pKSkNCkludGVydmFsby5wYXJhLncgPC0gY2JpbmQoSW5mZXJpb3IudywgU3VwZXJpb3IudykNCkludGVydmFsby5wYXJhLncNCg0KYGBgDQoNCmBgYHtyfQ0Kc3VtbWFyeShTVEFURUFJRCkNCmBgYA0KDQo=</div>
 
 
 
@@ -2073,7 +1995,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("mtcars_RLS_no_supuestos_cumple.Rmd");
+  window.initializeSourceEmbed("stateed_RLS_no_supuestos.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

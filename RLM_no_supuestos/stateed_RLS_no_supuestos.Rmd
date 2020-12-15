@@ -11,11 +11,10 @@ library(nortest)
 ```
 
 ```{r}
-data(mtcars)
-head(mtcars)
-attach(mtcars)
+stateed <- read.csv("stateed.csv", header = T, sep=";")
+head(stateed)
+attach(stateed)
 ```
-
 
 ```{r}
 ### Funcion de validacion de supuestos
@@ -62,82 +61,35 @@ ValidarSupuestos <- function (respuesta ,modelo,confianza){
 ```
 
 
-
 ```{r}
-# Validacion supuestos modelo inicial
 
-mpg.hp <- lm(mpg ~ hp)
+modelo <- lm(STATEAID ~ ELDERLY)
 
-ValidarSupuestos(mpg, mpg.hp, 0.05)
-
+ValidarSupuestos(STATEAID, modelo, 0.05)
 ```
 
-Se cumplen los supuestos com p.value > 0.05
-
 ```{r}
+# Intervalio de confianza al 90% con x = mean(x)
 
-# log (mpg)
-
-t.mpg <- log(mpg)
-modelo <- lm(t.mpg ~ hp)
-
-ValidarSupuestos(t.mpg, modelo, 0.05)
-
-```
-
-
-```{r}
-
-#  CI 90% cuando x = mean(x)
-
-w_new = 3.46 - 0.0034 *  mean(hp)
+w_new = 3549.25 -100.84 * mean(ELDERLY)
 w_new
-
+```
+```{r}
+CME = anova(modelo)[2,3]
+CME
 ```
 ```{r}
 
-CME=anova(modelo)[2,3]  
-CME    ### 0.03452
-
-```
-
-```{r}
 # Intervalo de predicción del 90% para w
-n <- nrow(mtcars)
+n <- nrow(stateed)
 Inferior.w<- w_new - qt(0.90,n-2) *sqrt(CME*(1+(1/n)))
 Superior.w<- w_new + qt(0.90,n-2) *sqrt(CME*(1+(1/n)))
 Intervalo.para.w <- cbind(Inferior.w, Superior.w)
 Intervalo.para.w
-```
 
-
-```{r}
-
-# Ahora aplicamos transformación inversa: y=1/w
-
-Inferior.y<- exp(Inferior.w)
-Superior.y<- exp(Superior.w)
-Intervalo.para.y <- cbind(Inferior.y, Superior.y)
-Intervalo.para.y
 ```
 
 ```{r}
-
-summary(mpg)
-
+summary(STATEAID)
 ```
 
-Aunque le modelo transformado cumple los supuestos y están dentro del rango por lo tanto tienen sentido
-
-
-
-```{r}
-
-# log (mpg)
-
-t.mpg <- sqrt(mpg)
-modelo <- lm(t.mpg ~ wt)
-
-ValidarSupuestos(t.mpg, modelo, 0.1)
-
-```
