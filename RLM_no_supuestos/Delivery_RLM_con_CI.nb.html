@@ -1799,154 +1799,54 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShNQVNTKVxucmVxdWlyZSh6b28pXG5saWJyYXJ5KGxtdGVzdClcbmxpYnJhcnkobm9ydGVzdClcbmBgYCJ9 -->
-<pre class="r"><code>library(MASS)
-require(zoo)
-library(lmtest)
-library(nortest)</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YShzd2lzcylcbmhlYWQoc3dpc3MpXG5gYGAifQ== -->
-<pre class="r"><code>data(swiss)
-head(swiss)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUJtMVJQV3hUTVJCMjA3NmtlYVEvcUowckpCYVdQS2xOaXdRU2trdWFWRWdFRmRyU0lyR1lGNmV4Y096SXp5NkZuUTJKdWF4VWpNd2RLNUNZWUVhTXNNSUtZK0g4YkQrbEVaWk81L3Z1dnJ2djdBY2IrNDE0UDBZSVRhSXBzTWtJcnFqYzNGcGVXVnRCYUtvRTBRUmtxdFlmUWRXQ1RZUE5XbzkzYXAvaGZNRTduM3IyNEwwcmxvN3didGF3QjIvZk9JYnpCbStYODN6QlcwYXVydjNLOFp2ZlhOMXQ3UERXbWZQcjd3SnZ4cytkODk3cXJJRmRCcXVPNUdzK3R2bUtyNjhVYzYvK2ZMbDBldjhYM2wzNzhQcnh0VDk0NzVHYmkzOUErUHNqWG56N05iNDFQTUVQVDE1ODMzeS9XUEN1Tjl3K3dhOEdmOWZwWHoxMmZXNDZQL1p3a1NBRG1zRmxQaGZwd0dxYktzMDQwODg5Y0duOVFMSFVjRzBVRFZEcmlBeVlJSnBKRVdpdHJrbEhnZWttMFgzSldlcmorVHVpUjRST09sSnBrcmUvS0thcTVMUGtmNExpcGpSS1UwNVVVRFM5UVRrZFNLRjlYR3NySXRJK3plcWRBcXQwcE5HTXF0RGtIaldIOUpCeEhuYUl0NlJTVkdobHhwVkVLU2RaVUJIQXVFczBTWG9LQkVKMFBrYXB5S0ZkSFVpbEJmL0pvK1FKTlFiTUdXRlg3ZGJUdmhGUDZ3MDdJRTg3bS9HK2ZQRnVSNWIrK2xhUmIxV200b0NKc0ZYRXlSUEtmVEFMVDVxL2FESlVySGlaR05BczBSSitJU0NwNUFISmQwUG4vd0N4eWt2ZWdBTUFBQT09In0= -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Fertility"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Agriculture"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Examination"],"name":[3],"type":["int"],"align":["right"]},{"label":["Education"],"name":[4],"type":["int"],"align":["right"]},{"label":["Catholic"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Infant.Mortality"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"80.2","2":"17.0","3":"15","4":"12","5":"9.96","6":"22.2","_rn_":"Courtelary"},{"1":"83.1","2":"45.1","3":"6","4":"9","5":"84.84","6":"22.2","_rn_":"Delemont"},{"1":"92.5","2":"39.7","3":"5","4":"5","5":"93.40","6":"20.2","_rn_":"Franches-Mnt"},{"1":"85.8","2":"36.5","3":"12","4":"7","5":"33.77","6":"20.3","_rn_":"Moutier"},{"1":"76.9","2":"43.5","3":"17","4":"15","5":"5.16","6":"20.6","_rn_":"Neuveville"},{"1":"76.1","2":"35.3","3":"9","4":"7","5":"90.57","6":"26.6","_rn_":"Porrentruy"}],"options":{"columns":{"min":{},"max":[10],"total":[6]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXR0YWNoKHN3aXNzKVxuYGBgIn0= -->
-<pre class="r"><code>attach(swiss)</code></pre>
-<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMjIEZ1bmNpb24gZGUgdmFsaWRhY2lvbiBkZSBzdXB1ZXN0b3NcblZhbGlkYXJTdXB1ZXN0b3MgPC0gZnVuY3Rpb24gKHJlc3B1ZXN0YSAsbW9kZWxvLGFscGhhKXtcbiAgXG4gICMgVGVzdCBkZSBub3JtYWxpZGFkXG4gIFxuICBzaGFwaXJvIDwtIHNoYXBpcm8udGVzdChtb2RlbG8kcmVzaWR1YWxzKVxuICBzaGFwaXJvIDwtIHNoYXBpcm8kcC52YWx1ZVxuICBcbiAgbGlsbGllIDwtIGxpbGxpZS50ZXN0KG1vZGVsbyRyZXNpZHVhbHMpXG4gIGxpbGxpZSA8LSBsaWxsaWUkcC52YWx1ZVxuICBcbiAgICBpZmVsc2UoKHNoYXBpcm8gPiBhbHBoYSkgJiAobGlsbGllID4gYWxwaGEpLCBwcmludChcIkV4aXN0ZSBub3JtYWxpZGFkIGRlIGxvcyBlcnJvcmVzXCIpLCBwcmludChcIk5vIGV4aXN0ZSBub3JtYWxpZGFkIGRlIGxvcyBlcnJvcmVzXCIpKVxuICBcbiAgIyBUZXN0IGRlIGhvbW9jZWRhc3RpY2lkYWRcbiAgXG4gIFxuICBiYXJ1Y2ggPC0gYnB0ZXN0KG1vZGVsbylcbiAgYmFydWNoIDwtIGJhcnVjaCRwLnZhbHVlXG5cbiAgZ29sZnJlZCA8LSBncXRlc3QobW9kZWxvKVxuICBnb2xmcmVkIDwtIGdvbGZyZWQkcC52YWx1ZVxuXG4gIGlmZWxzZSgoYmFydWNoID4gYWxwaGEpICYgKGdvbGZyZWQgPiBhbHBoYSksIHByaW50KFwiRXhpc3RlIGhvbW9jZWRhc3RpY2lkYWRcIiksIHByaW50KFwiTm8gZXhpc3RlIGhvbW9jZWRhc3RpY2lkYWRcIikpXG4gIFxuICAjIFRlc3QgZGUgaW5kZXBlbmRlbmNpYVxuICBcbiAgaW5kZXBlbmVuY2lhIDwtIGR3dGVzdChyZXNwdWVzdGEgfiBtb2RlbG8kcmVzaWR1YWxzKVxuICBpbmRlcGVuZW5jaWEgPC0gaW5kZXBlbmVuY2lhJHAudmFsdWVcbiAgXG4gIGlmZWxzZSgoaW5kZXBlbmVuY2lhID4gYWxwaGEpLCBwcmludChcIkhheSBpbmRlcGVuZGVuY2lhXCIpLCBwcmludChcIk5vIGhheSBpbmRlcGVuZGVuY2lhXCIpKVxuICBcbiAgIyBDb25zdHJ1Y2Npb24gZGUgbGEgVGFibGEgZGUgcmVzcHVlc3Rhc1xuICBcbiAgdGFibGEgPC0gcmJpbmQoc2hhcGlybywgbGlsbGllLCBiYXJ1Y2gsIGdvbGZyZWQsIGluZGVwZW5lbmNpYSlcbiAgcm93bmFtZXModGFibGEpIDwtIGMoXCJzaGFwaXJvXCIsIFwibGlsbGllXCIsIFwiYmFydWNoXCIsIFwiZ29sZnJlZFwiLCBcImluZGVwZW5kZW5jaWFcIilcbiAgY29sbmFtZXModGFibGEpIDwtIGMoXCJwLnZhbHVlXCIpXG4gIFxuICBwcmludChyb3VuZCh0YWJsYSw1KSlcbiAgXG59IFxuYGBgIn0= -->
-<pre class="r"><code>### Funcion de validacion de supuestos
-ValidarSupuestos &lt;- function (respuesta ,modelo,alpha){
-  
-  # Test de normalidad
-  
-  shapiro &lt;- shapiro.test(modelo$residuals)
-  shapiro &lt;- shapiro$p.value
-  
-  lillie &lt;- lillie.test(modelo$residuals)
-  lillie &lt;- lillie$p.value
-  
-    ifelse((shapiro &gt; alpha) &amp; (lillie &gt; alpha), print(&quot;Existe normalidad de los errores&quot;), print(&quot;No existe normalidad de los errores&quot;))
-  
-  # Test de homocedasticidad
-  
-  
-  baruch &lt;- bptest(modelo)
-  baruch &lt;- baruch$p.value
-
-  golfred &lt;- gqtest(modelo)
-  golfred &lt;- golfred$p.value
-
-  ifelse((baruch &gt; alpha) &amp; (golfred &gt; alpha), print(&quot;Existe homocedasticidad&quot;), print(&quot;No existe homocedasticidad&quot;))
-  
-  # Test de independencia
-  
-  indepenencia &lt;- dwtest(respuesta ~ modelo$residuals)
-  indepenencia &lt;- indepenencia$p.value
-  
-  ifelse((indepenencia &gt; alpha), print(&quot;Hay independencia&quot;), print(&quot;No hay independencia&quot;))
-  
-  # Construccion de la Tabla de respuestas
-  
-  tabla &lt;- rbind(shapiro, lillie, baruch, golfred, indepenencia)
-  rownames(tabla) &lt;- c(&quot;shapiro&quot;, &quot;lillie&quot;, &quot;baruch&quot;, &quot;golfred&quot;, &quot;independencia&quot;)
-  colnames(tabla) &lt;- c(&quot;p.value&quot;)
-  
-  print(round(tabla,5))
-  
-} </code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5tb2RlbG8gPC0gbG0oRmVydGlsaXR5IH4gQWdyaWN1bHR1cmUgKyBFeGFtaW5hdGlvbiArIEVkdWNhdGlvbiArIENhdGhvbGljICsgSW5mYW50Lk1vcnRhbGl0eSlcblxuQUlDIDwtIHN0ZXAobW9kZWxvKVxuYGBgIn0= -->
-<pre class="r"><code>
-modelo &lt;- lm(Fertility ~ Agriculture + Examination + Education + Catholic + Infant.Mortality)
-
-AIC &lt;- step(modelo)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiU3RhcnQ6ICBBSUM9MTkwLjY5XG5GZXJ0aWxpdHkgfiBBZ3JpY3VsdHVyZSArIEV4YW1pbmF0aW9uICsgRWR1Y2F0aW9uICsgQ2F0aG9saWMgKyBcbiAgICBJbmZhbnQuTW9ydGFsaXR5XG5cbiAgICAgICAgICAgICAgICAgICBEZiBTdW0gb2YgU3EgICAgUlNTICAgIEFJQ1xuLSBFeGFtaW5hdGlvbiAgICAgICAxICAgICA1My4wMyAyMTU4LjEgMTg5Ljg2XG48bm9uZT4gICAgICAgICAgICAgICAgICAgICAgICAgIDIxMDUuMCAxOTAuNjlcbi0gQWdyaWN1bHR1cmUgICAgICAgMSAgICAzMDcuNzIgMjQxMi44IDE5NS4xMFxuLSBJbmZhbnQuTW9ydGFsaXR5ICAxICAgIDQwOC43NSAyNTEzLjggMTk3LjAzXG4tIENhdGhvbGljICAgICAgICAgIDEgICAgNDQ3LjcxIDI1NTIuOCAxOTcuNzVcbi0gRWR1Y2F0aW9uICAgICAgICAgMSAgIDExNjIuNTYgMzI2Ny42IDIwOS4zNlxuXG5TdGVwOiAgQUlDPTE4OS44NlxuRmVydGlsaXR5IH4gQWdyaWN1bHR1cmUgKyBFZHVjYXRpb24gKyBDYXRob2xpYyArIEluZmFudC5Nb3J0YWxpdHlcblxuICAgICAgICAgICAgICAgICAgIERmIFN1bSBvZiBTcSAgICBSU1MgICAgQUlDXG48bm9uZT4gICAgICAgICAgICAgICAgICAgICAgICAgIDIxNTguMSAxODkuODZcbi0gQWdyaWN1bHR1cmUgICAgICAgMSAgICAyNjQuMTggMjQyMi4yIDE5My4yOVxuLSBJbmZhbnQuTW9ydGFsaXR5ICAxICAgIDQwOS44MSAyNTY3LjkgMTk2LjAzXG4tIENhdGhvbGljICAgICAgICAgIDEgICAgOTU2LjU3IDMxMTQuNiAyMDUuMTBcbi0gRWR1Y2F0aW9uICAgICAgICAgMSAgIDIyNDkuOTcgNDQwOC4wIDIyMS40M1xuIn0= -->
-<pre><code>Start:  AIC=190.69
-Fertility ~ Agriculture + Examination + Education + Catholic + 
-    Infant.Mortality
-
-                   Df Sum of Sq    RSS    AIC
-- Examination       1     53.03 2158.1 189.86
-&lt;none&gt;                          2105.0 190.69
-- Agriculture       1    307.72 2412.8 195.10
-- Infant.Mortality  1    408.75 2513.8 197.03
-- Catholic          1    447.71 2552.8 197.75
-- Education         1   1162.56 3267.6 209.36
-
-Step:  AIC=189.86
-Fertility ~ Agriculture + Education + Catholic + Infant.Mortality
-
-                   Df Sum of Sq    RSS    AIC
-&lt;none&gt;                          2158.1 189.86
-- Agriculture       1    264.18 2422.2 193.29
-- Infant.Mortality  1    409.81 2567.9 196.03
-- Catholic          1    956.57 3114.6 205.10
-- Education         1   2249.97 4408.0 221.43</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9kZWxvIDwtIGxtKEZlcnRpbGl0eSB+IEFncmljdWx0dXJlICsgRWR1Y2F0aW9uKVxuXG5WYWxpZGFyU3VwdWVzdG9zKEZlcnRpbGl0eSwgbW9kZWxvICwgMC4wNSlcbmBgYCJ9 -->
-<pre class="r"><code>modelo &lt;- lm(Fertility ~ Agriculture + Education)
-
-ValidarSupuestos(Fertility, modelo , 0.05)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRXhpc3RlIG5vcm1hbGlkYWQgZGUgbG9zIGVycm9yZXNcIlxuWzFdIFwiRXhpc3RlIGhvbW9jZWRhc3RpY2lkYWRcIlxuWzFdIFwiTm8gaGF5IGluZGVwZW5kZW5jaWFcIlxuICAgICAgICAgICAgICBwLnZhbHVlXG5zaGFwaXJvICAgICAgIDAuMDk0MzRcbmxpbGxpZSAgICAgICAgMC4xODE0MVxuYmFydWNoICAgICAgICAwLjc5MDYyXG5nb2xmcmVkICAgICAgIDAuODkyMjhcbmluZGVwZW5kZW5jaWEgMC4wMTMzN1xuIn0= -->
-<pre><code>[1] &quot;Existe normalidad de los errores&quot;
-[1] &quot;Existe homocedasticidad&quot;
-[1] &quot;No hay independencia&quot;
-              p.value
-shapiro       0.09434
-lillie        0.18141
-baruch        0.79062
-golfred       0.89228
-independencia 0.01337</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Press ultimo resudual</p>
+<p>y = 2.34 + 1.6115<em>x1 + </em> 0.014*x2</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueV9zaW4gPC0gc3dpc3NbLTQ3LF1cbnlfaSA8LSBzd2lzc1s0NyxdXG5cbm1vZGVsb19zaW4gPC0gbG0oRmVydGlsaXR5IH4gQWdyaWN1bHR1cmUgKyBFZHVjYXRpb24sIGRhdGE9IHlfc2luKVxuXG55X2lfaGF0IDwtIHByZWRpY3QobW9kZWxvX3NpbiwgeV9pKVxuXG5yZXNpZHVhbF9wcmVzcyA8LSB5X2kkRmVydGlsaXR5IC0geV9pX2hhdFxucmVzaWR1YWxfcHJlc3NcbmBgYCJ9 -->
-<pre class="r"><code>y_sin &lt;- swiss[-47,]
-y_i &lt;- swiss[47,]
-
-modelo_sin &lt;- lm(Fertility ~ Agriculture + Education, data= y_sin)
-
-y_i_hat &lt;- predict(modelo_sin, y_i)
-
-residual_press &lt;- y_i$Fertility - y_i_hat
-residual_press</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUml2ZSBHYXVjaGUgXG4gIC0xMi43ODMyOCBcbiJ9 -->
-<pre><code>Rive Gauche 
-  -12.78328 </code></pre>
-<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>** CI coeficientes B**</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>** CI para la respuesta media*</p>
+<p>#El embotellador de gaseosas del ejemplo 3.1 quiere establecer un intervalo de #confianzade 95% para el tiempo medio de entrega, para una tienda donde se # # #requieran X I = 8 cajas, y donde la distancia es X2 = 275 pies. Entonces,</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>La varianza de Yo se estima con</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkoTUFTUykNCnJlcXVpcmUoem9vKQ0KbGlicmFyeShsbXRlc3QpDQpsaWJyYXJ5KG5vcnRlc3QpDQpgYGANCg0KYGBge3J9DQpkYXRhKHN3aXNzKQ0KaGVhZChzd2lzcykNCmF0dGFjaChzd2lzcykNCmBgYA0KDQpgYGB7cn0NCiMjIyBGdW5jaW9uIGRlIHZhbGlkYWNpb24gZGUgc3VwdWVzdG9zDQpWYWxpZGFyU3VwdWVzdG9zIDwtIGZ1bmN0aW9uIChyZXNwdWVzdGEgLG1vZGVsbyxhbHBoYSl7DQogIA0KICAjIFRlc3QgZGUgbm9ybWFsaWRhZA0KICANCiAgc2hhcGlybyA8LSBzaGFwaXJvLnRlc3QobW9kZWxvJHJlc2lkdWFscykNCiAgc2hhcGlybyA8LSBzaGFwaXJvJHAudmFsdWUNCiAgDQogIGxpbGxpZSA8LSBsaWxsaWUudGVzdChtb2RlbG8kcmVzaWR1YWxzKQ0KICBsaWxsaWUgPC0gbGlsbGllJHAudmFsdWUNCiAgDQogICAgaWZlbHNlKChzaGFwaXJvID4gYWxwaGEpICYgKGxpbGxpZSA+IGFscGhhKSwgcHJpbnQoIkV4aXN0ZSBub3JtYWxpZGFkIGRlIGxvcyBlcnJvcmVzIiksIHByaW50KCJObyBleGlzdGUgbm9ybWFsaWRhZCBkZSBsb3MgZXJyb3JlcyIpKQ0KICANCiAgIyBUZXN0IGRlIGhvbW9jZWRhc3RpY2lkYWQNCiAgDQogIA0KICBiYXJ1Y2ggPC0gYnB0ZXN0KG1vZGVsbykNCiAgYmFydWNoIDwtIGJhcnVjaCRwLnZhbHVlDQoNCiAgZ29sZnJlZCA8LSBncXRlc3QobW9kZWxvKQ0KICBnb2xmcmVkIDwtIGdvbGZyZWQkcC52YWx1ZQ0KDQogIGlmZWxzZSgoYmFydWNoID4gYWxwaGEpICYgKGdvbGZyZWQgPiBhbHBoYSksIHByaW50KCJFeGlzdGUgaG9tb2NlZGFzdGljaWRhZCIpLCBwcmludCgiTm8gZXhpc3RlIGhvbW9jZWRhc3RpY2lkYWQiKSkNCiAgDQogICMgVGVzdCBkZSBpbmRlcGVuZGVuY2lhDQogIA0KICBpbmRlcGVuZW5jaWEgPC0gZHd0ZXN0KHJlc3B1ZXN0YSB+IG1vZGVsbyRyZXNpZHVhbHMpDQogIGluZGVwZW5lbmNpYSA8LSBpbmRlcGVuZW5jaWEkcC52YWx1ZQ0KICANCiAgaWZlbHNlKChpbmRlcGVuZW5jaWEgPiBhbHBoYSksIHByaW50KCJIYXkgaW5kZXBlbmRlbmNpYSIpLCBwcmludCgiTm8gaGF5IGluZGVwZW5kZW5jaWEiKSkNCiAgDQogICMgQ29uc3RydWNjaW9uIGRlIGxhIFRhYmxhIGRlIHJlc3B1ZXN0YXMNCiAgDQogIHRhYmxhIDwtIHJiaW5kKHNoYXBpcm8sIGxpbGxpZSwgYmFydWNoLCBnb2xmcmVkLCBpbmRlcGVuZW5jaWEpDQogIHJvd25hbWVzKHRhYmxhKSA8LSBjKCJzaGFwaXJvIiwgImxpbGxpZSIsICJiYXJ1Y2giLCAiZ29sZnJlZCIsICJpbmRlcGVuZGVuY2lhIikNCiAgY29sbmFtZXModGFibGEpIDwtIGMoInAudmFsdWUiKQ0KICANCiAgcHJpbnQocm91bmQodGFibGEsNSkpDQogIA0KfSANCmBgYA0KDQpgYGB7cn0NCg0KbW9kZWxvIDwtIGxtKEZlcnRpbGl0eSB+IEFncmljdWx0dXJlICsgRXhhbWluYXRpb24gKyBFZHVjYXRpb24gKyBDYXRob2xpYyArIEluZmFudC5Nb3J0YWxpdHkpDQoNCkFJQyA8LSBzdGVwKG1vZGVsbykNCg0KYGBgDQoNCg0KYGBge3J9DQptb2RlbG8gPC0gbG0oRmVydGlsaXR5IH4gQWdyaWN1bHR1cmUgKyBFZHVjYXRpb24pDQoNClZhbGlkYXJTdXB1ZXN0b3MoRmVydGlsaXR5LCBtb2RlbG8gLCAwLjA1KQ0KYGBgDQoNClByZXNzIHVsdGltbyByZXN1ZHVhbA0KYGBge3J9DQp5X3NpbiA8LSBzd2lzc1stNDcsXQ0KeV9pIDwtIHN3aXNzWzQ3LF0NCg0KbW9kZWxvX3NpbiA8LSBsbShGZXJ0aWxpdHkgfiBBZ3JpY3VsdHVyZSArIEVkdWNhdGlvbiwgZGF0YT0geV9zaW4pDQoNCnlfaV9oYXQgPC0gcHJlZGljdChtb2RlbG9fc2luLCB5X2kpDQoNCnJlc2lkdWFsX3ByZXNzIDwtIHlfaSRGZXJ0aWxpdHkgLSB5X2lfaGF0DQpyZXNpZHVhbF9wcmVzcw0KYGBgDQoNCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQoNCmBgYHtyfQ0KDQpkZWxpdmVyaWVzIDwtIHJlYWQuY3N2KCJkZWxpdmVyaWVzLmNzdiIsIGhlYWRlciA9IFQsIHNlcCA9ICI7IikNCmF0dGFjaChkZWxpdmVyaWVzKQ0KZGVsaXZlcmllcw0KYGBgDQoNCmBgYHtyfQ0KDQpvbmVzIDwtIGMoKQ0KDQpmb3IoaSBpbiAxOm5yb3coZGVsaXZlcmllcykpew0KICANCiAgb25lc1tpXSA8LSAxIA0KICANCn0NCg0KWCA8LSBhcy5tYXRyaXgoY2JpbmQob25lcywgQ2FudGlkYWQuZGUuY2FqYXMsIERpc3RhbmNpYXMuZnQuICkpDQpYDQpgYGANCmBgYHtyfQ0KWSA8LSBUaWVtcG9zLmRlLmVudHJlZ2EubWluLg0KWQ0KYGBgDQoNCmBgYHtyfQ0KDQojWCdYDQogDQpYWCA8LSB0KFgpJSolWCANClhYDQpgYGANCg0KYGBge3J9DQojWCd5DQoNClh5IDwtIHQoWCklKiVZDQpyb3dTdW1zKFh5KQ0KYGBgDQoNCmBgYHtyfQ0KQl9oYXQgPC0gc29sdmUoWFgpJSolWHkNCkJfaGF0DQpgYGANCg0KeSA9IDIuMzQgKyAxLjYxMTUqeDEgKyAqIDAuMDE0KngyDQoNCmBgYHtyfQ0KDQptb2RlbG8gPC0gbG0oVGllbXBvcy5kZS5lbnRyZWdhLm1pbi4gfiBDYW50aWRhZC5kZS5jYWphcyArIERpc3RhbmNpYXMuZnQuKQ0Kc3VtbWFyeShtb2RlbG8pDQoNCmBgYA0KDQoqKiBDSSBjb2VmaWNpZW50ZXMgQioqDQoNCg0KYGBge3J9DQojICoqIENJIGNvZWZpY2llbnRlcyBCKioNCiMgUGFyYSBsYSBjYXRpZGFkIGRlIGNhamFzIGFsIDkwJQ0KDQpuIDwtIG5yb3coZGVsaXZlcmllcykNCnAgPC0gMyAjIG51bWVybyBkZSBjb3ZhcmlhYmxlcw0KU0UgPC0gMC4xNzA3MzUNCg0KaW5mZXJpb3IgPC0gMS42MTU5MDcgLSBxdCgwLjk3NSwgbi1wKSpTRQ0Kc3VwZXJpb3IgPC0gIDEuNjE1OTA3ICsgcXQoMC45NzUsIG4tcCkqU0UNCmNiaW5kKGluZmVyaW9yLHN1cGVyaW9yKQ0KYGBgDQoNCioqIENJIHBhcmEgbGEgcmVzcHVlc3RhIG1lZGlhKg0KDQojRWwgZW1ib3RlbGxhZG9yIGRlIGdhc2Vvc2FzIGRlbCBlamVtcGxvIDMuMSBxdWllcmUgZXN0YWJsZWNlciB1biBpbnRlcnZhbG8gZGUgI2NvbmZpYW56YWRlIDk1JSBwYXJhIGVsIHRpZW1wbyBtZWRpbyBkZSBlbnRyZWdhLCBwYXJhIHVuYSB0aWVuZGEgZG9uZGUgc2UgIyAjICNyZXF1aWVyYW4gWCBJID0gOCBjYWphcywgeSBkb25kZSBsYSBkaXN0YW5jaWEgZXMgWDIgPSAyNzUgcGllcy4gRW50b25jZXMsDQoNCmBgYHtyfQ0KIyAgdmFsb3IgYWp1c3RhZG8gZGVsIHB1bnRvDQoNCnhvIDwtIGMoMSwgOCwgMjc1KQ0KDQp5X2hhdF9vIDwtIHhvICUqJSBCX2hhdA0KeV9oYXRfbyAjICAxOS4yMjQzMiBtaW4NCmBgYA0KDQpgYGB7cn0NCmFub3ZhKG1vZGVsbykNCmBgYA0KDQoNCg0KTGEgdmFyaWFuemEgZGUgWW8gc2UgZXN0aW1hIGNvbg0KYGBge3J9DQojIGRlIGxhIGFub3ZhIHNlIHRvbWEgZWwgTWVhbi5zcSBkZSBsb3MgcmVzaWR1YWxlcw0KDQpzaWdtYTIgPC0gMTAuNg0KDQp2YXJfeV9oYXRfbyA8LSBzaWdtYTIgJSolIHQoeG8pICUqJSBzb2x2ZShYWCkgJSolICh4bykNCg0KDQppbmZlcmlvciA8LSB5X2hhdF9vIC0gcXQoMC45NzUsIG4tcCkgKiBzcXJ0KHZhcl95X2hhdF9vKQ0Kc3VwZXJpb3IgPC0geV9oYXRfbyArIHF0KDAuOTc1LCBuLXApICogc3FydCh2YXJfeV9oYXRfbykNCg0KY2JpbmQoaW5mZXJpb3IsIHN1cGVyaW9yKQ0KYGBgDQoNCg==</div>
 
 
 
@@ -1993,7 +1893,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("swiss_con_press.Rmd");
+  window.initializeSourceEmbed("Delivery_RLM_con_CI.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

@@ -1,0 +1,110 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+
+deliveries <- read.csv("deliveries.csv", header = T, sep = ";")
+attach(deliveries)
+deliveries
+```
+
+```{r}
+
+ones <- c()
+
+for(i in 1:nrow(deliveries)){
+  
+  ones[i] <- 1 
+  
+}
+
+X <- as.matrix(cbind(ones, Cantidad.de.cajas, Distancias.ft. ))
+X
+```
+```{r}
+Y <- Tiempos.de.entrega.min.
+Y
+```
+
+```{r}
+
+#X'X
+ 
+XX <- t(X)%*%X 
+XX
+```
+
+```{r}
+#X'y
+
+Xy <- t(X)%*%Y
+rowSums(Xy)
+```
+
+```{r}
+B_hat <- solve(XX)%*%Xy
+B_hat
+```
+
+y = 2.34 + 1.6115*x1 + * 0.014*x2
+
+```{r}
+
+modelo <- lm(Tiempos.de.entrega.min. ~ Cantidad.de.cajas + Distancias.ft.)
+summary(modelo)
+
+```
+
+** CI coeficientes B**
+
+
+```{r}
+# ** CI coeficientes B**
+# Para la catidad de cajas al 90%
+
+n <- nrow(deliveries)
+p <- 3 # numero de covariables
+SE <- 0.170735
+
+inferior <- 1.615907 - qt(0.975, n-p)*SE
+superior <-  1.615907 + qt(0.975, n-p)*SE
+cbind(inferior,superior)
+```
+
+** CI para la respuesta media*
+
+#El embotellador de gaseosas del ejemplo 3.1 quiere establecer un intervalo de #confianzade 95% para el tiempo medio de entrega, para una tienda donde se # # #requieran X I = 8 cajas, y donde la distancia es X2 = 275 pies. Entonces,
+
+```{r}
+#  valor ajustado del punto
+
+xo <- c(1, 8, 275)
+
+y_hat_o <- xo %*% B_hat
+y_hat_o #  19.22432 min
+```
+
+```{r}
+anova(modelo)
+```
+
+
+
+La varianza de Yo se estima con
+```{r}
+# de la anova se toma el Mean.sq de los residuales
+
+sigma2 <- 10.6
+
+var_y_hat_o <- sigma2 %*% t(xo) %*% solve(XX) %*% (xo)
+
+
+inferior <- y_hat_o - qt(0.975, n-p) * sqrt(var_y_hat_o)
+superior <- y_hat_o + qt(0.975, n-p) * sqrt(var_y_hat_o)
+
+cbind(inferior, superior)
+```
+

@@ -87,3 +87,4 @@ residual_press <- y_i$Fertility - y_i_hat
 residual_press
 ```
 
+
