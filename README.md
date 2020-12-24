@@ -22,5 +22,5 @@ This repository contains a large part of the exercises developed in a R Notebook
 
 - identification of significant variables.
 - Identification of coefficients.
-- Creation of confidence intervals-
+- Creation of confidence intervals.
 - Validation of assumptions of the different linear models
